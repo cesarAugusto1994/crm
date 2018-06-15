@@ -27,8 +27,21 @@ Route::middleware('auth')->group(function() {
   Route::get('/chamado/departamento/{id}', 'ChamadosController@departamento')->name('departamentos');
   Route::get('/chamado/empreendimentos', 'ChamadosController@empreendimentos')->name('empreendimentos');
   Route::get('/chamado/midias', 'ChamadosController@midias')->name('midias');
+
+
   Route::post('/chamado/{id}/empreendimentos/store', 'ChamadosController@empreendimentoStore')->name('chamados_empreendimento_store');
   Route::post('/chamado/{id}/midias/store', 'ChamadosController@midiaStore')->name('chamados_midia_store');
   Route::post('/chamado/{id}/logs/store', 'ChamadosController@logStore')->name('chamados_logs_store');
+
+  Route::get('/cliente/email/{id}/remove', 'ClientesController@emailRemove')->name('cliente_email_remove');
+  Route::get('/cliente/telefone/{id}/remove', 'ClientesController@telefoneRemove')->name('cliente_telefone_remove');
+  Route::get('/cliente/endereco/{id}/remove', 'ClientesController@enderecoRemove')->name('cliente_endereco_remove');
+
+  Route::post('/cliente/{id}/empreendimentos/store', 'ClientesController@empreendimentoStore')->name('clientes_empreendimento_store');
+  Route::post('/cliente/{id}/midias/store', 'ClientesController@midiaStore')->name('clientes_midia_store');
+  Route::post('/cliente/{id}/email/store', 'ClientesController@emailStore')->name('cliente_email_store');
+  Route::post('/cliente/{id}/telefone/store', 'ClientesController@telefoneStore')->name('cliente_telefone_store');
+  Route::post('/cliente/{id}/endereco/store', 'ClientesController@enderecoStore')->name('cliente_endereco_store');
+
 
 });

@@ -23,7 +23,7 @@
                   <b>CPF</b> <a class="pull-right">{{ $chamado->cliente->cpf }}</a>
                 </li>
               </ul>
-              <a href="#" class="btn btn-primary btn-block"><b>Editar</b></a>
+              <a href="/clientes/{{ $chamado->cliente->id }}" class="btn btn-primary btn-block"><b>Acessar</b></a>
             </div>
           </div>
       </div>
@@ -199,7 +199,7 @@
 
   <div class="row">
 
-    <div class="col-md-6">
+    <div class="col-md-8">
       <div class="box box-default">
         <div class="box-header with-border">
           <h3 class="box-title">Midias</h3>
@@ -234,224 +234,76 @@
       </div>
     </div>
 
-    <div class="col-md-6">
-      <div class="box box-default">
-        <div class="box-header with-border">
-          <h3 class="box-title">Logs</h3>
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-          </div>
-          <div class="box-body">
+    <div class="col-md-4">
+          <div class="box box-success direct-chat direct-chat-success">
+            <div class="box-header with-border">
+              <h3 class="box-title">Registros</h3>
 
-              <form class="form-horizontal" name="form-emails" action="{{ route('chamados_logs_store', ['id' => $chamado->id]) }}" method="post">
-                  {{ csrf_field() }}
-
-
-                  <div class="form-group">
-                    <label for="descricao-chamado" class="col-sm-2 control-label">Adicionar Anotação</label>
-                    <div class="col-sm-10">
-                      <textarea rows="5" required id="descricao-chamado" name="descricao" class="form-control"></textarea>
-                    </div>
+              <div class="box-tools pull-right">
+                <span data-toggle="tooltip" title="" class="badge bg-yellow" data-original-title="{{ $chamado->logs->count() }} novas mensagens">{{ $chamado->logs->count() }}</span>
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="box-body">
+              <div class="direct-chat-messages">
+                @forelse($chamado->logs as $log)
+                <div class="direct-chat-msg {{ $log->usuario && $log->usuario->id == \Auth::user()->id ? 'right' : '' }}">
+                  <div class="direct-chat-info clearfix">
+                    <span class="direct-chat-name {{ $log->usuario && $log->usuario->id == \Auth::user()->id ? 'pull-right' : 'pull-left' }}">{{ $log->usuario ? $log->usuario->id == \Auth::user()->id ? 'Você   ' : $log->usuario->name : 'Cliente' }}</span>
+                    <span class="direct-chat-timestamp {{ $log->usuario && $log->usuario->id == \Auth::user()->id ? 'pull-left' : 'pull-right' }}">{{ $log->created_at ? $log->created_at->format('d/m/Y H:i') : '-' }}</span>
                   </div>
+                  <img class="direct-chat-img" src="holder.js/32x32" alt="">
+                  <div class="direct-chat-text">
+                    {{ $log->descricao }}
+                  </div>
+                </div>
+                @empty
+                  <div class="callout callout-info">
+                    <h4><i class="icon fa fa-info"></i> Ops...</h4>
+                    <p>Nenhum registro encontrado.</p>
+                  </div>
+                @endforelse
+              </div>
 
-                  <button class="btn btn-instagram btn-sm " title="Acidionar">Adicionar</button>
+            </div>
+            <div class="box-footer">
+              <form action="{{ route('chamados_logs_store', ['id' => $chamado->id]) }}" method="post">
+                {{csrf_field()}}
+                <div class="input-group">
+                  <div class="input-group-btn dropup">
 
-                  <hr/>
+                    <label class="btn btn-file btn-warning">
+                        Anexar
+                        <input type="file" name="anexo" />
+                    </label>
+                    <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class="caret"></span>
+                      <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a href="#">Olá</a></li>
+                      <li><a href="#">Seja Bem vindo</a></li>
+                      <li><a href="#">Alguma resposta aqui</a></li>
+                      <li role="separator" class="divider"></li>
+                      <li><a href="#">Outra mensagem</a></li>
+                    </ul>
 
+                  </div>
+                  <input type="text" name="descricao" placeholder="Mensagem" required class="form-control">
+                    <span class="input-group-btn">
+                      <button type="submit" class="btn btn-warning btn-flat">Enviar</button>
+                    </span>
+                </div>
               </form>
-
-              <br/>
-
-              <ul class="list-group">
-                  @forelse($chamado->logs->sortByDesc('id') as $log)
-                    <li class="list-group-item">{{ $log->descricao }} <small class="pull-right badge bg-blue">{{ $log->created_at ? $log->created_at->format('d/m/Y H:i') : '-' }}</small></li>
-                  @empty
-                    <div class="callout callout-info">
-                      <h4><i class="icon fa fa-info"></i> Ops...</h4>
-                      <p>Nenhum registro encontrado.</p>
-                    </div>
-                  @endforelse
-              </ul>
-
+            </div>
           </div>
         </div>
-      </div>
-    </div>
 
   </div>
 
 @stop
 
 @section('js')
-    <script>
-
-      function getAjax(self) {
-        var valor = self.val();
-        var url = self.data('url') + valor;
-        var target = self.data('target');
-
-        $.ajax(
-          {
-            url: url,
-            dataType: 'json'
-          }
-        ).done(function(data) {
-
-          var option = "";
-
-          $.each(data, function(i, item) {
-              option += "<option value'"+ item.id +"'>"+ item.nome +" </option>";
-          });
-
-          $(target).html(option);
-
-        });
-      }
-
-      $( document ).ready(function(){
-          carregarItens();
-
-          $('#select-empreendimento').select2({
-              ajax: {
-                type: "GET",
-                url: $('#select-empreendimento').data('url'),
-                data: function (params) {
-                  var query = {
-                    search: params.term,
-                    type: 'public'
-                  }
-
-                  // Query parameters will be ?search=[term]&type=public
-                  return query;
-                },
-                processResults: function (data) {
-                    return {
-                        results: $.map(JSON.parse(data), function (item) {
-                            return {
-                                text: item.nome,
-                                id: item.id
-                            }
-                        })
-                    };
-                }
-              },
-              placeholder: 'Selecione um Empreendimento',
-              minimumInputLength: 1,
-              width: '100%'
-          });
-
-          $('#select-midias').select2({
-              ajax: {
-                type: "GET",
-                url: $('#select-midias').data('url'),
-                data: function (params) {
-                  var query = {
-                    search: params.term,
-                    type: 'public'
-                  }
-
-                  // Query parameters will be ?search=[term]&type=public
-                  return query;
-                },
-                processResults: function (data) {
-                    return {
-                        results: $.map(JSON.parse(data), function (item) {
-                            return {
-                                text: item.nome,
-                                id: item.id
-                            }
-                        })
-                    };
-                }
-              },
-              placeholder: 'Selecione uma midia',
-              minimumInputLength: 1,
-              width: '100%'
-          });
-      });
-
-      function carregarItens()
-      {
-          var elementos = $('.select-ajax');
-
-          $(elementos).each(function(i, elemento) {
-
-            var self = $(elemento);
-            getAjax(self);
-
-          });
-      }
-
-      $('.select-ajax').change(function() {
-          var self = $(this);
-          getAjax(self);
-      });
-
-      $('.collapse-emprrendimentos').click(function() {
-          var self = $(this);
-
-          var referencia = self.data('referencia');
-          var url = 'http://www.seabra.com.br/ajax/imoveis/getEmpreendimentoAjax?referencia='+referencia;
-          var target = self.attr('href');
-
-          $.ajax(
-            {
-              url: url,
-              dataType: 'json'
-            }
-          ).done(function(data) {
-
-            var html = '<div class="row">' +
-                '<div class="col-md-4">' +
-
-                    '<ul class="list-group">' +
-                        '<li class="list-group-item"><b>Referencia:</b> <br/>'+data.referencia+'</li>' +
-                        '<li class="list-group-item"><b>Endereco:</b> <br/>'+ data.extras[0].endereco +'</li>' +
-                        '<li class="list-group-item"><b>Dormitorios:</b> <br/>'+data.tipologia.dorms+'</li>' +
-                        '<li class="list-group-item"><b>Suites:</b> <br/>'+data.tipologia.suites+'</li>' +
-                        '<li class="list-group-item"><b>Vagas:</b> <br/>'+data.tipologia.vagas+'</li>' +
-                        '<li class="list-group-item"><b>Area:</b> <br/>'+data.tipologia.area+'</li>' +
-                    '</ul>' +
-
-                '</div>' +
-
-                '<div class="col-md-4">' +
-
-                    '<ul class="list-group">' +
-                        '<li class="list-group-item"><b>Incorporação:</b> <br/>'+data.incorporacao+'</li>' +
-                        '<li class="list-group-item"><b>Arquitetura:</b> <br/>'+data.arquitetura+'</li>' +
-                        '<li class="list-group-item"><b>Construção:</b> <br/>'+data.construcao+'</li>' +
-                        '<li class="list-group-item"><b>No de torres:</b> <br/>'+data.qtdtorres+'</li>' +
-                        '<li class="list-group-item"><b>No de unidades:</b> <br/>'+data.qtdunidades+'</li>' +
-                    '</ul>' +
-
-                '</div>' +
-
-                '<div class="col-md-4">' +
-
-                    '<ul class="list-group">' +
-                        '<li class="list-group-item"><b>Ponto de referencia:</b> <br/>'+ data.estproximas +'</li>' +
-                        '<li class="list-group-item"><b>Estagio da obra:</b> <br/>'+ data.fasesobra +'</li>' +
-                        '<li class="list-group-item"><b>Valor metro quadrado:</b> <br/>'+data.tipologia.quadrado+'</li>' +
-                        '<li class="list-group-item"><b>Link do site:</b> <br/><a target="_blank" class="btn btn-instagram btn-xs" href="http://www.seabra.com.br/'+ data.extras[0].link +'">Acessar</a></li>' +
-                    '</ul>' +
-
-                '</div>' +
-
-
-            '</div>';
-
-
-
-            $(target).find('.box-body').html(html);
-
-
-          });
-      });
-
-
-
-
-      </script>
-
+    <script src="{{ asset('js/custom.js') }}"></script>
 @stop

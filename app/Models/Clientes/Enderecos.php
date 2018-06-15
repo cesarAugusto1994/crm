@@ -3,11 +3,13 @@
 namespace App\Models\Clientes;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Clientes\Telefones\Tipo;
+use App\Models\Clientes\Enderecos\Tipo;
 
-class Telefones extends Model
+class Enderecos extends Model
 {
-    public function tipoTelefone()
+    protected $table = 'enderecos';
+
+    public function tipoEndereco()
     {
         return $this->belongsTo(Tipo::class, 'tipo');
     }

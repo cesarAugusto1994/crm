@@ -3,11 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Clientes\{Produtos, Midias, Emails, Telefones};
+use App\Models\Clientes\{Produtos, Midias, Emails, Telefones, Tipo, Tratamento, Enderecos};
 
 class Clientes extends Model
 {
     protected $table = 'clientes';
+
+    public function chamados()
+    {
+        return $this->hasMany(Chamados::class, 'id_cliente');
+    }
 
     public function empreendimentos()
     {
@@ -24,6 +29,11 @@ class Clientes extends Model
         return $this->hasMany(Emails::class, 'cliente_id');
     }
 
+    public function enderecos()
+    {
+        return $this->hasMany(Enderecos::class, 'cliente_id');
+    }
+
     public function email()
     {
         return $this->hasOne(Emails::class, 'cliente_id');
@@ -32,5 +42,15 @@ class Clientes extends Model
     public function telefones()
     {
         return $this->hasMany(Telefones::class, 'cliente_id');
+    }
+
+    public function tipoCadastro()
+    {
+        return $this->belongsTo(Tipo::class, 'tipo');
+    }
+
+    public function tratamento()
+    {
+        return $this->belongsTo(Tratamento::class, 'forma_tratamento');
     }
 }

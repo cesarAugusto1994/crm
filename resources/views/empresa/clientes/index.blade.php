@@ -19,11 +19,63 @@
             </button>
           </div>
         </div>
-        <div class="box-body">
 
-        <div class="box-footer clearfix">
+        <form action="/clientes">
+
+            <div class="box-body">
+              <div class="row">
+
+                <div class="col-md-1">
+
+                  <div class="form-group">
+                    <label for="codigo">Codigo</label>
+                    <input type="text" class="form-control" id="codigo" name="id" placeholder="">
+                  </div>
+
+                </div>
+
+                <div class="col-md-3">
+
+                  <div class="form-group">
+                    <label for="nome">Nome</label>
+                    <input type="text" class="form-control" id="nome" name="nome" placeholder="">
+                  </div>
+
+                </div>
+
+                <div class="col-md-2">
+
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" id="email" name="email" placeholder="">
+                  </div>
+
+                </div>
+
+                <div class="col-md-3">
+
+                  <div class="form-group">
+                    <label for="select-empreendimento">Empreendimento</label>
+                    <select style="width:150px" id="select-empreendimento" name="empreendimento" data-url="{{ route('empreendimentos') }}" class="select2"></select>
+                  </div>
+
+                </div>
+
+                <div class="col-md-3">
+
+                  <div class="form-group">
+                    <label for="select-midias">Midia</label>
+                    <select style="width:150px" id="select-midias" name="midia" data-url="{{ route('midias') }}" class="form-control"></select>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+            <div class="box-footer clearfix">
+            <button type="submit" class="btn btn-primary">Buscar</button>
         </div>
-      </div>
+        </form>
     </div>
   </div>
 
@@ -54,7 +106,7 @@
             </thead>
             <tbody>
 
-              @foreach($clientes as $cliente)
+              @forelse($clientes as $cliente)
                   <tr>
                     <td>{{ $cliente->id }}</td>
                     <td>{{ $cliente->nome ?? '-' }}</td>
@@ -85,7 +137,16 @@
                       <a href="{{ url('/clientes/' . $cliente->id) }}" class="btn btn-primary btn-xs">Visualizar</a>
                     </td>
                   </tr>
-              @endforeach
+              @empty
+                  <tr>
+                    <td colspan="8">
+                      <div class="callout callout-info">
+                        <h4><i class="icon fa fa-info"></i> Ops...</h4>
+                        <p>Nenhum registro encontrado.</p>
+                      </div>
+                    </td>
+                  </tr>
+              @endforelse
           </tbody></table>
         </div>
         <div class="box-footer clearfix">
@@ -95,4 +156,8 @@
     </div>
   </div>
 
+@stop
+
+@section('js')
+    <script src="{{ asset('js/custom.js') }}"></script>
 @stop

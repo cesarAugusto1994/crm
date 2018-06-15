@@ -188,6 +188,7 @@ class ChamadosController extends Controller
 
         $empreendimento = new Logs();
         $empreendimento->chamado_id = $chamado->id;
+        $empreendimento->user_id = \Auth::user()->id;
         $empreendimento->descricao = $data['descricao'];
         $empreendimento->save();
 
