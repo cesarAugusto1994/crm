@@ -4,6 +4,10 @@
 
 @section('content_header')
     <h1>Painel de Empresas</h1>
+    <ol class="breadcrumb">
+      <li><a href="/"><i class="fa fa-dashboard"></i> Painel Principal</a></li>
+      <li class="active">Empresas</li>
+    </ol>
 @stop
 
 @section('content')
@@ -14,6 +18,7 @@
         <div class="box-header with-border">
           <h3 class="box-title">Listagem</h3>
           <div class="box-tools pull-right">
+            <a href="{{ route('empresas.create') }}" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> Adicionar</a>
             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
             </button>
           </div>

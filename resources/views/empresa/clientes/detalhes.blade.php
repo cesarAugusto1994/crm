@@ -4,6 +4,11 @@
 
 @section('content_header')
     <h1>Cliente #{{ $cliente->id }}</h1>
+    <ol class="breadcrumb">
+      <li><a href="/"><i class="fa fa-dashboard"></i> Painel Principal</a></li>
+      <li><a href="{{ route('clientes.index') }}"><i class="fa fa-newspaper-o"></i> Clientes</a></li>
+      <li class="active">Detalhes</li>
+    </ol>
 @stop
 
 @section('content')

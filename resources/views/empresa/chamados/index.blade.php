@@ -4,6 +4,10 @@
 
 @section('content_header')
     <h1>Painel de Chamados</h1>
+    <ol class="breadcrumb">
+      <li><a href="/"><i class="fa fa-dashboard"></i> Painel Principal</a></li>
+      <li class="active">Chamados</li>
+    </ol>
 @stop
 
 @section('content')
@@ -37,7 +41,7 @@
             </thead>
             <tbody>
 
-              @foreach($chamados as $chamado)
+              @forelse($chamados as $chamado)
                   <tr>
                     <td>{{ $chamado->id }}</td>
                     <td>{{ $chamado->cliente->nome ?? '-' }}</td>
@@ -65,7 +69,16 @@
                       <a href="{{ url('/chamados/' . $chamado->id) }}" class="btn btn-primary btn-xs">Visualizar</a>
                     </td>
                   </tr>
-              @endforeach
+              @empty
+                  <tr>
+                    <td colspan="9">
+                      <div class="callout callout-info">
+                        <h4><i class="icon fa fa-info"></i> Ops...</h4>
+                        <p>Nenhum registro encontrado.</p>
+                      </div>
+                    </td>
+                  </tr>
+              @endforelse
           </tbody></table>
         </div>
         <!-- /.box-body -->

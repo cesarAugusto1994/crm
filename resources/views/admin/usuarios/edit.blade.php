@@ -4,6 +4,11 @@
 
 @section('content_header')
     <h1>Painel de Usuários</h1>
+    <ol class="breadcrumb">
+      <li><a href="/"><i class="fa fa-dashboard"></i> Painel Principal</a></li>
+      <li><a href="{{ route('usuarios.index') }}"><i class="fa fa-users"></i> Usuários</a></li>
+      <li class="active">Editar Usuário</li>
+    </ol>
 @stop
 
 @section('content')
@@ -29,7 +34,7 @@
                   <div class="col-md-2">
                     <div class="form-group">
                       <label>Nome
-                        <input type="text" class="form-control" name="nome" value="{{ $user->name }}"/>
+                        <input type="text" class="form-control" name="name" value="{{ $user->name }}"/>
                       </label>
                     </div>
                   </div>

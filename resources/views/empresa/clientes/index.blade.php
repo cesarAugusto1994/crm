@@ -4,6 +4,10 @@
 
 @section('content_header')
     <h1>Painel de Clientes</h1>
+    <ol class="breadcrumb">
+      <li><a href="/"><i class="fa fa-dashboard"></i> Painel Principal</a></li>
+      <li class="active">Midias</li>
+    </ol>
 @stop
 
 @section('content')

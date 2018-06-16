@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use App\Models\{Empresa, Clientes};
+use App\Models\{Empresa, Clientes, Midias};
 use App\User;
 
 class AuthServiceProvider extends ServiceProvider
@@ -20,6 +20,7 @@ class AuthServiceProvider extends ServiceProvider
         Empresa::class => 'App\Policies\EmpresasPolicy',
         Clientes::class => 'App\Policies\ClientesPolicy',
         User::class => 'App\Policies\UsersPolicy',
+        Midias::class => 'App\Policies\MidiasPolicy',
     ];
 
 
@@ -44,5 +45,8 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::resource('manage-users', 'App\Policies\UsersPolicy');
         Gate::define('manage-users.index', 'App\Policies\UsersPolicy@index');
+
+        Gate::resource('manage-midias', 'App\Policies\MidiasPolicy');
+        Gate::define('manage-midias.index', 'App\Policies\MidiasPolicy@index');
     }
 }

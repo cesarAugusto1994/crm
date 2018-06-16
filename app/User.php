@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Empresa;
 use App\Models\Clientes\Departamentos;
+use Illuminate\Http\Request;
 
 class User extends Authenticatable
 {

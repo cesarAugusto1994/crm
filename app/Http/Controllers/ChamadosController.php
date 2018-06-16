@@ -205,7 +205,9 @@ class ChamadosController extends Controller
 
         $search = $data['search'];
 
-        $empreendimentos = \App\Models\Produtos::where('nome', 'like', "%$search%")->get();
+        $user = \Auth::user();
+
+        $empreendimentos = \App\Models\Produtos::where('nome', 'like', "%$search%")->where('id_empresa', $user->empresa_id)->get();
 
         return $empreendimentos->toJson();
     }
@@ -216,7 +218,9 @@ class ChamadosController extends Controller
 
         $search = $data['search'];
 
-        $empreendimentos = \App\Models\Midias::where('nome', 'like', "%$search%")->get();
+        $user = \Auth::user();
+        
+        $empreendimentos = \App\Models\Midias::where('nome', 'like', "%$search%")->where('empresa_id', $user->empresa_id)->get();
 
         return $empreendimentos->toJson();
     }

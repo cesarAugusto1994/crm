@@ -46,6 +46,10 @@ Route::middleware('auth')->group(function() {
   Route::prefix('/admin')->group(function() {
       Route::resource('empresas', 'EmpresasController');
       Route::resource('usuarios', 'UsersController');
+      Route::resource('midias', 'MidiasController');
+
+      Route::get('usuarios/{id}/alterar-senha', 'UsersController@editPassword')->name('editar_senha');
+      Route::post('usuarios/{id}/alterar-senha-update', 'UsersController@updatePassword')->name('editar_senha_update');
   });
 
 });

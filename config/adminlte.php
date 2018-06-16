@@ -131,6 +131,18 @@ return [
             'icon'        => 'building',
             'can'         => 'manage-empresas.index',
         ],
+        [
+            'text'        => 'Usuários',
+            'url'         => '/admin/usuarios',
+            'icon'        => 'users',
+            'can'         => 'manage-users.index',
+        ],
+        [
+            'text'        => 'Midias',
+            'url'         => '/admin/midias',
+            'icon'        => 'newspaper-o',
+            'can'         => 'manage-midias.index',
+        ],
     ],
 
     /*

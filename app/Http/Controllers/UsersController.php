@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\User;
+use App\{User, Role};
+use App\Models\Empresa;
 use App\Models\Empresa\Departamentos;
+use Illuminate\Support\Facades\Validator;
 
 class UsersController extends Controller
 {
@@ -15,6 +17,8 @@ class UsersController extends Controller
      */
     public function index()
     {
+        $this->authorize('manage-users.index', User::class);
+
         $users = User::paginate();
 
         return view('admin.usuarios.index', compact('users'));
@@ -27,7 +31,11 @@ class UsersController extends Controller
      */
     public function create()
     {
-        //
+        $this->authorize('manage-users.create', User::class);
+
+        $empresas = Empresa::where('status', true)->get();
+        $departamentos = Departamentos::all();
+        return view('admin.usuarios.create', compact('user', 'departamentos', 'empresas'));
     }
 
     /**
@@ -38,7 +46,28 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $data = $request->request->all();
+
+        $validate = Validator::make($data, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'login' => 'required|string|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        if($validate->fails()) {
+          return redirect()->back()->withErrors($validate)->withInput();
+        }
+
+        $data['password'] = bcrypt($data['password']);
+
+        $user = User::create($data);
+        $user->roles()->attach(Role::where('name', 'user')->first());
+
+        flash('Usuário adicionado com sucesso!')->success()->important();
+
+        return redirect()->route('usuarios.index');
     }
 
     /**
@@ -62,6 +91,8 @@ class UsersController extends Controller
     {
         $user = User::findOrFail($id);
 
+        $this->authorize('manage-users.view', $user);
+
         $departamentos = Departamentos::all();
 
         return view('admin.usuarios.edit', compact('user', 'departamentos'));
@@ -76,7 +107,30 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->request->all();
+
+        $validate = Validator::make($data, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,id,'.$id,
+        ]);
+
+        if($validate->fails()) {
+          return redirect()->back()->withErrors($validate)->withInput();
+        }
+
+        $user = User::findOrFail($id);
+
+        if(!$user->isUser() && !$user->isAdmin()) {
+            $user
+           ->roles()
+           ->attach(Role::where('name', 'user')->first());
+        }
+
+        $user->update($data);
+
+        flash('Os dados foram alterados com sucesso!')->success()->important();
+
+        return redirect()->back();
     }
 
     /**
@@ -88,5 +142,52 @@ class UsersController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+    }
+
+    public function editPassword(Request $request, $id)
+    {
+        $data = $request->request->all();
+
+        $user = User::findOrFail($id);
+
+        return view('admin.usuarios.password', compact('user'));
+    }
+
+    public function updatePassword(Request $request, $id)
+    {
+        $data = $request->request->all();
+
+        $validate = Validator::make($data, [
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        if($validate->fails()) {
+          return redirect()->back()->withErrors($validate)->withInput();
+        }
+
+        $user = User::findOrFail($id);
+
+        $data['password'] = bcrypt($data['password']);
+
+        $user->update($data);
+
+        flash('Os dados foram alterados com sucesso!')->success()->important();
+
+        return redirect()->back();
     }
 }

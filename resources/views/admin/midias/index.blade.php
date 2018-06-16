@@ -3,10 +3,10 @@
 @section('title', 'Empresas')
 
 @section('content_header')
-    <h1>Painel de Usuários</h1>
+    <h1>Painel de Midias</h1>
     <ol class="breadcrumb">
       <li><a href="/"><i class="fa fa-dashboard"></i> Painel Principal</a></li>
-      <li class="active">Usuários</li>
+      <li class="active">Midias</li>
     </ol>
 @stop
 
@@ -18,8 +18,9 @@
         <div class="box-header with-border">
           <h3 class="box-title">Listagem</h3>
           <div class="box-tools pull-right">
-            <a href="{{ route('usuarios.create') }}" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> Adicionar</a>
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+            <a href="{{ route('midias.create') }}" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> Adicionar</a>
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
           </div>
         </div>
         <div class="box-body">
@@ -28,12 +29,8 @@
 
               <tr>
                 <th style="width: 10px">#</th>
-                <th>Empresa</th>
-                <th>Área</th>
                 <th>Nome</th>
-                <th>Login</th>
-                <th>Email</th>
-                <th>Nivel</th>
+                <th>Empresa</th>
                 <th>Status</th>
                 <th>Opções</th>
               </tr>
@@ -41,25 +38,20 @@
             </thead>
             <tbody>
 
-              @forelse($users as $user)
+              @forelse($midias as $midia)
                   <tr>
-                    <td>{{ $user->id }}</td>
-                    <td>{{ $user->empresa->nome}}</td>
-                    <td>{{ $user->departamento->descricao}}</td>
-                    <td>{{ $user->name}}</td>
-                    <td>{{ $user->login}}</td>
-                    <td>{{ $user->email}}</td>
-                    <td>{{ $user->nivel}}</td>
+                    <td>{{ $midia->id }}</td>
+                    <td>{{ $midia->nome ?? '-' }}</td>
+                    <td>{{ $midia->empresa->nome ?? '-' }}</td>
                     <td>
-                      @if($user->status)
+                      @if($midia->ativo)
                           <span class="badge bg-teal">Ativo</span>
                       @else
                           <span class="badge bg-red">Inativo</span>
                       @endif
                     </td>
                     <td>
-                      <a href="{{ route('usuarios.edit', ['id' => $user->id]) }}" class="btn btn-primary btn-xs">Visualizar</a>
-                      <a href="{{ route('editar_senha', ['id' => $user->id]) }}" class="btn btn-danger btn-xs">Editar Senha</a>
+                      <a href="{{ route('midias.edit', ['id' => $midia->id]) }}" class="btn btn-primary btn-xs">Visualizar</a>
                     </td>
                   </tr>
               @empty
@@ -75,7 +67,7 @@
           </tbody></table>
         </div>
         <div class="box-footer clearfix">
-          {{ $users->links() }}
+          {{ $midias->links() }}
         </div>
       </div>
     </div>

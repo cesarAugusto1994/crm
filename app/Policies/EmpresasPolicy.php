@@ -12,7 +12,7 @@ class EmpresasPolicy
 
     public function index(User $user)
      {
-         return !$user->isAdmin();
+         return $user->isAdmin();
      }
 
     /**

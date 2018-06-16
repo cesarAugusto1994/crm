@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Midias;
 use App\Models\Empresa;
 
-class EmpresasController extends Controller
+class MidiasController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,11 +15,10 @@ class EmpresasController extends Controller
      */
     public function index()
     {
-        $this->authorize('manage-empresas.index', Empresa::class);
+        $this->authorize('manage-midias.index', Midias::class);
 
-        $empresas = Empresa::paginate();
-
-        return view('admin.empresas.index', compact('empresas'));
+        $midias = Midias::orderBy('empresa_id')->paginate();
+        return view('admin.midias.index', compact('midias'));
     }
 
     /**
@@ -28,7 +28,10 @@ class EmpresasController extends Controller
      */
     public function create()
     {
-        return view('admin.empresas.create');
+        $this->authorize('manage-midias.create');
+
+        $empresas = Empresa::where('status', true)->get();
+        return view('admin.midias.create', compact('empresas'));
     }
 
     /**
@@ -41,19 +44,9 @@ class EmpresasController extends Controller
     {
         $data = $request->request->all();
 
-        $validate = \Illuminate\Support\Facades\Validator::make($data, [
-            'nome' => 'required|string|max:255',
-            'num_usuarios' => 'required',
-            'status' => 'required',
-        ]);
+        $midia = Midias::create($data);
 
-        if($validate->fails()) {
-          return redirect()->back()->withErrors($validate)->withInput();
-        }
-
-        $empresa = Empresa::create($data);
-
-        flash('A empresa foi adicionada com sucesso!')->success()->important();
+        flash('A midia foi adicionada com sucesso!')->success()->important();
 
         return redirect()->back();
     }
@@ -77,9 +70,11 @@ class EmpresasController extends Controller
      */
     public function edit($id)
     {
-        $empresa = Empresa::findOrFail($id);
+        $midia = Midias::findOrFail($id);
 
-        return view('admin.empresas.edit', compact('empresa'));
+        $this->authorize('manage-midias.view', $midia);
+
+        return view('admin.midias.edit', compact('midia'));
     }
 
     /**
@@ -93,9 +88,18 @@ class EmpresasController extends Controller
     {
         $data = $request->request->all();
 
-        $empresa = Empresa::findOrFail($id);
+        $validate = \Illuminate\Support\Facades\Validator::make($data, [
+            'nome' => 'required|string|max:255',
+            'ativo' => 'required',
+        ]);
 
-        $empresa->update($data);
+        if($validate->fails()) {
+          return redirect()->back()->withErrors($validate)->withInput();
+        }
+
+        $midias = Midias::findOrFail($id);
+
+        $midias->update($data);
 
         flash('Os dados foram alterados com sucesso!')->success()->important();
 
