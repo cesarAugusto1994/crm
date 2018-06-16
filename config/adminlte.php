@@ -30,9 +30,9 @@ return [
     |
     */
 
-    'logo' => '<b>CRM</b> Seabra',
+    'logo' => '<b>CRM</b>',
 
-    'logo_mini' => '<b>ACRM</b>',
+    'logo_mini' => '<b>CRM</b>',
 
     /*
     |--------------------------------------------------------------------------
@@ -108,21 +108,28 @@ return [
     */
 
     'menu' => [
-        'MAIN NAVIGATION',
+        'Navegação',
         [
-            'text' => 'CRM',
+            'text' => 'Painel Principal',
             'url'  => '/',
-            'can'  => 'manage-blog',
         ],
         [
             'text'        => 'Chamados',
             'url'         => '/chamados',
             'icon'        => 'bell-o',
+            'can'         => 'manage-chamados.index',
         ],
         [
             'text'        => 'Clientes',
             'url'         => '/clientes',
             'icon'        => 'users',
+            'can'         => 'manage-clientes.index',
+        ],
+        [
+            'text'        => 'Empresas',
+            'url'         => '/admin/empresas',
+            'icon'        => 'building',
+            'can'         => 'manage-empresas.index',
         ],
     ],
 

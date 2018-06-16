@@ -18,6 +18,8 @@ class ChamadosController extends Controller
     {
         $user = \Auth::user();
 
+        $this->authorize('manage-chamados.index', Chamados::class);
+
         $chamados = Chamados::where('id_empresa', $user->empresa_id)->orderByDesc('id')->paginate();
         return view('empresa.chamados.index', compact('chamados'));
     }
@@ -68,7 +70,7 @@ class ChamadosController extends Controller
     {
         $chamado = Chamados::findOrFail($id);
 
-        //dd($chamado->empreendimentos->first()->empreendimento);
+        $this->authorize('manage-chamados.view', $chamado);
 
         $user = \Auth::user();
 

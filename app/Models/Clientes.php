@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Clientes\{Produtos, Midias, Emails, Telefones, Tipo, Tratamento, Enderecos};
+use App\Models\Clientes\{Produtos, Midias, Emails, Telefones, Tipo, Tratamento, Enderecos, Departamentos};
 
 class Clientes extends Model
 {
@@ -52,5 +52,10 @@ class Clientes extends Model
     public function tratamento()
     {
         return $this->belongsTo(Tratamento::class, 'forma_tratamento');
+    }
+
+    public function departamento()
+    {
+        return $this->belongsTo(Departamentos::class, 'area_id');
     }
 }

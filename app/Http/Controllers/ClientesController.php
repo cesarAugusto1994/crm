@@ -18,6 +18,8 @@ class ClientesController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('manage-clientes.index', Empresa::class);
+
         $data = $request->request->all();
 
         $user = \Auth::user();
@@ -87,6 +89,9 @@ class ClientesController extends Controller
     public function show($id)
     {
         $cliente = Clientes::FindOrFail($id);
+
+        $this->authorize('manage-clientes.view', $cliente);
+
         $tipos = Tipo::all();
         $tiposEndereco = TipoEndereco::all();
         $estados = Estados::all();
