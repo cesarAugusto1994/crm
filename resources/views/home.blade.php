@@ -62,12 +62,22 @@
       </div>
     </div>
 
-
-    <div class="flot-chart dashboard-chart" id="flot-chart-consultas"></div>
-
   </div>
 
-  <input type="" id="url-chamados-graph" value="{{route('chamados_graph')}}">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">Relatório de Chamados</h3>
+        </div>
+        <div class="box-body">
+            <div class="flot-chart dashboard-chart" id="flot-chart-chamados" style="height:250px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <input type="hidden" id="url-chamados-graph" value="{{route('chamados_graph')}}">
 
 @stop
 

@@ -42,7 +42,7 @@ Route::middleware('auth')->group(function() {
 
   Route::get('/cliente/verifica-email', 'ClientesController@verificaEmail')->name('verifica_email');
 
-  Route::get('/chamados/graph', 'HomeController@toGraph')->name('chamados_graph');
+  Route::get('/chamados-por-mes/graph', 'HomeController@toGraph')->name('chamados_graph');
 
   Route::post('/cliente/{id}/empreendimentos/store', 'ClientesController@empreendimentoStore')->name('clientes_empreendimento_store');
   Route::post('/cliente/{id}/midias/store', 'ClientesController@midiaStore')->name('clientes_midia_store');

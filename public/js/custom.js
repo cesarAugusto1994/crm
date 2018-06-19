@@ -205,6 +205,9 @@ $('.collapse-emprrendimentos').click(function() {
     });
 });
 
+  function gd(year, month, day) {
+      return new Date(year, month, day).getTime();
+  }
 
   $.get($("#url-chamados-graph").val(), function(data) {
 
@@ -268,11 +271,11 @@ $('.collapse-emprrendimentos').click(function() {
             }
         };
         var barData = {
-            label: "Consultas",
+            label: "Chamados",
             data: result
         };
 
-        $.plot($("#flot-chart-consultas"), [barData], barOptions);
+        $.plot($("#flot-chart-chamados"), [barData], barOptions);
 
       }
 
