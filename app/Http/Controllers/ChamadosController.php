@@ -164,8 +164,12 @@ class ChamadosController extends Controller
         //
     }
 
-    public function previsao($id)
+    public function previsao(Request $request)
     {
+        $data = $request->request->all();
+
+        $id = $data['id'];
+
         $previsao = Previsao::where('id_classificacao', $id)->get();
 
         $resultado = $previsao->map(function($item) {
@@ -175,8 +179,12 @@ class ChamadosController extends Controller
         return json_encode($resultado);
     }
 
-    public function departamento($id)
+    public function departamento(Request $request)
     {
+        $data = $request->request->all();
+
+        $id = $data['id'];
+
         $departamentos = Departamentos::findOrFail($id);
 
         $usuarios = $departamentos->usuarios->map(function($usuario) {
@@ -287,9 +295,11 @@ class ChamadosController extends Controller
         return $empreendimentos->toJson();
     }
 
-    public function grupos(Request $request, $id)
+    public function grupos(Request $request)
     {
         $data = $request->request->all();
+
+        $id = $data['id'];
 
         $user = \Auth::user();
 
@@ -302,9 +312,11 @@ class ChamadosController extends Controller
         return json_encode($itens);
     }
 
-    public function tipos(Request $request, $id)
+    public function tipos(Request $request)
     {
         $data = $request->request->all();
+
+        $id = $data['id'];
 
         $user = \Auth::user();
 

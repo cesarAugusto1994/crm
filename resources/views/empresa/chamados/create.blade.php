@@ -37,7 +37,7 @@
                     <div class="col-md-3">
                       <div class="form-group">
                         <label>Ocorrência</label>
-                        <select id="manifestacao" name="manifestacao" data-target="#grupo_manifestacao" data-url="/chamado/grupos/" class="form-control select2 select-ajax" style="width: 100%;">
+                        <select id="manifestacao" name="manifestacao" required data-target="#grupo_manifestacao" data-url="/chamado/grupos/" class="form-control select2 select-ajax" style="width: 100%;">
                           <option value="">Selecione</option>
                           @foreach($manifestacoes as $item)
                               <option value="{{ $item->id }}">{{ $item->descricao }}</option>
@@ -48,7 +48,7 @@
                     <div class="col-md-3">
                       <div class="form-group">
                         <label>Grupo </label>
-                        <select id="grupo_manifestacao" data-target="#tipo_manifestacao" data-url="/chamado/tipos/" class="form-control select2 select-ajax" style="width: 100%;" name="grupo_manifestacao">
+                        <select id="grupo_manifestacao" required data-target="#tipo_manifestacao" data-url="/chamado/tipos/" class="form-control select2 select-ajax" style="width: 100%;" name="grupo_manifestacao">
                           <option value="">Selecione</option>
                         </select>
                       </div>
@@ -56,7 +56,7 @@
                     <div class="col-md-3">
                       <div class="form-group">
                         <label>Tipo </label>
-                        <select class="form-control select2 select-ajax" id="tipo_manifestacao" style="width: 100%;" name="tipo_manifestacao">
+                        <select class="form-control select2" required id="tipo_manifestacao" style="width: 100%;" name="tipo_manifestacao">
                           <option value="">Selecione</option>
                         </select>
                       </div>
@@ -129,7 +129,7 @@
                       <label>Área Resolvedora </label>
                       <select class="form-control select2 select-ajax" id="area"
                       data-target="#resposanvel" data-url="/chamado/departamento/" style="width: 100%;"
-                      name="area_atendimento"
+                      name="area_atendimento" required
                       >
                         <option value="">Selecione</option>
                         @foreach($departamentos as $departamento)

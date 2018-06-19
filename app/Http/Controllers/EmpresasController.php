@@ -112,4 +112,34 @@ class EmpresasController extends Controller
     {
         //
     }
+
+    public function areas(Request $request)
+    {
+        $data = $request->request->all();
+
+        $search = $data['search'];
+
+        $user = \Auth::user();
+
+        $empreendimentos = \App\Models\Empresa\Departamentos::where('nome', 'like', "%$search%")->where('id_empresa', $user->empresa_id)->get();
+
+        return $empreendimentos->toJson();
+    }
+
+    public function responsaveis(Request $request)
+    {
+        $data = $request->request->all();
+
+        $id = $data['id'];
+
+        $user = \Auth::user();
+
+        $usuarios = \App\User::where('area_id', $id)->get();
+
+        $itens = $usuarios->map(function($item) {
+            return ['id' => $item->id, 'nome' => $item->name];
+        });
+
+        return json_encode($itens);
+    }
 }

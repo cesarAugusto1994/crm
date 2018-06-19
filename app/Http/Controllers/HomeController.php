@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Chamados;
+use App\Models\Empresa\Departamentos;
 
 class HomeController extends Controller
 {
@@ -24,7 +25,6 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-
         $chamados = Chamados::all();
 
         $total = $chamados->count();
@@ -35,9 +35,15 @@ class HomeController extends Controller
 
         $finalizados = $chamadosFinalizados->count();
 
-        $porcentagemTarefas = ceil($total/$finalizados);
+        $porcentagemTarefas = ceil($total/($finalizados ?: 1));
 
-        return view('home', compact('porcentagemTarefas'));
+        if(empty($finalizados)) {
+          $porcentagemTarefas = 0;
+        }
+
+        $areas = Departamentos::where('id_empresa', \Auth::user()->id)->get();
+
+        return view('home', compact('porcentagemTarefas', 'areas'));
     }
 
     public function toGraph()
@@ -45,8 +51,6 @@ class HomeController extends Controller
         $chamados = Chamados::where('id_empresa', \Auth::user()->empresa_id)
         ->orderBy('abertura_chamado')
         ->get();
-
-        //dd($chamados);
 
         $chamadoInicio = $chamados->first();
         $chamadoFim = $chamados->last();

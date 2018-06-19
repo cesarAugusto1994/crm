@@ -28,7 +28,7 @@
                   <b>CPF</b> <a class="pull-right">{{ $chamado->cliente->cpf }}</a>
                 </li>
               </ul>
-              <a href="/clientes/{{ $chamado->cliente->id }}" class="btn btn-primary btn-block"><b>Acessar</b></a>
+              <a href="{{ route('clientes.show', ['id' => $chamado->cliente->id]) }}" class="btn btn-primary btn-block"><b>Acessar</b></a>
             </div>
           </div>
       </div>
@@ -202,7 +202,6 @@
 
   </div>
 
-
   <div class="row">
 
     <div class="col-md-8">
@@ -241,70 +240,70 @@
     </div>
 
     <div class="col-md-4">
-          <div class="box box-success direct-chat direct-chat-success">
-            <div class="box-header with-border">
-              <h3 class="box-title">Registros</h3>
+      <div class="box box-success direct-chat direct-chat-success">
+        <div class="box-header with-border">
+          <h3 class="box-title">Registros</h3>
 
-              <div class="box-tools pull-right">
-                <span data-toggle="tooltip" title="" class="badge bg-yellow" data-original-title="{{ $chamado->logs->count() }} novas mensagens">{{ $chamado->logs->count() }}</span>
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-              </div>
-            </div>
-            <div class="box-body">
-              <div class="direct-chat-messages">
-                @forelse($chamado->logs as $log)
-                <div class="direct-chat-msg {{ $log->usuario && $log->usuario->id == \Auth::user()->id ? 'right' : '' }}">
-                  <div class="direct-chat-info clearfix">
-                    <span class="direct-chat-name {{ $log->usuario && $log->usuario->id == \Auth::user()->id ? 'pull-right' : 'pull-left' }}">{{ $log->usuario ? $log->usuario->id == \Auth::user()->id ? 'Você   ' : $log->usuario->name : 'Cliente' }}</span>
-                    <span class="direct-chat-timestamp {{ $log->usuario && $log->usuario->id == \Auth::user()->id ? 'pull-left' : 'pull-right' }}">{{ $log->created_at ? $log->created_at->format('d/m/Y H:i') : '-' }}</span>
-                  </div>
-                  <img class="direct-chat-img" src="holder.js/32x32" alt="">
-                  <div class="direct-chat-text">
-                    {{ $log->descricao }}
-                  </div>
-                </div>
-                @empty
-                  <div class="callout callout-info">
-                    <h4><i class="icon fa fa-info"></i> Ops...</h4>
-                    <p>Nenhum registro encontrado.</p>
-                  </div>
-                @endforelse
-              </div>
-
-            </div>
-            <div class="box-footer">
-              <form action="{{ route('chamados_logs_store', ['id' => $chamado->id]) }}" method="post">
-                {{csrf_field()}}
-                <div class="input-group">
-                  <div class="input-group-btn dropup">
-
-                    <label class="btn btn-file btn-warning">
-                        Anexar
-                        <input type="file" name="anexo" />
-                    </label>
-                    <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <span class="caret"></span>
-                      <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu">
-                      <li><a href="#">Olá</a></li>
-                      <li><a href="#">Seja Bem vindo</a></li>
-                      <li><a href="#">Alguma resposta aqui</a></li>
-                      <li role="separator" class="divider"></li>
-                      <li><a href="#">Outra mensagem</a></li>
-                    </ul>
-
-                  </div>
-                  <input type="text" name="descricao" placeholder="Mensagem" required class="form-control">
-                    <span class="input-group-btn">
-                      <button type="submit" class="btn btn-warning btn-flat">Enviar</button>
-                    </span>
-                </div>
-              </form>
-            </div>
+          <div class="box-tools pull-right">
+            <span data-toggle="tooltip" title="" class="badge bg-yellow" data-original-title="{{ $chamado->logs->count() }} novas mensagens">{{ $chamado->logs->count() }}</span>
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
           </div>
         </div>
+        <div class="box-body">
+          <div class="direct-chat-messages">
+            @forelse($chamado->logs as $log)
+            <div class="direct-chat-msg {{ $log->usuario && $log->usuario->id == \Auth::user()->id ? 'right' : '' }}">
+              <div class="direct-chat-info clearfix">
+                <span class="direct-chat-name {{ $log->usuario && $log->usuario->id == \Auth::user()->id ? 'pull-right' : 'pull-left' }}">{{ $log->usuario ? $log->usuario->id == \Auth::user()->id ? 'Você   ' : $log->usuario->name : 'Cliente' }}</span>
+                <span class="direct-chat-timestamp {{ $log->usuario && $log->usuario->id == \Auth::user()->id ? 'pull-left' : 'pull-right' }}">{{ $log->created_at ? $log->created_at->format('d/m/Y H:i') : '-' }}</span>
+              </div>
+              <img class="direct-chat-img" src="holder.js/32x32" alt="">
+              <div class="direct-chat-text">
+                {{ $log->descricao }}
+              </div>
+            </div>
+            @empty
+              <div class="callout callout-info">
+                <h4><i class="icon fa fa-info"></i> Ops...</h4>
+                <p>Nenhum registro encontrado.</p>
+              </div>
+            @endforelse
+          </div>
+
+        </div>
+        <div class="box-footer">
+          <form action="{{ route('chamados_logs_store', ['id' => $chamado->id]) }}" method="post">
+            {{csrf_field()}}
+            <div class="input-group">
+              <div class="input-group-btn dropup">
+
+                <label class="btn btn-file btn-warning">
+                    Anexar
+                    <input type="file" name="anexo" />
+                </label>
+                <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="caret"></span>
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Olá</a></li>
+                  <li><a href="#">Seja Bem vindo</a></li>
+                  <li><a href="#">Alguma resposta aqui</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="#">Outra mensagem</a></li>
+                </ul>
+
+              </div>
+              <input type="text" name="descricao" placeholder="Mensagem" required class="form-control">
+                <span class="input-group-btn">
+                  <button type="submit" class="btn btn-warning btn-flat">Enviar</button>
+                </span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
 
   </div>
 

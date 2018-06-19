@@ -1,6 +1,7 @@
 function getAjax(self) {
+
   var valor = self.val();
-  var url = self.data('url') + valor;
+  var url = self.data('url') + '?id=' + valor;
   var target = self.data('target');
 
   $.ajax(
@@ -34,6 +35,7 @@ function getAjax(self) {
 }
 
 $( document ).ready(function(){
+
     carregarItens();
 
     $('#select-empreendimento').select2({
@@ -46,7 +48,6 @@ $( document ).ready(function(){
               type: 'public'
             }
 
-            // Query parameters will be ?search=[term]&type=public
             return query;
           },
           processResults: function (data) {
@@ -75,7 +76,6 @@ $( document ).ready(function(){
               type: 'public'
             }
 
-            // Query parameters will be ?search=[term]&type=public
             return query;
           },
           processResults: function (data) {
@@ -104,7 +104,6 @@ $( document ).ready(function(){
               type: 'public'
             }
 
-            // Query parameters will be ?search=[term]&type=public
             return query;
           },
           processResults: function (data) {
@@ -119,6 +118,35 @@ $( document ).ready(function(){
           }
         },
         placeholder: 'Selecione um cliente',
+        minimumInputLength: 1,
+        width: '100%'
+    });
+
+    $('#select-areas').select2({
+        ajax: {
+          type: "GET",
+          url: $('#select-areas').data('url'),
+          data: function (params) {
+            var query = {
+              search: params.term,
+              type: 'public'
+            }
+
+            // Query parameters will be ?search=[term]&type=public
+            return query;
+          },
+          processResults: function (data) {
+              return {
+                  results: $.map(JSON.parse(data), function (item) {
+                      return {
+                          text: item.nome,
+                          id: item.id
+                      }
+                  })
+              };
+          }
+        },
+        placeholder: 'Selecione uma area',
         minimumInputLength: 1,
         width: '100%'
     });
@@ -209,75 +237,134 @@ $('.collapse-emprrendimentos').click(function() {
       return new Date(year, month, day).getTime();
   }
 
-  $.get($("#url-chamados-graph").val(), function(data) {
+  function limparModal() {
+    $("#agenda-data").val("");
+    $("#agenda-lembrete").val("");
+    $('#agenda-local option')
+     .removeAttr('selected');
+    $('#agenda-resposanvel option')
+     .removeAttr('selected');
+    $("#consulta-notas").val("");
+  }
 
-      if(false != data) {
+  function popularModal(event) {
+    $("#formAgendaModal").prop('action', '/agenda/');
 
-        data = JSON.parse(data);
+    $("#cadastra-agenda-modal").modal('show');
+    $("#cadastra-agenda-modal").find('#title').val(event.title);
 
-        var result = [];
+    $("#agenda-data").val(event.start.format('DD/MM/YYYY HH:mm'));
+    $("#agenda-lembrete").val(event.lembrete);
 
-        $.each(data['body'], function(i, item) {
+    $("#agenda-local").val(event.local);
 
-            result.push([gd(item.Y, item.m, item.d), item.quantidade]);
+    $('#agenda-area option')
+     .removeAttr('selected')
+     .filter('[value="' + event.area + '"]')
+         .attr('selected', true)
 
-        });
+     $('#agenda-resposanvel option')
+      .removeAttr('selected')
+      .filter('[value="' + event.resposanvel + '"]')
+          .attr('selected', true)
 
-        var barOptions = {
-            series: {
-                lines: {
-                    show: true,
-                    lineWidth: 2,
-                    fill: true,
-                    fillColor: {
-                        colors: [{
-                            opacity: 0.0
-                        }, {
-                            opacity: 0.0
-                        }]
-                    }
-                }
-            },
-            yaxis: {
-                color: "black",
-                tickDecimals: 2,
-                axisLabel: "Medidas",
-                axisLabelUseCanvas: true,
-                axisLabelFontSizePixels: 12,
-                axisLabelFontFamily: 'Verdana, Arial',
-                axisLabelPadding: 5
-            },
-            xaxis: {
-                   mode: "time",timeformat: "%d/%m",
-                   min: gd(data['meta']['inicio']['Y'], data['meta']['inicio']['m'], data['meta']['inicio']['d']),
-                   max: gd(data['meta']['fim']['Y'], data['meta']['fim']['m'], data['meta']['fim']['d'])
-            },
+    $("#agenda-notas").val(event.notas);
+  }
 
-            colors: ["#1ab394"],
-            grid: {
-                color: "#999999",
-                hoverable: true,
-                clickable: true,
-                tickColor: "#D4D4D4",
-                borderWidth:0,
-                mouseActiveRadius: 50
-            },
-            legend: {
-                show: true
-            },
-            tooltip: true,
-            tooltipOpts: {
-                content: "Data: %x, Valor: %y"
-            }
-        };
-        var barData = {
-            label: "Chamados",
-            data: result
-        };
+  $('.calendar').fullCalendar({
+    height: 380,
+    contentHeight: 590,
+    lang: 'es',
+    defaultView: 'agendaWeek',
+    eventBorderColor: "#de1f1f",
+      minTime: '06:00:00',
+      maxTime: '22:00:00',
+     header:
+    {
+        left: 'prev,next,today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay'
+    },
 
-        $.plot($("#flot-chart-chamados"), [barData], barOptions);
+      navLinks: true,
+      selectable: true,
+      selectHelper: true,
+      select: function(start, end, jsEvent, view) {
 
+          limparModal();
+          var view = $('.calendar').fullCalendar('getView');
+
+          if(view.name == 'agendaDay') {
+
+            $("#cadastra-agenda-modal").modal('show');
+            $("#agenda-data").val(start.format('DD/MM/YYYY HH:mm'));
+            //$("#consulta-fim").val(end.format('DD/MM/YYYY HH:mm'));
+
+          }
+
+      },
+      eventClick: function(event, element, view) {
+          popularModal(event);
+      },
+      editable: true,
+      allDaySlot: false,
+      eventLimit: true,
+      dayClick: function(date, jsEvent, view) {
+
+          jsEvent.preventDefault();
+
+            setTimeout(function() {
+
+              $('.calendar').fullCalendar('gotoDate', date);
+              $('.calendar').fullCalendar('changeView','agendaDay');
+
+            }, 100);
+
+      },
+      events: $("#agenda-json").val(),
+      color: 'black',     // an option!
+      textColor: 'yellow', // an option!
+      //When u drop an event in the calendar do the following:
+      eventDrop: function (event, delta, revertFunc) {
+        popularModal(event);
+      },
+      //When u resize an event in the calendar do the following:
+      eventResize: function (event, delta, revertFunc) {
+        popularModal(event);
+      },
+      eventRender: function(event, element) {
+          $(element).tooltip({title: event.title});
+      },
+      ignoreTimezone: false,
+      allDayText: 'Dia Inteiro',
+      monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+      monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+      dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sabado'],
+      dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+      titleFormat: {
+          month: 'MMMM YYYY',
+          week: "MMMM YYYY",
+          day: 'dddd, DD MMMM YYYY'
+      },
+      columnFormat: {
+          month: 'ddd',
+          week: 'ddd D',
+          day: ''
+      },
+      axisFormat: 'HH:mm',
+      timeFormat: {
+          '': 'HH:mm',
+          agenda: 'HH:mm'
+      },
+      buttonText: {
+          prev: "<",
+          next: ">",
+          prevYear: "Ano anterior",
+          nextYear: "Proximo ano",
+          today: "Hoje",
+          month: "Mês",
+          week: "Semana",
+          day: "Dia"
       }
-
 
   });
