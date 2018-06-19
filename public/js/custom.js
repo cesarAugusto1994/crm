@@ -10,10 +10,22 @@ function getAjax(self) {
     }
   ).done(function(data) {
 
-    var option = "";
+    var option = "<option value=''>Selecione </option>";
+    selected = "";
+
+    var destino = $(target);
+
+    destino.append(option);
+
+    var defaultValue = destino.data('default');
 
     $.each(data, function(i, item) {
-        option += "<option value'"+ item.id +"'>"+ item.nome +" </option>";
+
+        if(defaultValue == item.id) {
+          selected = "selected='selected'";
+        }
+
+        option += "<option value='"+ item.id +"' " + selected + ">"+ item.nome +" </option>";
     });
 
     $(target).html(option);
@@ -81,6 +93,35 @@ $( document ).ready(function(){
         minimumInputLength: 1,
         width: '100%'
     });
+
+    $('#select-cliente').select2({
+        ajax: {
+          type: "GET",
+          url: $('#select-cliente').data('url'),
+          data: function (params) {
+            var query = {
+              search: params.term,
+              type: 'public'
+            }
+
+            // Query parameters will be ?search=[term]&type=public
+            return query;
+          },
+          processResults: function (data) {
+              return {
+                  results: $.map(JSON.parse(data), function (item) {
+                      return {
+                          text: item.nome,
+                          id: item.id
+                      }
+                  })
+              };
+          }
+        },
+        placeholder: 'Selecione um cliente',
+        minimumInputLength: 1,
+        width: '100%'
+    });
 });
 
 function carregarItens()
@@ -90,7 +131,9 @@ function carregarItens()
     $(elementos).each(function(i, elemento) {
 
       var self = $(elemento);
-      getAjax(self);
+      if(self.val() !== '') {
+        getAjax(self);
+      }
 
     });
 }
@@ -161,3 +204,77 @@ $('.collapse-emprrendimentos').click(function() {
 
     });
 });
+
+
+  $.get($("#url-chamados-graph").val(), function(data) {
+
+      if(false != data) {
+
+        data = JSON.parse(data);
+
+        var result = [];
+
+        $.each(data['body'], function(i, item) {
+
+            result.push([gd(item.Y, item.m, item.d), item.quantidade]);
+
+        });
+
+        var barOptions = {
+            series: {
+                lines: {
+                    show: true,
+                    lineWidth: 2,
+                    fill: true,
+                    fillColor: {
+                        colors: [{
+                            opacity: 0.0
+                        }, {
+                            opacity: 0.0
+                        }]
+                    }
+                }
+            },
+            yaxis: {
+                color: "black",
+                tickDecimals: 2,
+                axisLabel: "Medidas",
+                axisLabelUseCanvas: true,
+                axisLabelFontSizePixels: 12,
+                axisLabelFontFamily: 'Verdana, Arial',
+                axisLabelPadding: 5
+            },
+            xaxis: {
+                   mode: "time",timeformat: "%d/%m",
+                   min: gd(data['meta']['inicio']['Y'], data['meta']['inicio']['m'], data['meta']['inicio']['d']),
+                   max: gd(data['meta']['fim']['Y'], data['meta']['fim']['m'], data['meta']['fim']['d'])
+            },
+
+            colors: ["#1ab394"],
+            grid: {
+                color: "#999999",
+                hoverable: true,
+                clickable: true,
+                tickColor: "#D4D4D4",
+                borderWidth:0,
+                mouseActiveRadius: 50
+            },
+            legend: {
+                show: true
+            },
+            tooltip: true,
+            tooltipOpts: {
+                content: "Data: %x, Valor: %y"
+            }
+        };
+        var barData = {
+            label: "Consultas",
+            data: result
+        };
+
+        $.plot($("#flot-chart-consultas"), [barData], barOptions);
+
+      }
+
+
+  });

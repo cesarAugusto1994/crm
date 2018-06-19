@@ -76,6 +76,31 @@
                 <div class="navbar-custom-menu">
 
                     <ul class="nav navbar-nav">
+
+                        <li class="dropdown user user-menu">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="hidden-xs">Empresa: {{ \Auth::user()->empresa->nome }}</span>
+                          </a>
+                        </li>
+
+                        <li class="dropdown user user-menu">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="hidden-xs">{{ \Auth::user()->name }}</span>
+                          </a>
+                          <ul class="dropdown-menu">
+                            <!-- User image -->
+                            <li class="user-header">
+
+                              <p>
+                                {{ \Auth::user()->name }} - {{ \Auth::user()->departamento->descricao }}
+                                <small>{{ \Auth::user()->login }}</small>
+                              </p>
+                            </li>
+                            <!-- Menu Body -->
+
+                          </ul>
+                        </li>
+
                         <li>
                             @if(config('adminlte.logout_method') == 'GET' || !config('adminlte.logout_method') && version_compare(\Illuminate\Foundation\Application::VERSION, '5.3.0', '<'))
                                 <a href="{{ url(config('adminlte.logout_url', 'auth/logout')) }}">
@@ -161,6 +186,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.pt-BR.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.4/holder.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.20.6/sweetalert2.all.min.js"></script>
 
     <script>
 

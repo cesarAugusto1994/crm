@@ -9,6 +9,8 @@ class Clientes extends Model
 {
     protected $table = 'clientes';
 
+    protected $fillable = ['nome', 'pessoa', 'cpf', 'tipo', 'forma_tratamento', 'sexo', 'id_empresa'];
+
     public function chamados()
     {
         return $this->hasMany(Chamados::class, 'id_cliente');

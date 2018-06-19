@@ -16,72 +16,63 @@
 
     <div class="col-md-12">
       <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title">Filtros</h3>
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-            </button>
-          </div>
-        </div>
 
-        <form action="/clientes">
-
-            <div class="box-body">
-              <div class="row">
-
-                <div class="col-md-1">
-
-                  <div class="form-group">
-                    <label for="codigo">Codigo</label>
-                    <input type="text" class="form-control" id="codigo" name="id" placeholder="">
-                  </div>
-
-                </div>
-
-                <div class="col-md-3">
-
-                  <div class="form-group">
-                    <label for="nome">Nome</label>
-                    <input type="text" class="form-control" id="nome" name="nome" placeholder="">
-                  </div>
-
-                </div>
-
-                <div class="col-md-2">
-
-                  <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="text" class="form-control" id="email" name="email" placeholder="">
-                  </div>
-
-                </div>
-
-                <div class="col-md-3">
-
-                  <div class="form-group">
-                    <label for="select-empreendimento">Empreendimento</label>
-                    <select style="width:150px" id="select-empreendimento" name="empreendimento" data-url="{{ route('empreendimentos') }}" class="select2"></select>
-                  </div>
-
-                </div>
-
-                <div class="col-md-3">
-
-                  <div class="form-group">
-                    <label for="select-midias">Midia</label>
-                    <select style="width:150px" id="select-midias" name="midia" data-url="{{ route('midias') }}" class="form-control"></select>
-                  </div>
-
-                </div>
-
-              </div>
+          <div class="box-header with-border">
+            <h3 class="box-title">Filtros</h3>
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+              </button>
             </div>
-            <div class="box-footer clearfix">
-            <button type="submit" class="btn btn-primary">Buscar</button>
-        </div>
-        </form>
+          </div>
+
+          <form action="{{ route('clientes.index') }}">
+              <div class="box-body">
+                <div class="row">
+
+                  <div class="col-md-1">
+                    <div class="form-group">
+                      <label for="codigo">Codigo</label>
+                      <input type="text" class="form-control" id="codigo" name="id" placeholder="">
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="nome">Nome</label>
+                      <input type="text" class="form-control" id="nome" name="nome" placeholder="">
+                    </div>
+                  </div>
+
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label for="email">Email</label>
+                      <input type="text" class="form-control" id="email" name="email" placeholder="">
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="select-empreendimento">Empreendimento</label>
+                      <select style="width:150px" id="select-empreendimento" name="empreendimento" data-url="{{ route('empreendimentos') }}" class="select2"></select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="select-midias">Midia</label>
+                      <select style="width:150px" id="select-midias" name="midia" data-url="{{ route('midias') }}" class="form-control"></select>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="box-footer clearfix">
+              <button type="submit" class="btn btn-primary">Buscar</button>
+          </div>
+          </form>
+
+      </div>
     </div>
-  </div>
 
     <div class="col-md-12">
       <div class="box">
@@ -93,6 +84,17 @@
           </div>
         </div>
         <div class="box-body">
+
+          <div class="row">
+            <div class="col-md-12">
+            <div class="box box-solid">
+              <div class="box-body">
+                <a class="btn btn-success" href="{{ route('clientes.create') }}">Adicionar</a>
+              </div>
+            </div>
+            </div>
+          </div>
+
           <table class="table table-striped table-hover">
             <thead>
 

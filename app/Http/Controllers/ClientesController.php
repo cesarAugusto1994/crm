@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Clientes;
-use App\Models\Clientes\{Produtos, Midias, Emails, Telefones, Enderecos};
+use App\Models\Clientes\{Produtos, Midias, Emails, Telefones, Enderecos, Tipo as TipoCliente, Tratamento};
 use App\Models\Clientes\Telefones\Tipo;
 use App\Models\Clientes\Enderecos\Tipo as TipoEndereco;
 use App\Models\Estados;
@@ -52,8 +52,6 @@ class ClientesController extends Controller
             });
         }
 
-
-
         $clientes = $clientes->orderByDesc('id')->paginate();
 
         return view('empresa.clientes.index', compact('clientes'));
@@ -66,7 +64,10 @@ class ClientesController extends Controller
      */
     public function create()
     {
-        //
+        $tipos = TipoCliente::where('exibir', true)->get();
+        $formas = Tratamento::where('exibir', true)->get();
+
+        return view('empresa.clientes.create', compact('tipos', 'formas'));
     }
 
     /**
@@ -77,7 +78,21 @@ class ClientesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->request->all();
+
+        $data['id_empresa'] = \Auth::user()->empresa_id;
+
+        $cliente = Clientes::create($data);
+
+        $email = new Emails();
+        $email->email = $data['email'];
+        $email->cliente_id = $cliente->id;
+        $email->principal = 'SIM';
+        $email->save();
+
+        flash('O cliente foi adicionado com sucesso!')->success()->important();
+
+        return redirect()->route('clientes.index');
     }
 
     /**
@@ -314,6 +329,30 @@ class ClientesController extends Controller
 
         flash('O endereco foi removido com sucesso!')->success()->important();
         return redirect()->back();
+    }
+
+    public function verificaEmail(Request $request)
+    {
+        $data = $request->request->all();
+
+        $email = $data['email'];
+
+        $clientes = Clientes::whereHas('emails', function ($query) use ($email) {
+            $query->where('email', 'like', "%".$email."%");
+        })->get();
+
+        $codigo = 100;
+        $resultado = false;
+
+        if($clientes->isNotEmpty()) {
+          $codigo = 101;
+          $resultado = true;
+        }
+
+        return json_encode([
+          'code' => $codigo,
+          'message' => $resultado,
+        ]);
     }
 
 }

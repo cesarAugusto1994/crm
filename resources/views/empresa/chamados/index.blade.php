@@ -18,6 +18,7 @@
         <div class="box-header with-border">
           <h3 class="box-title">Listagem</h3>
           <div class="box-tools pull-right">
+            <a href="{{ route('chamados.create') }}" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> Adicionar</a>
             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
             </button>
           </div>
@@ -66,7 +67,7 @@
                       {{ $chamado->previsao_conclusao ? $chamado->previsao_conclusao->format('d/m/Y') : '-' }}
                     </td>
                     <td>
-                      <a href="{{ url('/chamados/' . $chamado->id) }}" class="btn btn-primary btn-xs">Visualizar</a>
+                      <a href="{{ route('chamados.show', ['id' => $chamado->id]) }}" class="btn btn-primary btn-xs">Visualizar</a>
                     </td>
                   </tr>
               @empty

@@ -27,7 +27,10 @@ Route::middleware('auth')->group(function() {
   Route::get('/chamado/departamento/{id}', 'ChamadosController@departamento')->name('departamentos');
   Route::get('/chamado/empreendimentos', 'ChamadosController@empreendimentos')->name('empreendimentos');
   Route::get('/chamado/midias', 'ChamadosController@midias')->name('midias');
+  Route::get('/chamado/clientes', 'ChamadosController@clientes')->name('clientes');
 
+  Route::get('/chamado/grupos/{id}', 'ChamadosController@grupos')->name('grupos');
+  Route::get('/chamado/tipos/{id}', 'ChamadosController@tipos')->name('tipos');
 
   Route::post('/chamado/{id}/empreendimentos/store', 'ChamadosController@empreendimentoStore')->name('chamados_empreendimento_store');
   Route::post('/chamado/{id}/midias/store', 'ChamadosController@midiaStore')->name('chamados_midia_store');
@@ -36,6 +39,10 @@ Route::middleware('auth')->group(function() {
   Route::get('/cliente/email/{id}/remove', 'ClientesController@emailRemove')->name('cliente_email_remove');
   Route::get('/cliente/telefone/{id}/remove', 'ClientesController@telefoneRemove')->name('cliente_telefone_remove');
   Route::get('/cliente/endereco/{id}/remove', 'ClientesController@enderecoRemove')->name('cliente_endereco_remove');
+
+  Route::get('/cliente/verifica-email', 'ClientesController@verificaEmail')->name('verifica_email');
+
+  Route::get('/chamados/graph', 'HomeController@toGraph')->name('chamados_graph');
 
   Route::post('/cliente/{id}/empreendimentos/store', 'ClientesController@empreendimentoStore')->name('clientes_empreendimento_store');
   Route::post('/cliente/{id}/midias/store', 'ClientesController@midiaStore')->name('clientes_midia_store');

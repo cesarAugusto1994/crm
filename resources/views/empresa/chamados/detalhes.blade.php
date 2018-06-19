@@ -44,15 +44,16 @@
             </div>
           </div>
 
-          <form method="post" action="{{ url('/chamados') }}">
+          <form method="post" action="{{ route('chamados.update', ['id' => $chamado->id]) }}">
               {{ csrf_field() }}
+              {{ method_field('PUT') }}
               <input type="hidden" name="id" value="{{ $chamado->id }}"/>
               <div class="box-body">
                 <div class="row">
                   <div class="col-md-3">
                     <div class="form-group">
                       <label>Status/Classificação</label>
-                      <select id="classificacao" name="classificacao" onload="carregarItens()" data-target="#previsao" data-url="/chamado/previsoes/" class="form-control select2 select-ajax" style="width: 100%;">
+                      <select id="classificacao" name="classificacao" data-default="{{ $chamado->classificacao }}" onload="carregarItens()" data-target="#previsao" data-url="/chamado/previsoes/" class="form-control select2 select-ajax" style="width: 100%;">
                         <option value="">Selecione</option>
                         @foreach($classificacao as $item)
                             <option value="{{ $item->id }}" {{ $item->id == $chamado->categoria->id ? 'selected' : '' }}>{{ $item->descricao }}</option>
@@ -63,7 +64,7 @@
                   <div class="col-md-3">
                     <div class="form-group">
                       <label>Previsão de conclusão </label>
-                      <select id="previsao" class="form-control select2" style="width: 100%;" name="previsao_conclusao">
+                      <select id="previsao" class="form-control select2" style="width: 100%;" name="previsao_conclusao" data-default="{{ $chamado->previsao_conclusao }}">
                         <option selected="selected"></option>
                       </select>
                     </div>
@@ -71,7 +72,7 @@
                   <div class="col-md-3">
                     <div class="form-group">
                       <label>Área Resolvedora </label>
-                      <select class="form-control select2 select-ajax" id="area"
+                      <select class="form-control select2 select-ajax" id="area" data-default="{{ $chamado->area_atendimento }}"
                       data-target="#resposanvel" data-url="/chamado/departamento/" style="width: 100%;"
                       name="area_atendimento"
                       >
@@ -86,8 +87,8 @@
                   <div class="col-md-3">
                     <div class="form-group">
                       <label>Pessoa Responsável </label>
-                      <select class="form-control select2" id="resposanvel" style="width: 100%;" name="pessoa_responsavel">
-                        <option value="" selected="selected">Selecione</option>
+                      <select class="form-control select2" id="resposanvel" data-default="{{ $chamado->pessoa_responsavel }}" style="width: 100%;" name="pessoa_responsavel" required>
+                        <option value="">Selecione</option>
                       </select>
                     </div>
                   </div>

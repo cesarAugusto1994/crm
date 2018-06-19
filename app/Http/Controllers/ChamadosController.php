@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Chamados};
-use App\Models\Chamados\{Classificacao, Previsao, Status, Empreendimentos, Midias, Logs};
+use App\Models\{Chamados, Manifestacao};
+use App\Models\Chamados\{Classificacao, Previsao, Status, Empreendimentos, Midias, Logs, Anotacoes};
 use App\Models\Empresa\Departamentos;
 
 class ChamadosController extends Controller
@@ -31,7 +31,14 @@ class ChamadosController extends Controller
      */
     public function create()
     {
-        //
+        $user = \Auth::user();
+
+        $classificacao = Classificacao::where('id_empresa', $user->empresa->id)->get();
+        $departamentos = Departamentos::where('id_empresa', $user->empresa->id)->get();
+        $status = Status::where('id_empresa', $user->empresa->id)->get();
+        $manifestacoes = Manifestacao::all();
+
+        return view('empresa.chamados.create', compact('classificacao', 'departamentos', 'status', 'manifestacoes'));
     }
 
     /**
@@ -44,20 +51,37 @@ class ChamadosController extends Controller
     {
         $data = $request->request->all();
 
-        $chamado = Chamados::findOrFail($data['id']);
+        $chamado = new Chamados();
+        $chamado->id_cliente = $data['id_cliente'];
         $chamado->area_atendimento = $data['area_atendimento'] ?? null;
+        $chamado->produto_servico = 0;
+        $chamado->manifestacao = $data['manifestacao'] ?? null;
+        $chamado->grupo_manifestacao = $data['grupo_manifestacao'] ?? null;
+        $chamado->tipo_manifestacao = $data['tipo_manifestacao'] ?? null;
+
         $chamado->classificacao = $data['classificacao'];
+        $chamado->descricao = $data['descricao'];
         $chamado->situacao = $data['situacao'];
         $chamado->conclusao = $data['conclusao'] ?? '';
+        $chamado->abertura_chamado = new \DateTime('now');
+
+        $chamado->id_usuario = \Auth::user()->id;
+        $chamado->id_empresa = \Auth::user()->empresa_id;
+
         $chamado->pessoa_responsavel = $data['pessoa_responsavel'] ? (\DateTime::createFromFormat('d/m/Y', $data['pessoa_responsavel'])) : null;
         $chamado->atendimento_chamado = $data['atendimento_chamado'] ? (\DateTime::createFromFormat('d/m/Y', $data['atendimento_chamado'])) : null;
         $chamado->conclusao_chamado = $data['conclusao_chamado'] ? (\DateTime::createFromFormat('d/m/Y', $data['conclusao_chamado'])) : null;
         $chamado->previsao_conclusao = $data['previsao_conclusao'] instanceof \Datetime ? (\DateTime::createFromFormat('d/m/Y', $data['previsao_conclusao'])) : null;
         $chamado->save();
 
-        flash('Os dados foram alterados com sucesso!')->success()->important();
+        $anotacao = new Anotacoes();
+        $anotacao->descricao = $data['descricao'];
+        $anotacao->chamado_id = $chamado->id;
+        $anotacao->save();
 
-        return redirect()->back();
+        flash('Novo Chamado adicionado com sucesso!')->success()->important();
+
+        return redirect()->route('chamados.index');
     }
 
     /**
@@ -101,7 +125,32 @@ class ChamadosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->request->all();
+
+        $chamado = Chamados::findOrFail($id);
+        $chamado->area_atendimento = $data['area_atendimento'] ?? null;
+        $chamado->classificacao = $data['classificacao'];
+        $chamado->situacao = $data['situacao'];
+        $chamado->conclusao = $data['conclusao'] ?? '';
+        $chamado->pessoa_responsavel = $data['pessoa_responsavel'];
+        $chamado->atendimento_chamado = $data['atendimento_chamado'] ? (\DateTime::createFromFormat('d/m/Y', $data['atendimento_chamado'])) : null;
+        $chamado->conclusao_chamado = $data['conclusao_chamado'] ? (\DateTime::createFromFormat('d/m/Y', $data['conclusao_chamado'])) : null;
+
+        $previsao = null;
+
+        if($data['previsao_conclusao']) {
+            $date = new \DateTime('now');
+            $previsao = Previsao::findOrFail($data['previsao_conclusao']);
+            $date->modify('+'. $previsao->descricao . ' days');
+            $previsao = $date;
+        }
+
+        $chamado->previsao_conclusao = $previsao;
+        $chamado->save();
+
+        flash('Os dados foram alterados com sucesso!')->success()->important();
+
+        return redirect()->back();
     }
 
     /**
@@ -130,11 +179,11 @@ class ChamadosController extends Controller
     {
         $departamentos = Departamentos::findOrFail($id);
 
-        $usaurios = $departamentos->usuarios->map(function($usuario) {
+        $usuarios = $departamentos->usuarios->map(function($usuario) {
             return ['id' => $usuario->id, 'nome' => $usuario->name];
         });
 
-        return json_encode($usaurios);
+        return json_encode($usuarios);
     }
 
     public function empreendimentoStore(Request $request, $id)
@@ -219,9 +268,52 @@ class ChamadosController extends Controller
         $search = $data['search'];
 
         $user = \Auth::user();
-        
+
         $empreendimentos = \App\Models\Midias::where('nome', 'like', "%$search%")->where('empresa_id', $user->empresa_id)->get();
 
         return $empreendimentos->toJson();
+    }
+
+    public function clientes(Request $request)
+    {
+        $data = $request->request->all();
+
+        $search = $data['search'];
+
+        $user = \Auth::user();
+
+        $empreendimentos = \App\Models\Clientes::where('nome', 'like', "%$search%")->where('id_empresa', $user->empresa_id)->get();
+
+        return $empreendimentos->toJson();
+    }
+
+    public function grupos(Request $request, $id)
+    {
+        $data = $request->request->all();
+
+        $user = \Auth::user();
+
+        $manifestacoes = \App\Models\Manifestacao\Grupo::where('id_manifestacao', $id)->get();
+
+        $itens = $manifestacoes->map(function($item) {
+            return ['id' => $item->id, 'nome' => $item->descricao];
+        });
+
+        return json_encode($itens);
+    }
+
+    public function tipos(Request $request, $id)
+    {
+        $data = $request->request->all();
+
+        $user = \Auth::user();
+
+        $manifestacoes = \App\Models\Manifestacao\Grupo\Tipo::where('id_grupo', $id)->get();
+
+        $itens = $manifestacoes->map(function($item) {
+            return ['id' => $item->id, 'nome' => $item->descricao];
+        });
+
+        return json_encode($itens);
     }
 }

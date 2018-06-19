@@ -392,7 +392,7 @@
                 @forelse($cliente->chamados->sortByDesc('id') as $item)
                   <li class="item">
                     <div class="product-info" style="margin-left:0">
-                      <a class="product-title lead" href="/chamados/{{ $item->id }}" class="lead">{{ $item->id }}</a>
+                      <a class="product-title lead" href="{{ route('chamados.show', ['id' => $item->id]) }}" class="lead">{{ $item->id }}</a>
                       <span class="product-description">{{ $item->descricao }}</span>
                       <small class="product-description">Adicionado em: {{ $item->created_at ? $item->created_at->format('d/m/Y H:i') : '-' }}</small>
                     </div>
