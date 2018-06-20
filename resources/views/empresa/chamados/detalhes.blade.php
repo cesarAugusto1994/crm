@@ -19,10 +19,13 @@
           <div class="box box-primary">
             <div class="box-body box-profile">
               <h3 class="profile-username text-center">{{ $chamado->cliente->nome }}</h3>
-              <p class="text-muted text-center">{{ $chamado->cliente->email->email }}</p>
+              <p class="text-muted text-center">{{ $chamado->cliente->email->email ?? '' }}</p>
               <ul class="list-group list-group-unbordered">
                 <li class="list-group-item">
-                  <b>Telefone</b> <a class="pull-right">{{ $chamado->cliente->telefones->first()->ddd }} - {{ $chamado->cliente->telefones->first()->telefone }}</a>
+                  <b>Telefone</b> <a class="pull-right">
+                    @if($chamado->cliente->telefones->isNotEmpty())
+                      {{ $chamado->cliente->telefones->first()->ddd }} - {{ $chamado->cliente->telefones->first()->telefone }}
+                    @endif</a>
                 </li>
                 <li class="list-group-item">
                   <b>CPF</b> <a class="pull-right">{{ $chamado->cliente->cpf }}</a>

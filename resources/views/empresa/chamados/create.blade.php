@@ -70,7 +70,7 @@
             <div class="col-md-3">
               <div class="form-group">
                 <label>Ocorrência</label>
-                <select id="manifestacao" name="manifestacao" required data-target="#grupo_manifestacao" data-url="/chamado/grupos/" class="form-control select2 select-ajax" style="width: 100%;">
+                <select id="manifestacao" name="manifestacao" required data-target="#grupo_manifestacao" data-url="{{ route('grupos') }}" class="form-control select2 select-ajax" style="width: 100%;">
                   <option value="">Selecione</option>
                   @foreach($manifestacoes as $item)
                       <option value="{{ $item->id }}">{{ $item->descricao }}</option>
@@ -81,7 +81,7 @@
             <div class="col-md-3">
               <div class="form-group">
                 <label>Grupo </label>
-                <select id="grupo_manifestacao" required data-target="#tipo_manifestacao" data-url="/chamado/tipos/" class="form-control select2 select-ajax" style="width: 100%;" name="grupo_manifestacao">
+                <select id="grupo_manifestacao" required data-target="#tipo_manifestacao" data-url="{{ route('tipos') }}" class="form-control select2 select-ajax" style="width: 100%;" name="grupo_manifestacao">
                   <option value="">Selecione</option>
                 </select>
               </div>
@@ -111,20 +111,18 @@
           </div>
         </div>
         <div class="box-body">
-              <div class="row">
-
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label>Descricão do Chamado </label>
-                    <textarea class="form-control" name="descricao"></textarea>
-                  </div>
-                </div>
-
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Descricão do Chamado </label>
+                <textarea class="form-control" name="descricao" required></textarea>
               </div>
             </div>
+          </div>
+        </div>
       </div>
     </div>
-</div>
+  </div>
 
   <div class="row">
       <div class="col-md-12">
@@ -136,12 +134,12 @@
             </div>
           </div>
           <div class="box-body">
-                <div class="row">
+            <div class="row">
 
                   <div class="col-md-3">
                     <div class="form-group">
                       <label>Status/Classificação</label>
-                      <select id="classificacao" name="classificacao" onload="carregarItens()" data-target="#previsao" data-url="/chamado/previsoes/" class="form-control select2 select-ajax" style="width: 100%;">
+                      <select id="classificacao" name="classificacao" onload="carregarItens()" data-target="#previsao" data-url="{{ route('previsao') }}" class="form-control select2 select-ajax" style="width: 100%;">
                         <option value="">Selecione</option>
                         @foreach($classificacao as $item)
                             <option value="{{ $item->id }}">{{ $item->descricao }}</option>
@@ -161,7 +159,7 @@
                     <div class="form-group">
                       <label>Área Resolvedora </label>
                       <select class="form-control select2 select-ajax" id="area"
-                      data-target="#resposanvel" data-url="/chamado/departamento/" style="width: 100%;"
+                      data-target="#resposanvel" data-url="{{ route('departamentos') }}" style="width: 100%;"
                       name="area_atendimento" required
                       >
                         <option value="">Selecione</option>
@@ -221,7 +219,7 @@
                   </div>
 
                 </div>
-              </div>
+          </div>
         </div>
       </div>
   </div>
