@@ -53,6 +53,9 @@
             <tbody>
 
               @forelse($chamados as $chamado)
+                  @if(!$chamado->cliente)
+                    @continue;
+                  @endif
                   <tr>
                     <td>{{ $chamado->id }}</td>
                     <td>{{ $chamado->cliente->nome ?? '-' }}</td>
