@@ -16,14 +16,24 @@
     <div class="col-md-12">
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Listagem</h3>
+          <h3 class="box-title">Empresas</h3>
           <div class="box-tools pull-right">
-            <a href="{{ route('empresas.create') }}" class="btn btn-success btn-xs"><i class="fa fa-plus"></i> Adicionar</a>
             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
             </button>
           </div>
         </div>
-        <div class="box-body">
+        <div class="box-body table-responsive">
+
+          <div class="row">
+            <div class="col-md-12">
+            <div class="box box-solid">
+              <div class="box-body">
+                <a class="btn btn-success btn-sm" href="{{ route('empresas.create') }}">Adicionar Empresa</a>
+              </div>
+            </div>
+            </div>
+          </div>
+
           <table class="table table-striped table-hover">
             <thead>
 

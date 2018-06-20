@@ -17,7 +17,7 @@ Route::get('/home', function () {
 
 Auth::routes();
 
-Route::middleware('auth')->group(function() {
+Route::middleware('auth')->middleware('status')->group(function() {
   Route::get('/', 'HomeController@index')->name('home');
   Route::resource('chamados', 'ChamadosController');
   Route::resource('clientes', 'ClientesController');

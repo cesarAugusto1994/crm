@@ -49,7 +49,10 @@ class HomeController extends Controller
 
         $areas = Departamentos::where('id_empresa', \Auth::user()->id)->get();
 
-        return view('home', compact('porcentagemTarefas', 'areas', 'chamadosAtrasados'));
+        $empresas = \App\Models\Empresa::paginate();
+        $users = \App\User::paginate();
+
+        return view('home', compact('porcentagemTarefas', 'areas', 'chamadosAtrasados', 'empresas', 'users'));
     }
 
     public function toGraph()

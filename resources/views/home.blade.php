@@ -8,9 +8,10 @@
 
 @section('content')
 
+@if(!\Auth::user()->isAdmin())
 <div class="row">
-    <div class="col-lg-3 col-xs-6">
 
+    <div class="col-lg-3 col-xs-6">
       <div class="small-box bg-aqua">
         <div class="inner">
           <h3>{{ \App\Models\Chamados::where('id_empresa', \Auth::user()->id)->count() }}</h3>
@@ -184,6 +185,185 @@
 
   <input type="hidden" id="url-chamados-graph" value="{{route('chamados_graph')}}"/>
   <input type="hidden" id="agenda-json" value="{{route('compromissos_agenda')}}"/>
+@else
+<div class="row">
+
+    <div class="col-lg-6 col-xs-6">
+      <div class="small-box bg-aqua">
+        <div class="inner">
+          <h3>{{ \App\Models\Empresa::count() }}</h3>
+          <p>Empresas</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-alert"></i>
+        </div>
+        <a href="{{ route('empresas.index') }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-xs-6">
+      <div class="small-box bg-yellow">
+        <div class="inner">
+          <h3>{{ \App\User::where('empresa_id', \Auth::user()->id)->count() }}</h3>
+          <p>Usuários</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-person-add"></i>
+        </div>
+        <a href="{{ route('usuarios.index') }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">Empresas</h3>
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+          </div>
+        </div>
+        <div class="box-body table-responsive">
+
+          <div class="row">
+            <div class="col-md-12">
+            <div class="box box-solid">
+              <div class="box-body">
+                <a class="btn btn-success btn-sm" href="{{ route('empresas.create') }}">Adicionar Empresa</a>
+              </div>
+            </div>
+            </div>
+          </div>
+
+
+          <table class="table table-striped table-hover">
+            <thead>
+
+              <tr>
+                <th style="width: 10px">#</th>
+                <th>Nome</th>
+                <th>Status</th>
+                <th>Opções</th>
+              </tr>
+
+            </thead>
+            <tbody>
+
+              @forelse($empresas as $empresa)
+                  <tr>
+                    <td>{{ $empresa->id }}</td>
+                    <td>{{ $empresa->nome ?? '-' }}</td>
+                    <td>
+                      @if($empresa->status)
+                          <span class="badge bg-teal">Ativo</span>
+                      @else
+                          <span class="badge bg-red">Inativo</span>
+                      @endif
+                    </td>
+                    <td>
+                      <a href="{{ route('empresas.edit', ['id' => $empresa->id]) }}" class="btn btn-primary btn-xs">Visualizar</a>
+                    </td>
+                  </tr>
+              @empty
+                  <tr>
+                    <td colspan="8">
+                      <div class="callout callout-info">
+                        <h4><i class="icon fa fa-info"></i> Ops...</h4>
+                        <p>Nenhum registro encontrado.</p>
+                      </div>
+                    </td>
+                  </tr>
+              @endforelse
+          </tbody></table>
+        </div>
+        <div class="box-footer clearfix">
+          {{ $empresas->links() }}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-9">
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">Usuários</h3>
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+          </div>
+        </div>
+        <div class="box-body table-responsive">
+
+          <div class="row">
+            <div class="col-md-12">
+            <div class="box box-solid">
+              <div class="box-body">
+                <a class="btn btn-success btn-sm" href="{{ route('usuarios.create') }}">Adicionar Empresa</a>
+              </div>
+            </div>
+            </div>
+          </div>
+
+          <table class="table table-striped table-hover">
+            <thead>
+
+              <tr>
+                <th style="width: 10px">#</th>
+                <th>Empresa</th>
+                <th>Área</th>
+                <th>Nome</th>
+                <th>Login</th>
+                <th>Email</th>
+                <th>Nivel</th>
+                <th>Status</th>
+                <th>Opções</th>
+              </tr>
+
+            </thead>
+            <tbody>
+
+              @forelse($users as $user)
+                  <tr>
+                    <td>{{ $user->id }}</td>
+                    <td>{{ $user->empresa->nome}}</td>
+                    <td>{{ $user->departamento->descricao}}</td>
+                    <td>{{ $user->name}}</td>
+                    <td>{{ $user->login}}</td>
+                    <td>{{ $user->email}}</td>
+                    <td>{{ $user->nivel}}</td>
+                    <td>
+                      @if($user->status)
+                          <span class="badge bg-teal">Ativo</span>
+                      @else
+                          <span class="badge bg-red">Inativo</span>
+                      @endif
+                    </td>
+                    <td>
+                      <a href="{{ route('usuarios.edit', ['id' => $user->id]) }}" class="btn btn-primary btn-xs">Visualizar</a>
+                      <a href="{{ route('editar_senha', ['id' => $user->id]) }}" class="btn btn-danger btn-xs">Editar Senha</a>
+                    </td>
+                  </tr>
+              @empty
+                  <tr>
+                    <td colspan="8">
+                      <div class="callout callout-info">
+                        <h4><i class="icon fa fa-info"></i> Ops...</h4>
+                        <p>Nenhum registro encontrado.</p>
+                      </div>
+                    </td>
+                  </tr>
+              @endforelse
+          </tbody></table>
+        </div>
+        <div class="box-footer clearfix">
+          {{ $users->links() }}
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <input type="hidden" id="url-chamados-graph" value="{{route('chamados_graph')}}"/>
+  <input type="hidden" id="agenda-json" value="{{route('compromissos_agenda')}}"/>
+@endif
 
 @stop
 

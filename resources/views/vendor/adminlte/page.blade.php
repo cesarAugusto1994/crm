@@ -79,6 +79,8 @@
 
                     <ul class="nav navbar-nav">
 
+                      @if(!\Auth::user()->isAdmin())
+
                         <li class="dropdown user user-menu">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <span class="hidden-xs">Empresa: {{ \Auth::user()->empresa->nome }}</span>
@@ -102,6 +104,8 @@
 
                           </ul>
                         </li>
+
+                      @endif
 
                         <li>
                             @if(config('adminlte.logout_method') == 'GET' || !config('adminlte.logout_method') && version_compare(\Illuminate\Foundation\Application::VERSION, '5.3.0', '<'))
