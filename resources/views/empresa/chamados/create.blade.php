@@ -18,7 +18,7 @@
   {{ method_field('PUT') }}
   <div class="row">
     <div class="col-md-12">
-        <div class="box box-default">
+        <div class="box box-solid">
           <div class="box-header with-border">
             <h3 class="box-title">Informações do Cliente</h3>
             <div class="box-tools pull-right">
@@ -45,7 +45,7 @@
               <div class="col-md-3">
                 <div class="form-group">
                   <label for="select-midias">Midia</label>
-                  <select style="width:150px" id="select-midias" name="midia" data-url="{{ route('midias') }}" class="form-control"></select>
+                  <select style="width:150px" multiple id="select-midias" name="midia[]" data-url="{{ route('midias') }}" class="form-control"></select>
                 </div>
               </div>
 
@@ -57,7 +57,7 @@
 
   <div class="row">
     <div class="col-md-12">
-      <div class="box box-default">
+      <div class="box box-solid">
         <div class="box-header with-border">
           <h3 class="box-title">Ocorrência / Grupo / Tipo</h3>
           <div class="box-tools pull-right">
@@ -103,7 +103,7 @@
 
   <div class="row">
     <div class="col-md-12">
-      <div class="box box-default">
+      <div class="box box-solid">
         <div class="box-header with-border">
           <h3 class="box-title">Descricão e anotações</h3>
           <div class="box-tools pull-right">
@@ -126,7 +126,7 @@
 
   <div class="row">
       <div class="col-md-12">
-        <div class="box box-default">
+        <div class="box box-solid">
           <div class="box-header with-border">
             <h3 class="box-title">Informações do chamado</h3>
             <div class="box-tools pull-right">
@@ -226,7 +226,7 @@
 
   <div class="row">
     <div class="col-md-12">
-      <div class="box">
+      <div class="box box-solid">
         <div class="box-body">
 
             <button type="submit" class="btn btn-success">Salvar</button>

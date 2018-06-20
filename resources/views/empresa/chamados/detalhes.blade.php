@@ -16,7 +16,7 @@
   <div class="row">
 
       <div class="col-md-3">
-          <div class="box box-primary">
+          <div class="box box-solid">
             <div class="box-body box-profile">
               <h3 class="profile-username text-center">{{ $chamado->cliente->nome }}</h3>
               <p class="text-muted text-center">{{ $chamado->cliente->email->email ?? '' }}</p>
@@ -38,7 +38,7 @@
 
       <div class="col-md-9">
 
-        <div class="box box-default">
+        <div class="box box-solid">
           <div class="box-header with-border">
             <h3 class="box-title">Informações do chamado</h3>
 
@@ -149,7 +149,7 @@
       </div>
 
       <div class="col-md-6">
-        <div class="box box-default">
+        <div class="box box-solid">
           <div class="box-header with-border">
             <h3 class="box-title">Empreendimentos</h3>
             <div class="box-tools pull-right">
@@ -172,7 +172,7 @@
                   @if(!$item->empreendimento)
                     @continue
                   @endif
-                  <div class="panel box">
+                  <div class="panel box box-solid">
                   <div class="box-header with-border">
                     <h4 class="box-title">
                       <a data-toggle="collapse" data-referencia="{{ $item->empreendimento->referencia }}" data-parent="#accordion" href="#collapseOne-{{ $loop->index }}" aria-expanded="false" class="collapsed collapse-emprrendimentos">
@@ -200,7 +200,7 @@
       </div>
 
       <div class="col-md-3">
-        <div class="box box-default">
+        <div class="box box-solid">
           <div class="box-header with-border">
             <h3 class="box-title">Midias</h3>
             <div class="box-tools pull-right">
@@ -232,7 +232,7 @@
       </div>
 
       <div class="col-md-3">
-        <div class="box box-default direct-chat direct-chat-success">
+        <div class="box box-solid direct-chat direct-chat-success">
           <div class="box-header with-border">
             <h3 class="box-title">Descrição</h3>
 

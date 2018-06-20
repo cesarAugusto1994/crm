@@ -144,14 +144,22 @@ class ChamadosController extends Controller
         #dd($data);
 
         $chamado = Chamados::findOrFail($id);
-        $chamado->id_cliente = $data['id_cliente'];
+
+        if(isset($data['id_cliente'])) {
+            $chamado->id_cliente = $data['id_cliente'];
+        }
+
         $chamado->area_atendimento = $data['area_atendimento'] ?? null;
         $chamado->produto_servico = 0;
         $chamado->manifestacao = $data['manifestacao'] ?? null;
         $chamado->grupo_manifestacao = $data['grupo_manifestacao'] ?? null;
         $chamado->tipo_manifestacao = $data['tipo_manifestacao'] ?? null;
         $chamado->classificacao = $data['classificacao'];
-        $chamado->descricao = $data['descricao'];
+
+        if(isset($data['descricao'])) {
+            $chamado->descricao = $data['descricao'];
+        }
+
         $chamado->situacao = $data['situacao'];
         $chamado->conclusao = $data['conclusao'] ?? '';
         $chamado->abertura_chamado = new \DateTime('now');
@@ -174,10 +182,12 @@ class ChamadosController extends Controller
         $chamado->previsao_conclusao = $previsao;
         $chamado->save();
 
-        $anotacao = new Anotacoes();
-        $anotacao->descricao = $data['descricao'];
-        $anotacao->chamado_id = $chamado->id;
-        $anotacao->save();
+        if(isset($data['descricao'])) {
+            $anotacao = new Anotacoes();
+            $anotacao->descricao = $data['descricao'];
+            $anotacao->chamado_id = $chamado->id;
+            $anotacao->save();
+        }
 
         if(!empty($data['empreendimento'])) {
 
@@ -192,12 +202,14 @@ class ChamadosController extends Controller
 
         }
 
-        if($data['midia']) {
-            $empreendimento = new Midias();
-            $empreendimento->cliente_id = $chamado->cliente->id;
-            $empreendimento->chamado_id = $chamado->id;
-            $empreendimento->midia_id = $data['midia'];
-            $empreendimento->save();
+        if(!empty($data['midia'])) {
+            foreach($data['midia'] as $item) {
+                $empreendimento = new Midias();
+                $empreendimento->cliente_id = $chamado->cliente->id;
+                $empreendimento->chamado_id = $chamado->id;
+                $empreendimento->midia_id = $item;
+                $empreendimento->save();
+            }
         }
 
         flash('Os dados foram alterados com sucesso!')->success()->important();

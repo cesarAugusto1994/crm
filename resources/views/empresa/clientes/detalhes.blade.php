@@ -33,7 +33,7 @@
         </div>
 
       <div class="col-md-3">
-        <div class="box box-default">
+        <div class="box box-solid">
           <div class="box-header with-border">
             <h3 class="box-title">Email</h3>
             <div class="box-tools pull-right">
@@ -72,7 +72,7 @@
       </div>
 
       <div class="col-md-3">
-        <div class="box box-default">
+        <div class="box box-solid">
           <div class="box-header with-border">
             <h3 class="box-title">Telefone</h3>
             <div class="box-tools pull-right">
@@ -142,7 +142,7 @@
       </div>
 
       <div class="col-md-4">
-        <div class="box box-default">
+        <div class="box box-solid">
           <div class="box-header with-border">
             <h3 class="box-title">Endereço</h3>
             <div class="box-tools pull-right">
@@ -268,7 +268,7 @@
   <div class="row">
 
     <div class="col-md-8">
-      <div class="box box-default">
+      <div class="box box-solid">
         <div class="box-header with-border">
           <h3 class="box-title">Empreendimentos</h3>
           <div class="box-tools pull-right">
@@ -291,7 +291,7 @@
                 @if(!$item->empreendimento)
                   @continue
                 @endif
-                <div class="panel box">
+                <div class="panel box box-solid">
                 <div class="box-header with-border">
                   <h4 class="box-title">
                     <a data-toggle="collapse" data-referencia="{{ $item->empreendimento->referencia }}" data-parent="#accordion" href="#collapseOne-{{ $loop->index }}" aria-expanded="false" class="collapsed collapse-emprrendimentos">
@@ -317,7 +317,7 @@
     </div>
 
     <div class="col-md-4">
-      <div class="box box-default">
+      <div class="box box-solid">
         <div class="box-header with-border">
           <h3 class="box-title">Midias</h3>
           <div class="box-tools pull-right">
@@ -337,7 +337,7 @@
 
               <ul class="list-group">
                 @forelse($cliente->midias->sortByDesc('id') as $item)
-                  <li class="list-group-item">{{ $item->midia->nome }} <span class="pull-right">{{ $item->created_at ? $item->created_at->format('d/m/Y H:i') : '-' }}</span></li>
+                  <li class="list-group-item"><p class="lead">{{ $item->midia->nome }}</p> <small class="">Adicionado em {{ $item->created_at ? $item->created_at->format('d/m/Y H:i') : '-' }}</small></li>
                 @empty
 
                 @endforelse
@@ -347,7 +347,7 @@
         </div>
       </div>
 
-      <div class="box box-default">
+      <div class="box box-solid">
         <div class="box-header with-border">
           <h3 class="box-title">Chamados</h3>
           <div class="box-tools pull-right">
