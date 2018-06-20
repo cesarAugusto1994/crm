@@ -82,6 +82,10 @@ class ClientesController extends Controller
 
         $data['id_empresa'] = \Auth::user()->empresa_id;
 
+        if(empty($data['cpf'])) {
+          $data['cpf'] = '';
+        }
+
         $cliente = Clientes::create($data);
 
         $email = new Emails();
@@ -92,7 +96,7 @@ class ClientesController extends Controller
 
         flash('O cliente foi adicionado com sucesso!')->success()->important();
 
-        return redirect()->route('clientes.index');
+        return redirect()->route('clientes.show', ['id' => $cliente->id]);
     }
 
     /**
@@ -339,7 +343,7 @@ class ClientesController extends Controller
 
         $clientes = Clientes::whereHas('emails', function ($query) use ($email) {
             $query->where('email', 'like', "%".$email."%");
-        })->get();
+        })->where('id_empresa', \Auth::user()->id)->get();
 
         $codigo = 100;
         $resultado = false;

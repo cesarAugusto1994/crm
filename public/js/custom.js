@@ -34,6 +34,45 @@ function getAjax(self) {
   });
 }
 
+function carregarResponsvel() {
+
+  var area = $('#agenda-area');
+  var responsavel = $('#agenda-resposanvel');
+
+  var valor = area.val();
+  var url = area.data('url') + '?id=' + valor;
+
+  $.ajax(
+    {
+      url: url,
+      dataType: 'json'
+    }
+  ).done(function(data) {
+
+    var option = "<option value=''>Selecione </option>";
+    selected = "";
+
+    var destino = responsavel;
+
+    destino.append(option);
+
+    var defaultValue = destino.data('default');
+
+    $.each(data, function(i, item) {
+
+        if(defaultValue == item.id) {
+          selected = "selected='selected'";
+        }
+
+        option += "<option value='"+ item.id +"' " + selected + ">"+ item.nome +" </option>";
+    });
+
+    responsavel.html(option);
+
+  });
+
+}
+
 $( document ).ready(function(){
 
     carregarItens();
@@ -248,7 +287,12 @@ $('.collapse-emprrendimentos').click(function() {
   }
 
   function popularModal(event) {
-    $("#formAgendaModal").prop('action', '/agenda/');
+
+    var url = '/agenda/' + event.id;
+
+    $("#formAgendaModal").prop('action', url);
+
+    $("#formAgendaModal").append('<input name="_method" type="hidden" value="PUT">');
 
     $("#cadastra-agenda-modal").modal('show');
     $("#cadastra-agenda-modal").find('#title').val(event.title);
@@ -300,11 +344,14 @@ $('.collapse-emprrendimentos').click(function() {
             $("#agenda-data").val(start.format('DD/MM/YYYY HH:mm'));
             //$("#consulta-fim").val(end.format('DD/MM/YYYY HH:mm'));
 
+            carregarResponsvel();
+
           }
 
       },
       eventClick: function(event, element, view) {
           popularModal(event);
+          carregarResponsvel();
       },
       editable: true,
       allDaySlot: false,
@@ -318,6 +365,8 @@ $('.collapse-emprrendimentos').click(function() {
               $('.calendar').fullCalendar('gotoDate', date);
               $('.calendar').fullCalendar('changeView','agendaDay');
 
+              carregarResponsvel();
+
             }, 100);
 
       },
@@ -327,13 +376,16 @@ $('.collapse-emprrendimentos').click(function() {
       //When u drop an event in the calendar do the following:
       eventDrop: function (event, delta, revertFunc) {
         popularModal(event);
+        carregarResponsvel();
       },
       //When u resize an event in the calendar do the following:
       eventResize: function (event, delta, revertFunc) {
         popularModal(event);
+        carregarResponsvel();
       },
       eventRender: function(event, element) {
           $(element).tooltip({title: event.title});
+          carregarResponsvel();
       },
       ignoreTimezone: false,
       allDayText: 'Dia Inteiro',

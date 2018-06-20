@@ -63,10 +63,7 @@
                 </div>
               </li>
               @empty
-              <div class="callout callout-info">
-                <h4><i class="icon fa fa-info"></i> Ops...</h4>
-                <p>Nenhum registro encontrado.</p>
-              </div>
+
               @endforelse
             </ul>
 
@@ -98,29 +95,19 @@
 
               <div class="row">
 
-                <div class="col-md-4">
-                  <div class="form-group">
-                      <input type="text" class="form-control" placeholder="DDI" name="ddi">
-                  </div>
-                </div>
-
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="form-group">
                       <input type="text" class="form-control" placeholder="DDD" name="ddd" maxlength="3">
                   </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="form-group">
                       <input type="text" class="form-control" placeholder="Ramal" name="ramal">
                   </div>
                 </div>
 
-              </div>
-
-              <div class="row">
-
-                <div class="col-md-12">
+                <div class="col-md-6">
                   <div class="input-group">
                       <input type="text" class="form-control" name="telefone" placeholder="Telefone" required>
                       <span class="input-group-btn">
@@ -130,7 +117,6 @@
                 </div>
 
               </div>
-
 
             </form>
 
@@ -147,10 +133,7 @@
                 </div>
               </li>
               @empty
-              <div class="callout callout-info">
-                <h4><i class="icon fa fa-info"></i> Ops...</h4>
-                <p>Nenhum registro encontrado.</p>
-              </div>
+
               @endforelse
             </ul>
 
@@ -273,10 +256,7 @@
                 </div>
               </li>
               @empty
-              <div class="callout callout-info">
-                <h4><i class="icon fa fa-info"></i> Ops...</h4>
-                <p>Nenhum registro encontrado.</p>
-              </div>
+
               @endforelse
             </ul>
 
@@ -328,13 +308,7 @@
                   </div>
                 </div>
               </div>
-
               @empty
-
-              <div class="callout callout-info">
-                <h4><i class="icon fa fa-info"></i> Ops...</h4>
-                <p>Nenhum registro encontrado.</p>
-              </div>
 
               @endforelse
             </div>
@@ -367,10 +341,7 @@
                 @forelse($cliente->midias->sortByDesc('id') as $item)
                   <li class="list-group-item">{{ $item->midia->nome }} <span class="pull-right">{{ $item->created_at ? $item->created_at->format('d/m/Y H:i') : '-' }}</span></li>
                 @empty
-                  <div class="callout callout-info">
-                    <h4><i class="icon fa fa-info"></i> Ops...</h4>
-                    <p>Nenhum registro encontrado.</p>
-                  </div>
+
                 @endforelse
               </ul>
 
@@ -398,10 +369,7 @@
                     </div>
                   </li>
                 @empty
-                  <div class="callout callout-info">
-                    <h4><i class="icon fa fa-info"></i> Ops...</h4>
-                    <p>Nenhum registro encontrado.</p>
-                  </div>
+
                 @endforelse
               </ul>
 

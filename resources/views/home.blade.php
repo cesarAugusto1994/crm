@@ -13,11 +13,11 @@
 
       <div class="small-box bg-aqua">
         <div class="inner">
-          <h3>{{ \App\Models\Chamados::count() }}</h3>
+          <h3>{{ \App\Models\Chamados::where('id_empresa', \Auth::user()->id)->count() }}</h3>
           <p>Chamados</p>
         </div>
         <div class="icon">
-          <i class="ion ion-bag"></i>
+          <i class="ion ion-alert"></i>
         </div>
         <a href="{{ route('chamados.index') }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
       </div>
@@ -39,7 +39,7 @@
     <div class="col-lg-3 col-xs-6">
       <div class="small-box bg-yellow">
         <div class="inner">
-          <h3>{{ \App\Models\Clientes::count() }}</h3>
+          <h3>{{ \App\Models\Clientes::where('id_empresa', \Auth::user()->id)->count() }}</h3>
           <p>Clientes</p>
         </div>
         <div class="icon">
@@ -52,7 +52,7 @@
     <div class="col-lg-3 col-xs-6">
       <div class="small-box bg-red">
         <div class="inner">
-          <h3>65</h3>
+          <h3>{{ $chamadosAtrasados }}</h3>
           <p>Chamados Em Atraso</p>
         </div>
         <div class="icon">
@@ -92,7 +92,7 @@
           <div class="modal-content animated fadeIn">
               <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-                  <i class="fa fa-clock-o modal-icon"></i>
+
                   <h4 class="modal-title">Agenda</h4>
               </div>
 
@@ -194,9 +194,9 @@
 
     $.get($("#url-chamados-graph").val(), function(data) {
 
-        if(false !== data) {
+        data = JSON.parse(data);
 
-          data = JSON.parse(data);
+        if(false != data) {
 
           var result = [];
 

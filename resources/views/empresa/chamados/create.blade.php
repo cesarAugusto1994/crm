@@ -13,60 +13,93 @@
 
 @section('content')
 
-<form method="post" action="{{ route('chamados.store') }}">
+<form method="post" action="{{ route('chamados.update', ['id' => $chamado->id]) }}">
   {{ csrf_field() }}
+  {{ method_field('PUT') }}
   <div class="row">
-        <div class="col-md-12">
-          <div class="box box-default">
-            <div class="box-header with-border">
-              <h3 class="box-title">Ocorrência / Grupo / Tipo</h3>
-              <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-              </div>
+    <div class="col-md-12">
+        <div class="box box-default">
+          <div class="box-header with-border">
+            <h3 class="box-title">Informações do Cliente</h3>
+            <div class="box-tools pull-right">
+              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
             </div>
-            <div class="box-body">
-                  <div class="row">
+          </div>
+          <div class="box-body">
+            <div class="row">
 
-                    <div class="col-md-3">
-                      <div class="form-group">
-                        <label>Cliente</label>
-                        <select required style="width:150px" id="select-cliente" name="id_cliente" data-url="{{ route('clientes') }}" class="form-control"></select>
-                      </div>
-                    </div>
-
-                    <div class="col-md-3">
-                      <div class="form-group">
-                        <label>Ocorrência</label>
-                        <select id="manifestacao" name="manifestacao" required data-target="#grupo_manifestacao" data-url="/chamado/grupos/" class="form-control select2 select-ajax" style="width: 100%;">
-                          <option value="">Selecione</option>
-                          @foreach($manifestacoes as $item)
-                              <option value="{{ $item->id }}">{{ $item->descricao }}</option>
-                          @endforeach
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-md-3">
-                      <div class="form-group">
-                        <label>Grupo </label>
-                        <select id="grupo_manifestacao" required data-target="#tipo_manifestacao" data-url="/chamado/tipos/" class="form-control select2 select-ajax" style="width: 100%;" name="grupo_manifestacao">
-                          <option value="">Selecione</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-md-3">
-                      <div class="form-group">
-                        <label>Tipo </label>
-                        <select class="form-control select2" required id="tipo_manifestacao" style="width: 100%;" name="tipo_manifestacao">
-                          <option value="">Selecione</option>
-                        </select>
-                      </div>
-                    </div>
-
-                  </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Cliente</label>
+                  <select required style="width:150px" id="select-cliente" name="id_cliente" data-url="{{ route('clientes') }}" class="form-control"></select>
                 </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="select-empreendimento">Empreendimento</label>
+                  <select style="width:150px" multiple id="select-empreendimento" name="empreendimento[]" data-url="{{ route('empreendimentos') }}" class="select2"></select>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label for="select-midias">Midia</label>
+                  <select style="width:150px" id="select-midias" name="midia" data-url="{{ route('midias') }}" class="form-control"></select>
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
     </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-default">
+        <div class="box-header with-border">
+          <h3 class="box-title">Ocorrência / Grupo / Tipo</h3>
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="row">
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Ocorrência</label>
+                <select id="manifestacao" name="manifestacao" required data-target="#grupo_manifestacao" data-url="/chamado/grupos/" class="form-control select2 select-ajax" style="width: 100%;">
+                  <option value="">Selecione</option>
+                  @foreach($manifestacoes as $item)
+                      <option value="{{ $item->id }}">{{ $item->descricao }}</option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Grupo </label>
+                <select id="grupo_manifestacao" required data-target="#tipo_manifestacao" data-url="/chamado/tipos/" class="form-control select2 select-ajax" style="width: 100%;" name="grupo_manifestacao">
+                  <option value="">Selecione</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Tipo </label>
+                <select class="form-control select2" required id="tipo_manifestacao" style="width: 100%;" name="tipo_manifestacao">
+                  <option value="">Selecione</option>
+                </select>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="row">
     <div class="col-md-12">

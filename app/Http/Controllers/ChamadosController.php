@@ -38,7 +38,24 @@ class ChamadosController extends Controller
         $status = Status::where('id_empresa', $user->empresa->id)->get();
         $manifestacoes = Manifestacao::all();
 
-        return view('empresa.chamados.create', compact('classificacao', 'departamentos', 'status', 'manifestacoes'));
+        $ultimoChamado = Chamados::orderByDesc('id')->get();
+        $ultimoChamado = $ultimoChamado->first();
+
+        if(!$ultimoChamado->id_cliente && !$ultimoChamado->pessoa_responsavel) {
+
+          $chamado = $ultimoChamado;
+
+        } else {
+
+          $chamado = new Chamados();
+          $chamado->id_usuario = \Auth::user()->id;
+          $chamado->id_empresa = \Auth::user()->empresa_id;
+          $chamado->abertura_chamado = new \DateTime('now');
+          $chamado->save();
+
+        }
+
+        return view('empresa.chamados.create', compact('chamado', 'classificacao', 'departamentos', 'status', 'manifestacoes'));
     }
 
     /**
@@ -58,16 +75,13 @@ class ChamadosController extends Controller
         $chamado->manifestacao = $data['manifestacao'] ?? null;
         $chamado->grupo_manifestacao = $data['grupo_manifestacao'] ?? null;
         $chamado->tipo_manifestacao = $data['tipo_manifestacao'] ?? null;
-
         $chamado->classificacao = $data['classificacao'];
         $chamado->descricao = $data['descricao'];
         $chamado->situacao = $data['situacao'];
         $chamado->conclusao = $data['conclusao'] ?? '';
         $chamado->abertura_chamado = new \DateTime('now');
-
         $chamado->id_usuario = \Auth::user()->id;
         $chamado->id_empresa = \Auth::user()->empresa_id;
-
         $chamado->pessoa_responsavel = $data['pessoa_responsavel'] ? (\DateTime::createFromFormat('d/m/Y', $data['pessoa_responsavel'])) : null;
         $chamado->atendimento_chamado = $data['atendimento_chamado'] ? (\DateTime::createFromFormat('d/m/Y', $data['atendimento_chamado'])) : null;
         $chamado->conclusao_chamado = $data['conclusao_chamado'] ? (\DateTime::createFromFormat('d/m/Y', $data['conclusao_chamado'])) : null;
@@ -127,14 +141,26 @@ class ChamadosController extends Controller
     {
         $data = $request->request->all();
 
+        #dd($data);
+
         $chamado = Chamados::findOrFail($id);
+        $chamado->id_cliente = $data['id_cliente'];
         $chamado->area_atendimento = $data['area_atendimento'] ?? null;
+        $chamado->produto_servico = 0;
+        $chamado->manifestacao = $data['manifestacao'] ?? null;
+        $chamado->grupo_manifestacao = $data['grupo_manifestacao'] ?? null;
+        $chamado->tipo_manifestacao = $data['tipo_manifestacao'] ?? null;
         $chamado->classificacao = $data['classificacao'];
+        $chamado->descricao = $data['descricao'];
         $chamado->situacao = $data['situacao'];
         $chamado->conclusao = $data['conclusao'] ?? '';
-        $chamado->pessoa_responsavel = $data['pessoa_responsavel'];
+        $chamado->abertura_chamado = new \DateTime('now');
+        $chamado->id_usuario = \Auth::user()->id;
+        $chamado->id_empresa = \Auth::user()->empresa_id;
+        $chamado->pessoa_responsavel = $data['pessoa_responsavel'] ? (\DateTime::createFromFormat('d/m/Y', $data['pessoa_responsavel'])) : null;
         $chamado->atendimento_chamado = $data['atendimento_chamado'] ? (\DateTime::createFromFormat('d/m/Y', $data['atendimento_chamado'])) : null;
         $chamado->conclusao_chamado = $data['conclusao_chamado'] ? (\DateTime::createFromFormat('d/m/Y', $data['conclusao_chamado'])) : null;
+        $chamado->previsao_conclusao = $data['previsao_conclusao'] instanceof \Datetime ? (\DateTime::createFromFormat('d/m/Y', $data['previsao_conclusao'])) : null;
 
         $previsao = null;
 
@@ -148,9 +174,35 @@ class ChamadosController extends Controller
         $chamado->previsao_conclusao = $previsao;
         $chamado->save();
 
+        $anotacao = new Anotacoes();
+        $anotacao->descricao = $data['descricao'];
+        $anotacao->chamado_id = $chamado->id;
+        $anotacao->save();
+
+        if(!empty($data['empreendimento'])) {
+
+            foreach($data['empreendimento'] as $item) {
+
+              $empreendimento = new Empreendimentos();
+              $empreendimento->cliente_id = $chamado->cliente->id;
+              $empreendimento->chamado_id = $chamado->id;
+              $empreendimento->produto_id = $item;
+              $empreendimento->save();
+            }
+
+        }
+
+        if($data['midia']) {
+            $empreendimento = new Midias();
+            $empreendimento->cliente_id = $chamado->cliente->id;
+            $empreendimento->chamado_id = $chamado->id;
+            $empreendimento->midia_id = $data['midia'];
+            $empreendimento->save();
+        }
+
         flash('Os dados foram alterados com sucesso!')->success()->important();
 
-        return redirect()->back();
+        return redirect()->route('chamados.show', ['id' => $chamado->id]);
     }
 
     /**
@@ -290,7 +342,9 @@ class ChamadosController extends Controller
 
         $user = \Auth::user();
 
-        $empreendimentos = \App\Models\Clientes::where('nome', 'like', "%$search%")->where('id_empresa', $user->empresa_id)->get();
+        $empreendimentos = \App\Models\Clientes::where('nome', 'like', "%$search%")
+        ->orWhere('id', $search)
+        ->where('id_empresa', $user->empresa_id)->get();
 
         return $empreendimentos->toJson();
     }

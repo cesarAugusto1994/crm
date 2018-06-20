@@ -25,13 +25,19 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $chamados = Chamados::all();
+        $chamados = Chamados::where('id_empresa', \Auth::user()->id)->get();
 
         $total = $chamados->count();
 
         $chamadosFinalizados = $chamados->filter(function($chamado) {
             return $chamado->situacao == 3;
         });
+
+        $chamadosAtrasados = $chamados->filter(function($chamado) {
+          return ($chamado->situacao == 1 || $chamado->situacao == 2) && $chamado->previsao_conclusao < (new \DateTime('now'));
+        });
+
+        $chamadosAtrasados = $chamadosAtrasados->count();
 
         $finalizados = $chamadosFinalizados->count();
 
@@ -43,7 +49,7 @@ class HomeController extends Controller
 
         $areas = Departamentos::where('id_empresa', \Auth::user()->id)->get();
 
-        return view('home', compact('porcentagemTarefas', 'areas'));
+        return view('home', compact('porcentagemTarefas', 'areas', 'chamadosAtrasados'));
     }
 
     public function toGraph()
@@ -52,8 +58,16 @@ class HomeController extends Controller
         ->orderBy('abertura_chamado')
         ->get();
 
+        if($chamados->isEmpty()) {
+            return json_encode(false);
+        }
+
         $chamadoInicio = $chamados->first();
         $chamadoFim = $chamados->last();
+
+        if(!$chamadoInicio) {
+          $chamadoInicio = $chamados->last();
+        }
 
         $dataInicio = $chamadoInicio->abertura_chamado;
         $dataFinal = $chamadoFim->abertura_chamado;

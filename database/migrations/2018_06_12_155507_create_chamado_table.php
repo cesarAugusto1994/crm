@@ -15,23 +15,23 @@ class CreateChamadoTable extends Migration {
 		Schema::create('chamado', function(Blueprint $table)
 		{
 			$table->integer('id', true);
-			$table->integer('produto_servico');
-			$table->integer('manifestacao');
-			$table->integer('grupo_manifestacao');
-			$table->integer('tipo_manifestacao');
-			$table->integer('id_cliente');
-			$table->integer('id_usuario');
-			$table->text('descricao', 65535);
-			$table->integer('classificacao');
-			$table->integer('area_atendimento');
-			$table->integer('pessoa_responsavel')->index('pessoa_responsavel_2');
+			$table->integer('produto_servico')->nullable();
+			$table->integer('manifestacao')->nullable();
+			$table->integer('grupo_manifestacao')->nullable();
+			$table->integer('tipo_manifestacao')->nullable();
+			$table->integer('id_cliente')->nullable();
+			$table->integer('id_usuario')->nullable();
+			$table->text('descricao', 65535)->nullable();
+			$table->integer('classificacao')->nullable();
+			$table->integer('area_atendimento')->nullable();
+			$table->integer('pessoa_responsavel')->nullable();
 			$table->date('abertura_chamado');
 			$table->date('atendimento_chamado')->nullable();
 			$table->date('conclusao_chamado')->nullable();
 			$table->time('hora_atendimento')->nullable();
 			$table->date('previsao_conclusao')->nullable();
-			$table->text('conclusao', 65535);
-			$table->integer('situacao');
+			$table->text('conclusao', 65535)->nullable();
+			$table->integer('situacao')->default(1);
 			$table->integer('id_empresa')->index('id_empresa');
 			$table->boolean('arquivado')->default(0);
 			$table->string('empreendimento', 120)->nullable();
