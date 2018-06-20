@@ -169,14 +169,9 @@
 
                 <div class="col-md-6">
                   <div class="form-group">
-                      <select name="estado" class="form-control" required>
-                          <option value="">Estado</option>
-                          @foreach($estados as $tipo)
-                              <option value="{{ $tipo->uf }}">{{ $tipo->uf }}</option>
-                          @endforeach
-                      </select>
+                      <input type="hidden" name="adicionar_cep" id="adicionar-cep" value="0"/>
+                      <input type="text" class="form-control" placeholder="CEP" id="endereco-cep" data-url="{{ route('cep') }}" name="cep">
                   </div>
-
                 </div>
 
               </div>
@@ -185,25 +180,31 @@
 
                 <div class="col-md-3">
                   <div class="form-group">
-                      <input type="text" class="form-control" placeholder="CEP" name="cep">
+                      <select name="estado" class="form-control" required id="endereco-uf">
+                          <option value="">Estado</option>
+                          @foreach($estados as $tipo)
+                              <option value="{{ $tipo->uf }}">{{ $tipo->uf }}</option>
+                          @endforeach
+                      </select>
+                  </div>
+                </div>
+
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                      <input type="text" class="form-control" placeholder="Numero" id="endereco-numero" name="numero">
                   </div>
                 </div>
 
                 <div class="col-md-3">
                   <div class="form-group">
-                      <input type="text" class="form-control" placeholder="Numero" name="numero">
+                      <input type="text" class="form-control" placeholder="Bairro" name="bairro" id="endereco-bairro" maxlength="3">
                   </div>
                 </div>
 
                 <div class="col-md-3">
                   <div class="form-group">
-                      <input type="text" class="form-control" placeholder="Bairro" name="bairro" maxlength="3">
-                  </div>
-                </div>
-
-                <div class="col-md-3">
-                  <div class="form-group">
-                      <input type="text" class="form-control" placeholder="Cidade" name="cidade">
+                      <input type="text" class="form-control" placeholder="Cidade" name="cidade" id="endereco-cidade">
                   </div>
                 </div>
 
@@ -229,7 +230,7 @@
 
                 <div class="col-md-12">
                   <div class="input-group">
-                      <input type="text" class="form-control" name="endereco" placeholder="Endereço" required>
+                      <input type="text" class="form-control" name="endereco" placeholder="Endereço" id="endereco" required>
                       <span class="input-group-btn">
                           <button type="submit" class="btn btn-teal btn-flat"><i class="fa fa-check"></i></button>
                       </span>
@@ -241,7 +242,6 @@
             </form>
 
             <br/>
-
 
             <ul class="products-list product-list-in-box">
               @forelse($cliente->enderecos->sortByDesc('id') as $item)
@@ -259,8 +259,6 @@
 
               @endforelse
             </ul>
-
-
           </div>
         </div>
       </div>

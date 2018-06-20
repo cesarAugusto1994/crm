@@ -57,6 +57,8 @@ Route::middleware('auth')->group(function() {
   Route::post('/cliente/{id}/telefone/store', 'ClientesController@telefoneStore')->name('cliente_telefone_store');
   Route::post('/cliente/{id}/endereco/store', 'ClientesController@enderecoStore')->name('cliente_endereco_store');
 
+  Route::get('/cliente/cep', 'ClientesController@cep')->name('cep');
+
   Route::prefix('/admin')->group(function() {
       Route::resource('empresas', 'EmpresasController');
       Route::resource('usuarios', 'UsersController');

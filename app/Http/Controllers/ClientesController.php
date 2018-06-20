@@ -359,4 +359,51 @@ class ClientesController extends Controller
         ]);
     }
 
+    public function cep(Request $request)
+    {
+        $data = $request->request->all();
+
+        $conection = \DB::connection('mysql_cep');
+
+        if(!isset($data['cep'])) {
+          return json_encode([
+            'code' => 101,
+            'data' => false
+          ]);
+        }
+
+        $cep = $data['cep'];
+
+        $query = "   SELECT
+                         log.log_nome endereco,
+                         bai.bai_no bairro,
+                         log.cep cep,
+                         log.ufe_sg uf,
+                         loc.loc_no cidade
+                     FROM
+                         log_logradouro AS log
+                     INNER JOIN log_bairro     AS bai ON log.bai_nu_sequencial_ini = bai.bai_nu_sequencial
+                     INNER JOIN log_localidade AS loc ON loc.loc_nu_sequencial     = bai.loc_nu_sequencial
+                     WHERE
+                         log.cep = ?
+                     #GROUP BY
+                         #log.cep
+                   ";
+
+        $resultado = $conection->select($query, [$cep]);
+
+        if(!empty($resultado)) {
+            return json_encode([
+              'code' => 100,
+              'data' => is_array($resultado) ? current($resultado) : $resultado
+            ]);
+        }
+
+        return json_encode([
+          'code' => 101,
+          'data' => false
+        ]);
+
+    }
+
 }

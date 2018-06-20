@@ -189,6 +189,68 @@ $( document ).ready(function(){
         minimumInputLength: 1,
         width: '100%'
     });
+
+    $('#endereco-cep').blur(function() {
+
+      var self = $(this);
+      var cep = self.val();
+      var url = self.data('url');
+
+      if(cep.length > 6) {
+
+          window.swal({
+              title: "Processando",
+              text: "Por favor aguarde...",
+              imageUrl: "https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.16.1/images/loader-large.gif",
+              showConfirmButton: false,
+              allowOutsideClick: false
+            });
+
+          $.ajax(
+            {
+              url: url,
+              data: {
+                cep: cep
+              },
+              dataType: 'json'
+            }
+          ).done(function(data) {
+
+            if(data.code == 101) {
+
+              swal(
+                'Atenção!',
+                'Endereço não encontrado',
+                'error'
+              )
+
+              $("#adicionar-cep").val('1');
+
+            } else {
+
+              var info = data.data;
+
+              $("#endereco-cep").val(info.cep);
+              $("#endereco").val(info.endereco);
+              $("#endereco-bairro").val(info.bairro);
+              $("#endereco-cidade").val(info.cidade);
+              $("#endereco-uf").val(info.uf);
+
+              window.swal({
+                title: 'Pronto',
+                text: 'Os dados foram encontrados!',
+                showConfirmButton: false,
+                timer: 2000
+              });
+
+            }
+
+
+          })
+
+      }
+
+    });
 });
 
 function carregarItens()
