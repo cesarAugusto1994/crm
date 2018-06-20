@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Chamados, Manifestacao};
+use App\Models\{Chamados, Manifestacao, Empresa};
 use App\Models\Chamados\{Classificacao, Previsao, Status, Empreendimentos, Midias, Logs, Anotacoes};
 use App\Models\Empresa\Departamentos;
 
@@ -295,13 +295,41 @@ class ChamadosController extends Controller
     public function logStore(Request $request, $id)
     {
         $data = $request->request->all();
+
+        $empresa = Empresa::where('id', \Auth::user()->id)->get();
+        $empresa = $empresa->first();
+
+        if(!$empresa->mail_username || !$empresa->mail_password || !$empresa->mail_driver || !$empresa->mail_host || !$empresa->mail_port) {
+            flash('Erro no envio: Por favor verifique as configurações de envio de email na cadastro da empresa!')->error()->important();
+            return redirect()->back();
+        } else {
+
+            \Config::set('mail.username', $empresa->mail_username);
+            \Config::set('mail.password', $empresa->mail_password);
+            \Config::set('mail.port', $empresa->mail_port);
+            \Config::set('mail.driver', $empresa->mail_driver);
+            \Config::set('mail.host', $empresa->mail_host);
+            \Config::set('mail.encryption', $empresa->mail_encription);
+
+            \Config::set('app.name', $empresa->nome);
+
+        }
+
         $chamado = Chamados::findOrFail($id);
 
-        $empreendimento = new Logs();
-        $empreendimento->chamado_id = $chamado->id;
-        $empreendimento->user_id = \Auth::user()->id;
-        $empreendimento->descricao = $data['descricao'];
-        $empreendimento->save();
+        $log = new Logs();
+        $log->chamado_id = $chamado->id;
+        $log->user_id = \Auth::user()->id;
+        $log->descricao = $data['descricao'];
+        $log->save();
+
+        $chamado->cliente->emails->map(function($mail) use ($chamado, $log, $empresa) {
+
+          \Mail::to([
+            $chamado->cliente->nome => $mail,
+          ])->queue(new \App\Mail\Resposta($log, $chamado, $empresa));
+
+        });
 
         flash('A descrição foi adicionada ao chamado com sucesso!')->success()->important();
 
@@ -381,5 +409,12 @@ class ChamadosController extends Controller
         });
 
         return json_encode($itens);
+    }
+
+    public function responder(Request $request)
+    {
+        $data = $request->request->all();
+
+        dd($data);
     }
 }

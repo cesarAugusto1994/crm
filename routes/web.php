@@ -37,6 +37,8 @@ Route::middleware('auth')->group(function() {
   Route::post('/chamado/{id}/midias/store', 'ChamadosController@midiaStore')->name('chamados_midia_store');
   Route::post('/chamado/{id}/logs/store', 'ChamadosController@logStore')->name('chamados_logs_store');
 
+  Route::post('/chamado/descricao/responder', 'ChamadosController@responder')->name('responder');
+
   Route::get('/cliente/email/{id}/remove', 'ClientesController@emailRemove')->name('cliente_email_remove');
   Route::get('/cliente/telefone/{id}/remove', 'ClientesController@telefoneRemove')->name('cliente_telefone_remove');
   Route::get('/cliente/endereco/{id}/remove', 'ClientesController@enderecoRemove')->name('cliente_endereco_remove');
