@@ -1,6 +1,6 @@
 @component('mail::message')
 
-# Olá, {{ $chamado->cliente->nome }}
+{!! $mensagem !!}
 
 Muito Obrigado,<br>
 Equipe {{ config('app.name') }}

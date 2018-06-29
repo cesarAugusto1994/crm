@@ -59,6 +59,8 @@ Route::middleware('auth')->middleware('status')->group(function() {
 
   Route::get('/cliente/cep', 'ClientesController@cep')->name('cep');
 
+  Route::get('/chamado/{chamado}/envio-email', 'ChamadosController@envioEmail')->name('chamado_envio_email_cliente');
+
   Route::prefix('/admin')->group(function() {
       Route::resource('empresas', 'EmpresasController');
       Route::resource('usuarios', 'UsersController');

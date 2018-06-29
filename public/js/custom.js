@@ -272,7 +272,7 @@ $('.select-ajax').change(function() {
     getAjax(self);
 });
 
-$('.collapse-emprrendimentos').click(function() {
+$('.collapse-emprrendimentos, .empreendimentoLabel').click(function() {
     var self = $(this);
 
     var referencia = self.data('referencia');
@@ -330,6 +330,7 @@ $('.collapse-emprrendimentos').click(function() {
 
       $(target).find('.box-body').html(html);
 
+      $('.ck-content').replace(/###empreendimento/, '<div></div>');
 
     });
 });

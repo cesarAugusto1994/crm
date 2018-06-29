@@ -8,6 +8,7 @@ use App\Models\Chamados\Empreendimentos;
 use App\Models\Chamados\Midias;
 use App\Models\Chamados\Status;
 use App\Models\Chamados\Classificacao;
+use App\User;
 
 class Chamados extends Model
 {
@@ -38,6 +39,11 @@ class Chamados extends Model
     public function midias()
     {
         return $this->hasMany(Midias::class, 'chamado_id');
+    }
+
+    public function responsavel()
+    {
+        return $this->belongsTo(User::class, 'pessoa_responsavel');
     }
 
     public function categoria()

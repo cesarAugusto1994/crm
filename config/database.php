@@ -69,6 +69,21 @@ return [
             'engine' => null,
         ],
 
+        'mysql_seabra' => [
+            'driver' => 'mysql',
+            'host' => 'mysql.seabra.com.br',
+            'port' => 3306,
+            'database' => 'seabra01',
+            'username' => 'seabra01',
+            'password' => 'S102030a',
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+
         'pgsql' => [
             'driver' => 'pgsql',
             'host' => env('DB_HOST', '127.0.0.1'),

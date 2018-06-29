@@ -153,7 +153,7 @@
 
       </div>
 
-      <div class="col-md-6">
+      <div class="col-md-8">
         <div class="box box-solid">
           <div class="box-header with-border">
             <h3 class="box-title">Empreendimentos</h3>
@@ -204,7 +204,7 @@
         </div>
       </div>
 
-      <div class="col-md-3">
+      <div class="col-md-4">
         <div class="box box-solid">
           <div class="box-header with-border">
             <h3 class="box-title">Midias</h3>
@@ -223,6 +223,8 @@
 
                 <br/>
 
+                <div class="direct-chat-messages">
+
                 <ul class="list-group">
                   @forelse($chamado->midias as $item)
                     <li class="list-group-item"><p class="lead">{{ $item->midia->nome }}</p> <small class="">Adicionado em {{ $item->created_at ? $item->created_at->format('d/m/Y H:i') : '-' }}</small></li>
@@ -231,18 +233,20 @@
                   @endforelse
                 </ul>
 
+                </div>
+
             </div>
           </div>
         </div>
       </div>
 
-      <div class="col-md-3">
+      <div class="col-md-12">
         <div class="box box-solid direct-chat direct-chat-success">
           <div class="box-header with-border">
             <h3 class="box-title">Descrição</h3>
 
             <div class="box-tools pull-right">
-              <span data-toggle="tooltip" title="" class="badge bg-yellow" data-original-title="{{ $chamado->logs->count() }} novas mensagens">{{ $chamado->logs->count() }}</span>
+              <span data-toggle="tooltip" title="" class="badge bg-green" data-original-title="{{ $chamado->logs->count() }} novas mensagens">{{ $chamado->logs->count() }}</span>
               <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
               </button>
             </div>
@@ -269,19 +273,20 @@
           <div class="box-footer">
             <form action="{{ route('chamados_logs_store', ['id' => $chamado->id]) }}" method="post">
               {{csrf_field()}}
+              <input id="chamado" name="chamado" type="hidden" value="{{ $chamado->id }}">
               <div class="input-group">
                 <div class="input-group-btn dropup">
 
-                  <label class="btn btn-file btn-warning">
+                  <label class="btn btn-file btn-default">
                       Anexar
                       <input type="file" name="anexo" />
                   </label>
-                  <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="caret"></span>
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <ul class="dropdown-menu">
-                    <li><a href="#">Olá</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#modal-modelo-2">Modelo Resposta #1</a></li>
                     <li><a href="#">Seja Bem vindo</a></li>
                     <li><a href="#">Alguma resposta aqui</a></li>
                     <li role="separator" class="divider"></li>
@@ -291,7 +296,7 @@
                 </div>
                 <textarea type="text" name="descricao" rows="1" placeholder="Mensagem" required class="form-control"></textarea>
                   <span class="input-group-btn">
-                    <button type="submit" class="btn btn-warning btn-flat">Enviar</button>
+                    <button type="submit" class="btn btn-default btn-flat">Enviar</button>
                   </span>
               </div>
             </form>
@@ -301,8 +306,67 @@
 
   </div>
 
+  <div class="modal fade" id="modal-modelo-2" style="display: none;">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span></button>
+          <h4 class="modal-title">Empreendimentos</h4>
+        </div>
+
+        <form action="{{ route('chamado_envio_email_cliente', ['chamado' => $chamado->id]) }}" method="get">
+
+        <div class="modal-body">
+
+            <h2>Selecione um Empreendimento</h2>
+            <br/>
+
+          <div class="row">
+
+            @foreach($chamado->empreendimentos as $item)
+              @if(!$item->empreendimento)
+                @continue
+              @endif
+
+              <div class="col-md-3 p-md">
+                  <label class="btn btn-bitbucket btn-block btn-flat">
+                    <input type="checkbox" name="empreendimentos[]" value="{{ $item->empreendimento->id }}" autocomplete="off"> {{ $item->empreendimento->nome }}
+                  </label>
+              </div>
+
+            @endforeach
+
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Proximo</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+
 @stop
 
 @section('js')
     <script src="{{ asset('js/custom.js') }}"></script>
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/10.1.0/classic/ckeditor.js"></script>
+
+    <script>
+
+        ClassicEditor
+        .create( document.querySelector( '#editor' ) )
+        .then( editor => {
+          console.log( editor );
+        } )
+        .catch( error => {
+          console.error( error );
+        } );
+
+    </script>
+
 @stop
