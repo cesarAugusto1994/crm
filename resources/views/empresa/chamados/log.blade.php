@@ -8,11 +8,11 @@
 @stop
 
 @section('content_header')
-    <h1>Editor</h1>
+    <h1>Log envio email</h1>
     <ol class="breadcrumb">
       <li><a href="/"><i class="fa fa-dashboard"></i> Painel Principal</a></li>
       <li><a href="#"><i class="fa fa-newspaper-o"></i> Email</a></li>
-      <li class="active">Editor</li>
+      <li class="active">Log</li>
     </ol>
 @stop
 
@@ -23,18 +23,11 @@
       <div class="col-md-12">
         <div class="box box-solid">
           <div class="box-header with-border">
-            <h3 class="box-title">Editor</h3>
+            <h3 class="box-title">Email enviado em {{ $log->created_at->format('d/m/Y H:i') }}</h3>
           </div>
           <form class="form-horizontal" enctype="multipart/form-data" novalidate action="{{ route('chamados_logs_store', ['id' => $chamado->id]) }}" method="post">
 
               <div class="box-body">
-
-                {{csrf_field()}}
-                <input id="local" type="hidden" value="{{ $imovel[0]->imv_localidade }}">
-                <input id="oferta" type="hidden" value="{{ $imovel[0]->imv_oferta }}">
-                <input id="portifolio" type="hidden" value="{{ $imovel[0]->imv_portifolio }}">
-                <input id="enviar_email" name="enviar_email" type="hidden" value="1">
-                <input id="chamado" name="chamado" type="hidden" value="{{ $chamado->id }}">
 
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Chamado</label>
@@ -53,17 +46,9 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Email</label>
                   <div class="col-sm-10">
-                    <input type="email" name="email" id="email" value="{{ $emailList }}">
+                    <input type="email" readonly class="form-control" name="email" id="email" value="{{ $emailList }}">
                   </div>
                 </div>
-
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">Anexo</label>
-                  <div class="col-sm-10">
-                    <input type="file" name="arquivo" class="form-control"/>
-                  </div>
-                </div>
-
 
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Mensagem</label>
@@ -71,21 +56,19 @@
 
                     <ul class="nav nav-tabs">
                         @foreach($nomesEmpreendimentos as $key => $item)
-                            <li role="presentation" class="{{ $loop->index == 0 ? 'active' : '' }}"><a href="#item-{{ $key }}"
+                            <li role="presentation" class="{{ $loop->index == 0 ? 'active' : '' }}"><a href="#item"
                               aria-controls="item-{{ $key }}" role="tab" data-toggle="tab">{{ $item }}</a></li>
                         @endforeach
                     </ul>
 
                     <div class="tab-content">
-                      @foreach($mensagem as $key => $item)
-                          <div role="tabpanel" class="tab-pane {{ $loop->index == 0 ? 'active' : '' }}" id="item-{{ $key }}">
-                            <input name="empreendimentos[]" type="hidden" value="{{ $key }}"/>
-                            <textarea rows="8" name="descricao-{{ $key }}" id="editor-{{ $key }}" class="form-control editor">
-                                {{ $item }}
+                          <div role="tabpanel" class="tab-pane active" id="item">
+
+                            <textarea rows="8" name="descricao" id="editor" class="form-control editor">
+                                {{ $mensagem }}
                             </textarea>
 
                           </div>
-                      @endforeach
                     </div>
 
                   </div>
@@ -94,7 +77,9 @@
 
               </div>
               <div class="box-footer">
-                <button type="submit" class="btn btn-success btn-flat">Enviar</button>
+
+                <a class="btn btn-default btn-flat" href="{{ route('chamados.show', ['id' => $chamado->id]) }}">Voltar</a>
+
               </div>
 
           </form>
@@ -106,12 +91,12 @@
 
 @section('js')
     <script src="{{ asset('js/custom.js') }}"></script>
-    <!--<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyCdFj8jkxW4lzvZjL7R86Smrgy9lmO5wAE"></script>-->
+    <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyCdFj8jkxW4lzvZjL7R86Smrgy9lmO5wAE"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
 
     <script>
 
-       $("#email").tagsinput()
+       $("#email1").tagsinput()
 
        var portifolio = $("#portifolio").val();
 
@@ -126,7 +111,6 @@
                var myOptions = {
                    zoom: 15,
                    center: latlng,
-                   streetViewControl: false,
                    mapTypeId: google.maps.MapTypeId.ROADMAP
                };
 
@@ -137,7 +121,6 @@
                    scrollwheel:false,
                    disableDefaultUI: false,
                    center: latlng,
-                   streetViewControl: false,
                    mapTypeId: google.maps.MapTypeId.ROADMAP
                };
 
@@ -194,25 +177,30 @@
 
        $("#editor").append('<div id="map" class="maps-canvas" style="width: 100%; height: 400px;"></div>');
 
+       setTimeout(function() {
+
+         console.log(document.getElementById("map"));
+
+          getMaps($("#local").val(), $("#oferta").val());
+
+       }, 5000);
+
    </script>
 
     <script type="text/javascript" src="{{asset('plugins/ckeditor/ckeditor.js')}}"></script>
 
     <script type="text/javascript">
 
-        @foreach($nomesEmpreendimentos as $key => $item)
 
           setTimeout(function() {
 
-            var editor = CKEDITOR.replace('editor-{{ $key }}' , {
+            var editor = CKEDITOR.replace('editor' , {
                	height:500,
                filebrowserBrowseUrl:'browse.php',
                filebrowserUploadUrl:'upload.php'
                }, 15000);
 
           });
-
-        @endforeach
 
         
 

@@ -31,6 +31,11 @@ class Chamados extends Model
         return $this->hasMany(Logs::class, 'chamado_id');
     }
 
+    public function emailLogs()
+    {
+        return $this->hasMany(Logs::class, 'chamado_id');
+    }
+
     public function empreendimentos()
     {
         return $this->hasMany(Empreendimentos::class, 'chamado_id');

@@ -312,15 +312,20 @@ class ChamadosController extends Controller
     public function logStore(Request $request, $id)
     {
         $data = $request->request->all();
+
+        #dd($data);
+
         $chamado = Chamados::findOrFail($data['chamado']);
 
-        $mensagem = $descricao = $data['descricao'];
+        //$mensagem = $descricao = $data['descricao'];
         $path = "";
 
         if(isset($data['enviar_email'])) {
 
             $empresa = Empresa::where('id', \Auth::user()->id)->get();
             $empresa = $empresa->first();
+
+            $descricao = "";
 
             if(!$empresa->mail_username || !$empresa->mail_password || !$empresa->mail_driver || !$empresa->mail_host || !$empresa->mail_port) {
                 flash('Erro no envio: Por favor verifique as configurações de envio de email na cadastro da empresa!')->error()->important();
@@ -337,50 +342,61 @@ class ChamadosController extends Controller
 
             }
 
-            foreach ($mensagem as $key => $texto) {
+            if(isset($data['empreendimentos'])) {
 
-                $email = new LogEmail();
-                $email->chamado_id = $chamado->id;
-                $email->cliente_id = $chamado->cliente->id;
-                $email->user_id = \Auth::user()->id;
-                $email->mensagem = $texto;
+                foreach ($data['empreendimentos'] as $key => $item) {
 
-                if($request->hasFile('arquivo')) {
-                    $path = $request->file('arquivo')->store('arquivos');
-                    $email->arquivo = $path;
+                    $texto = $data['descricao-'.$item];
+
+                    $email = new LogEmail();
+                    $email->chamado_id = $chamado->id;
+                    $email->cliente_id = $chamado->cliente->id;
+                    $email->user_id = \Auth::user()->id;
+                    $email->mensagem = $texto;
+
+                    if($request->hasFile('arquivo')) {
+                        $path = $request->file('arquivo')->store('arquivos');
+                        $email->arquivo = $path;
+                    }
+
+                    $email->save();
+
+                    $emp = Produtos::findOrFail($item);
+
+                    $descricao = "Email enviado para o cliente com as informações do empreendimento " . $emp->nome;
+
+                    $log = new Logs();
+                    $log->chamado_id = $chamado->id;
+                    $log->user_id = \Auth::user()->id;
+                    $log->descricao = $descricao;
+                    $log->email_log_id = $email->id;
+                    $log->save();
+
                 }
-
-                $email->save();
-
-                $descricao = "Email enviado para o cliente com as informações do empreendimento " ;
-
-                $log = new Logs();
-                $log->chamado_id = $chamado->id;
-                $log->user_id = \Auth::user()->id;
-                $log->descricao = $descricao;
-                $log->save();
 
             }
 
 
-        } else {
+            } else {
 
 
-            $log = new Logs();
-            $log->chamado_id = $chamado->id;
-            $log->user_id = \Auth::user()->id;
-            $log->descricao = $descricao;
-            $log->save();
+              $log = new Logs();
+              $log->chamado_id = $chamado->id;
+              $log->user_id = \Auth::user()->id;
+              $log->descricao = $data['descricao'];
+              $log->save();
 
 
-        }
+            }
 
 
-        if(isset($data['enviar_email'])) {
+        if(isset($data['enviar_email']) && isset($data['empreendimentos'])) {
 
             $emails = explode(',', $data['email']);
 
-            foreach ($mensagem as $key => $texto) {
+            foreach ($data['empreendimentos'] as $key => $item) {
+
+                $texto = $data['descricao-'.$item];
 
                 foreach ($emails as $key => $email) {
                   \Mail::to([
@@ -498,7 +514,7 @@ class ChamadosController extends Controller
           $tipologias = $this->getTipolias($empreendimento['imovel'], $empreendimento['tipo']);
           $imovel = $this->getImovel($empreendimento['imovel']);
           $decricaoProjeto = $this->getDescricao($empreendimento['imovel'], 1);
-          $areasComuns = $this->getDescricao($empreendimento['imovel'], 3);
+          $areasComuns = $this->getAreasComuns($empreendimento['imovel']);
           $imagensEmpreendimento = $this->getImagensImoveis($empreendimento['imovel'], 2);
           $plantasEmpreendimento = $this->getImagensImoveis($empreendimento['imovel'], 3);
           $imagensImovel = $this->getImagensImoveis($empreendimento['imovel'], 5);
@@ -518,8 +534,6 @@ class ChamadosController extends Controller
           ];
 
         }
-
-
 
         $agora = now();
         $hora = (int)$agora->format('H');
@@ -562,6 +576,39 @@ class ChamadosController extends Controller
         return view('empresa.chamados.editor', compact('mensagem', 'imovel', 'chamado', 'emailList', 'nomesEmpreendimentos'));
     }
 
+    public function envioEmailLog($chamado, $id)
+    {
+        $log = LogEmail::findOrFail($id);
+        $chamado = Chamados::findOrFail($chamado);
+
+        $emailsCliente = $chamado->cliente->emails;
+
+        $emails = $emailsCliente->map(function($email) {
+            return $email->email;
+        })->toArray();
+
+        $emailList = implode('', $emails);
+
+        $mensagem = $log->mensagem;
+
+        $nomesEmpreendimentos = [];
+
+        return view('empresa.chamados.log', compact('mensagem', 'log', 'chamado', 'emailList', 'nomesEmpreendimentos'));
+    }
+
+    public function getAreasComuns($id)
+    {
+        $sql = "select arc_nome
+        from imoveis AS IMV
+        INNER JOIN areas_comuns_imoveis AS AREA ON AREA.imv_id = IMV.imv_id
+        INNER JOIN areas_comuns AS COM ON COM.arc_id = AREA.arc_id
+        where IMV.imv_id = ?";
+
+        $areas = \DB::connection('mysql_seabra')->select($sql, [$id]);
+
+        return $areas;
+    }
+
     public function getDescricao($id, $tipo)
     {
         switch ($tipo) {
@@ -596,7 +643,7 @@ class ChamadosController extends Controller
     public function getImovel($id)
     {
         $sql = "Select IMV.imv_id, BAI.bai_id, imv_referencia,
-          imv_publicidade, imv_uso, imv_titulo, imv_tipo,
+          imv_publicidade, imv_uso, imv_titulo, imv_tipo, EMP.emp_previsao_entrega,
           imv_localidade, imv_oferta, est_uf, cid_nome,
           bai_nome, imv_oferta, emp_faixa_preco_ini,
           imv_area_terreno, imv_operacao, imv_portifolio
@@ -712,7 +759,7 @@ class ChamadosController extends Controller
         $sql = "select IMV.imv_id, imv_referencia, imv_publicidade, imv_tipo,
         imv_area_terreno, emp_incorporacao, emp_construcao,
         emp_arquitetura, emp_qtd_torres, emp_qtd_unidades,
-        emp_qtd_elevadores, emp_estacoes_proximas,
+        emp_qtd_elevadores, emp_estacoes_proximas, emp_previsao_entrega,
         emp_fases_obra, emp_link_hot_site, emp_link_video
         from empreendimentos AS EMP
         INNER JOIN imoveis AS IMV ON IMV.imv_id = EMP.imv_id

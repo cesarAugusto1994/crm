@@ -61,6 +61,8 @@ Route::middleware('auth')->middleware('status')->group(function() {
 
   Route::get('/chamado/{chamado}/envio-email', 'ChamadosController@envioEmail')->name('chamado_envio_email_cliente');
 
+  Route::get('/chamado/{chamado}/envio-email/{id}/log', 'ChamadosController@envioEmailLog')->name('chamado_envio_email_log');
+
   Route::prefix('/admin')->group(function() {
       Route::resource('empresas', 'EmpresasController');
       Route::resource('usuarios', 'UsersController');

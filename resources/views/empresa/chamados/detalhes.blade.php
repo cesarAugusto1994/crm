@@ -241,7 +241,7 @@
       </div>
 
       <div class="col-md-12">
-        <div class="box box-solid direct-chat direct-chat-success">
+        <div class="box box-solid direct-chat direct-chat-primary">
           <div class="box-header with-border">
             <h3 class="box-title">Descrição</h3>
 
@@ -261,7 +261,15 @@
                 </div>
                 <img class="direct-chat-img" src="holder.js/32x32" alt="">
                 <div class="direct-chat-text">
-                  {{ $log->descricao }}
+
+
+                  <p>{{ $log->descricao }}</p>
+
+                  @if($log->logEmail)
+                  <p>
+                      <a class="btn btn-default btn-xs" href="{{ route('chamado_envio_email_log', ['chamado' => $chamado->id, 'id' => $log->logEmail->id]) }}">Acessar</a>
+                  </p>
+                  @endif
                 </div>
               </div>
               @empty
@@ -287,10 +295,7 @@
                   </button>
                   <ul class="dropdown-menu">
                     <li><a href="#" data-toggle="modal" data-target="#modal-modelo-2">Modelo Resposta #1</a></li>
-                    <li><a href="#">Seja Bem vindo</a></li>
-                    <li><a href="#">Alguma resposta aqui</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="#">Outra mensagem</a></li>
                   </ul>
 
                 </div>

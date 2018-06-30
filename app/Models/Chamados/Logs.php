@@ -4,6 +4,7 @@ namespace App\Models\Chamados;
 
 use Illuminate\Database\Eloquent\Model;
 use App\User;
+use App\Models\LogEmail;
 
 class Logs extends Model
 {
@@ -12,5 +13,10 @@ class Logs extends Model
     public function usuario()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function logEmail()
+    {
+        return $this->belongsTo(LogEmail::class, 'email_log_id');
     }
 }
