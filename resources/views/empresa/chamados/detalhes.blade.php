@@ -298,6 +298,8 @@
                     <li><a href="#" class="btnRespostaEmail" data-id="2" data-toggle="modal" data-target="#modal-modelo-2">Modelo Resposta #2</a></li>
                     <li><a href="#" class="btnRespostaEmail" data-id="3" data-toggle="modal" data-target="#modal-modelo-2">Modelo Resposta #3</a></li>
                     <li role="separator" class="divider"></li>
+                    <li><a href="{{ route('email_create', ['id' => $chamado->id]) }}">Email em branco</a></li>
+
                   </ul>
 
                 </div>

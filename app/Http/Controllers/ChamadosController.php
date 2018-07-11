@@ -372,6 +372,30 @@ class ChamadosController extends Controller
 
                 }
 
+            } elseif(isset($data['email_em_branco'])) {
+
+                  $email = new LogEmail();
+                  $email->chamado_id = $chamado->id;
+                  $email->cliente_id = $chamado->cliente->id;
+                  $email->user_id = \Auth::user()->id;
+                  $email->mensagem = $data['descricao'];
+
+                  if($request->hasFile('arquivo')) {
+                      $path = $request->file('arquivo')->store('arquivos');
+                      $email->arquivo = $path;
+                  }
+
+                  $email->save();
+
+                  $descricao = "Email enviado para o cliente.";
+
+                  $log = new Logs();
+                  $log->chamado_id = $chamado->id;
+                  $log->user_id = \Auth::user()->id;
+                  $log->descricao = $descricao;
+                  $log->email_log_id = $email->id;
+                  $log->save();
+
             }
 
 
@@ -388,19 +412,30 @@ class ChamadosController extends Controller
             }
 
 
-        if(isset($data['enviar_email']) && isset($data['empreendimentos'])) {
+        if(isset($data['enviar_email']) && isset($data['empreendimentos']) || isset($data['email_em_branco'])) {
 
             $emails = explode(',', $data['email']);
 
-            foreach ($data['empreendimentos'] as $key => $item) {
+            if(isset($data['empreendimentos'])) {
 
-                $texto = $data['descricao-'.$item];
+                foreach ($data['empreendimentos'] as $key => $item) {
 
-                foreach ($emails as $key => $email) {
-                  \Mail::to([
-                    $chamado->cliente->nome => $email,
-                  ])->send(new \App\Mail\Resposta($log, $chamado, $empresa, $texto, $path));
+                    $texto = $data['descricao-'.$item];
+
+                    foreach ($emails as $key => $email) {
+                      \Mail::to([
+                        $chamado->cliente->nome => $email,
+                      ])->send(new \App\Mail\Resposta($log, $chamado, $empresa, $texto, $path));
+                    }
+
                 }
+            } elseif(isset($data['email_em_branco'])) {
+
+              foreach ($emails as $key => $email) {
+                \Mail::to([
+                  $chamado->cliente->nome => $email,
+                ])->send(new \App\Mail\Resposta($log, $chamado, $empresa, $data['descricao'], $path));
+              }
 
             }
 
@@ -602,6 +637,21 @@ class ChamadosController extends Controller
 
         return view('empresa.chamados.editor', compact('mensagem', 'imovel', 'chamado', 'emailList', 'nomesEmpreendimentos', 'modelo'))
         ->with('empreendimento', current($lista));
+    }
+
+    public function email($id)
+    {
+        $chamado = Chamados::findOrFail($id);
+
+        $emailsCliente = $chamado->cliente->emails;
+
+        $emails = $emailsCliente->map(function($email) {
+            return $email->email;
+        })->toArray();
+
+        $emailList = implode('', $emails);
+
+        return view('empresa.chamados.editor-blank', compact('chamado', 'emailList'));
     }
 
     public function envioEmailLog($chamado, $id)
