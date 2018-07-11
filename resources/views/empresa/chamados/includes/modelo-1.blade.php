@@ -51,7 +51,7 @@ visando que conheça esse ótimo imóvel que consultou.</p>
 
             <tr>
               <td>Estágio</td>
-              <td>{{ $empreendimento['fasesobra'] }}</td>
+              <td>{{ $empreendimento['faseobra'] }}</td>
             </tr>
 
             <tr>
@@ -150,7 +150,7 @@ visando que conheça esse ótimo imóvel que consultou.</p>
 <p><b>Aguardo o seu retorno.</b></p>
 <p>Atenciosamente</p>
 
-<h2>Flavio Seabra</h2>
-<h2>Seabra Consultoria de Imóveis Ltda</h2>
-<p>No Creci __________</p>
-<p>Celular/WhatsApp __________</p>
+<h3>{{ \Auth::user()->name }}</h3>
+<h3>Seabra Consultoria de Imóveis Ltda</h3>
+<p>No Creci {{ \Auth::user()->creci }}</p>
+<p>Celular/WhatsApp {{ \Auth::user()->celular }}</p>

@@ -313,8 +313,6 @@ class ChamadosController extends Controller
     {
         $data = $request->request->all();
 
-        #dd($data);
-
         $chamado = Chamados::findOrFail($data['chamado']);
 
         //$mensagem = $descricao = $data['descricao'];
@@ -503,14 +501,43 @@ class ChamadosController extends Controller
 
         $chamado = Chamados::findOrFail($chamadoId);
 
+        $modelo = $data['modelo'] ?? 1;
+
+        if(!isset($data['empreendimentos'])) {
+          $data['empreendimentos'] = array_column($chamado->empreendimentos->map(function($empreendimento) {
+              return $empreendimento->empreendimento->toArray();
+          })->toarray(), 'id') ?? [];
+        }
+
         $empreendimentos = $data['empreendimentos'];
         $lista = $nomesEmpreendimentos = [];
+
+        $imoveisModelo2 = $imoveisModelo3 = [];
 
         foreach ($empreendimentos as $key => $item) {
 
           $emp = Produtos::findOrFail($item);
           $nomesEmpreendimentos[$emp->id] = $emp->nome;
           $empreendimento = $this->getEmpreendimento($emp->referencia);
+
+          $imoveisModelo2[] = [
+              'empreendimento' => $emp->nome,
+              'codigo' => $empreendimento['imovel'],
+              'terreno' => str_replace('área privativa', '', $empreendimento['tipologia']['area']),
+              'faseobra' => $empreendimento['faseobra'],
+              'entrega' => $empreendimento['entrega'],
+              'link' => 'http://www.seabra.com.br/' . $empreendimento['extras'][0]['link']
+          ];
+
+          $imoveisModelo3[] = [
+              'empreendimento' => $emp->nome,
+              'codigo' => $empreendimento['imovel'],
+              'terreno' => $empreendimento['terreno'],
+              'faseobra' => $empreendimento['faseobra'],
+              'entrega' => $empreendimento['entrega'],
+              'link' => 'http://www.seabra.com.br/' . $empreendimento['extras'][0]['link']
+          ];
+
           $tipologias = $this->getTipolias($empreendimento['imovel'], $empreendimento['tipo']);
           $imovel = $this->getImovel($empreendimento['imovel']);
           $decricaoProjeto = $this->getDescricao($empreendimento['imovel'], 1);
@@ -559,8 +586,8 @@ class ChamadosController extends Controller
         $mensagem = [];
 
         foreach ($lista as $key => $item) {
-          $mensagem[$key] = view('empresa.chamados.includes.modelo-1',
-          compact('saudacao', 'chamado', 'nomesEmpreendimentos'))
+          $mensagem[$key] = view('empresa.chamados.includes.modelo-'.$modelo,
+          compact('saudacao', 'chamado', 'nomesEmpreendimentos', 'imoveisModelo2', 'imoveisModelo3', 'modelo'))
           ->with('empreendimento', $item['empreendimento'])
           ->with('emp', $item['emp'])
           ->with('tipologias', $item['tipologias'])
@@ -573,7 +600,8 @@ class ChamadosController extends Controller
           ->with('imagensfachada', $item['imagensfachada']);
         }
 
-        return view('empresa.chamados.editor', compact('mensagem', 'imovel', 'chamado', 'emailList', 'nomesEmpreendimentos'));
+        return view('empresa.chamados.editor', compact('mensagem', 'imovel', 'chamado', 'emailList', 'nomesEmpreendimentos', 'modelo'))
+        ->with('empreendimento', current($lista));
     }
 
     public function envioEmailLog($chamado, $id)
@@ -780,7 +808,8 @@ class ChamadosController extends Controller
             $result['qtdunidades'] = $empreendimento->emp_qtd_unidades;
             $result['qtdelevadores'] = $empreendimento->emp_qtd_elevadores;
             $result['estproximas'] = $empreendimento->emp_estacoes_proximas;
-            $result['fasesobra'] = mb_strtoupper($this->getPublicidade($empreendimento->imv_publicidade), 'UTF-8');
+            $result['entrega'] = $empreendimento->emp_previsao_entrega;
+            $result['faseobra'] = mb_strtoupper($this->getPublicidade($empreendimento->imv_publicidade), 'UTF-8');
             $result['tipo'] = $empreendimento->imv_tipo;
             $result['terreno'] = $empreendimento->imv_area_terreno.' mts<sup>2</sup>';
             $result['hotsite'] = $empreendimento->emp_link_hot_site;

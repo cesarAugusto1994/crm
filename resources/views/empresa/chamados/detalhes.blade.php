@@ -294,7 +294,9 @@
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <ul class="dropdown-menu">
-                    <li><a href="#" data-toggle="modal" data-target="#modal-modelo-2">Modelo Resposta #1</a></li>
+                    <li><a href="#" class="btnRespostaEmail" data-id="1" data-toggle="modal" data-target="#modal-modelo-2">Modelo Resposta #1</a></li>
+                    <li><a href="#" class="btnRespostaEmail" data-id="2" data-toggle="modal" data-target="#modal-modelo-2">Modelo Resposta #2</a></li>
+                    <li><a href="#" class="btnRespostaEmail" data-id="3" data-toggle="modal" data-target="#modal-modelo-2">Modelo Resposta #3</a></li>
                     <li role="separator" class="divider"></li>
                   </ul>
 
@@ -317,32 +319,35 @@
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span></button>
-          <h4 class="modal-title">Empreendimentos</h4>
+          <h4 class="modal-title">Selecione um Empreendimento</h4>
         </div>
 
         <form action="{{ route('chamado_envio_email_cliente', ['chamado' => $chamado->id]) }}" method="get">
 
+          <input type="hidden" name="modelo" id="modelo" value=""/>
+
         <div class="modal-body">
 
-            <h2>Selecione um Empreendimento</h2>
-            <br/>
-
-          <div class="row">
+          <div class="btn-group" data-toggle="buttons">
 
             @foreach($chamado->empreendimentos as $item)
               @if(!$item->empreendimento)
                 @continue
               @endif
 
-              <div class="col-md-3 p-md">
-                  <label class="btn btn-bitbucket btn-block btn-flat">
-                    <input type="checkbox" name="empreendimentos[]" value="{{ $item->empreendimento->id }}" autocomplete="off"> {{ $item->empreendimento->nome }}
-                  </label>
-              </div>
+            <label class="btn btn-default btn-flat">
+              <input type="checkbox" name="empreendimentos[]" value="{{ $item->empreendimento->id }}" autocomplete="off"> {{ $item->empreendimento->nome }}
+            </label>
 
             @endforeach
 
           </div>
+
+          <br/>
+          <br/>
+
+          <div class="alert alert-info">* Caso não selecione nenhum empreendimento, todos serão automaticamente selecionados.</div>
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancelar</button>
@@ -363,14 +368,11 @@
 
     <script>
 
-        ClassicEditor
-        .create( document.querySelector( '#editor' ) )
-        .then( editor => {
-          console.log( editor );
-        } )
-        .catch( error => {
-          console.error( error );
-        } );
+        $(".btnRespostaEmail").click(function() {
+          var self = $(this);
+          var id = self.data('id');
+          $("#modelo").val(id);
+        });
 
     </script>
 

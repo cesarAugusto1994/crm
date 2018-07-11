@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Auth\Access\AuthorizationException;
+use Encore\Admin\Reporter\Reporter;
 
 class Handler extends ExceptionHandler
 {
@@ -36,7 +37,11 @@ class Handler extends ExceptionHandler
      * @return void
      */
     public function report(Exception $exception)
-    {
+    {   
+        if ($this->shouldReport($exception)) {
+            Reporter::report($exception);
+        }
+
         parent::report($exception);
     }
 

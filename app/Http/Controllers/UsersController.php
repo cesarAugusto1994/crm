@@ -81,6 +81,26 @@ class UsersController extends Controller
         //
     }
 
+    public function profile()
+    {
+        $user = \Auth::user();
+
+        return view('empresa.user.profile', compact('user'));
+    }
+
+    public function editarPerfil(Request $request)
+    {
+        $data = $request->request->all();
+
+        $user = User::findOrFail($data['id']);
+
+        $user->update($data);
+
+        flash('Os dados foram atualizados com sucesso!')->success()->important();
+
+        return redirect()->route('perfil');
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

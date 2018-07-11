@@ -63,6 +63,9 @@ Route::middleware('auth')->middleware('status')->group(function() {
 
   Route::get('/chamado/{chamado}/envio-email/{id}/log', 'ChamadosController@envioEmailLog')->name('chamado_envio_email_log');
 
+  Route::get('/perfil', 'UsersController@profile')->name('perfil');
+  Route::put('/perfil', 'UsersController@editarPerfil')->name('perfil_editar');
+
   Route::prefix('/admin')->group(function() {
       Route::resource('empresas', 'EmpresasController');
       Route::resource('usuarios', 'UsersController');

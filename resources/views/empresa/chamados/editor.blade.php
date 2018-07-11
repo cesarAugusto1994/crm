@@ -69,6 +69,8 @@
                   <label class="col-sm-2 control-label">Mensagem</label>
                   <div class="col-sm-10">
 
+                    @if($modelo != 3)
+
                     <ul class="nav nav-tabs">
                         @foreach($nomesEmpreendimentos as $key => $item)
                             <li role="presentation" class="{{ $loop->index == 0 ? 'active' : '' }}"><a href="#item-{{ $key }}"
@@ -87,6 +89,15 @@
                           </div>
                       @endforeach
                     </div>
+
+                    @else
+
+                    <input name="empreendimentos[]" type="hidden" value="{{ $empreendimento['empreendimento']['imovel'] }}"/>
+                    <textarea rows="8" name="descricao-{{ $empreendimento['empreendimento']['imovel'] }}" id="editor" class="form-control editor">
+                        {{ current($mensagem) }}
+                    </textarea>
+
+                    @endif
 
                   </div>
                 </div>
@@ -214,6 +225,15 @@
 
         @endforeach
 
+        setTimeout(function() {
+
+          var editor = CKEDITOR.replace('editor' , {
+             	height:500,
+             filebrowserBrowseUrl:'browse.php',
+             filebrowserUploadUrl:'upload.php'
+             }, 15000);
+
+        });
         
 
    </script>

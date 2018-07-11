@@ -143,6 +143,11 @@ return [
             'icon'        => 'newspaper-o',
             'can'         => 'manage-midias.index',
         ],
+        [
+            'text'        => 'Perfil',
+            'url'         => '/perfil',
+            'icon'        => 'newspaper-o',
+        ],
     ],
 
     /*
