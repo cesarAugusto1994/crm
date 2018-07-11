@@ -180,7 +180,7 @@ return [
         Way\Generators\GeneratorsServiceProvider::class,
         Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class,
         #Ixudra\Curl\CurlServiceProvider::class,
-        Webklex\GitHook\Providers\LaravelServiceProvider::class,
+        crocodicstudio\crudbooster\CRUDBoosterServiceProvider::class,
 
     ],
 

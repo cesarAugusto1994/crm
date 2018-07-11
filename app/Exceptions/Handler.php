@@ -37,7 +37,7 @@ class Handler extends ExceptionHandler
      * @return void
      */
     public function report(Exception $exception)
-    {   
+    {
         if ($this->shouldReport($exception)) {
             Reporter::report($exception);
         }
@@ -53,7 +53,7 @@ class Handler extends ExceptionHandler
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $exception)
-    {//dd($exception);exit;
+    {
         if ($exception instanceof AuthorizationException) {
            return response()->view('errors.403', compact('exception'), 500);
         }
