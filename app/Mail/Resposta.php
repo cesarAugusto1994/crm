@@ -45,9 +45,8 @@ class Resposta extends Mailable
      */
     public function build()
     {
-         $email = $this->from($this->empresa->mail_username)
+         $email = $this->markdown('mail.resposta')
             ->subject('Novidades '. config('app.name'))
-            ->markdown('mail.resposta')
             ->with([
                       'chamado' => $this->chamados,
                       'mensagem' => $this->mensagem

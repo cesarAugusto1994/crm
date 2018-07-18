@@ -254,10 +254,18 @@
           <div class="box-body">
             <div class="direct-chat-messages">
               @forelse($chamado->logs as $log)
-              <div class="direct-chat-msg {{ $log->usuario && $log->usuario->id == \Auth::user()->id ? 'right' : '' }}">
+              <div class="direct-chat-msg {{ $log->origem == 'usuario' ? 'right' : '' }}">
                 <div class="direct-chat-info clearfix">
-                  <span class="direct-chat-name {{ $log->usuario && $log->usuario->id == \Auth::user()->id ? 'pull-right' : 'pull-left' }}">{{ $log->usuario ? $log->usuario->id == \Auth::user()->id ? 'Você   ' : $log->usuario->name : 'Cliente' }}</span>
-                  <span class="direct-chat-timestamp {{ $log->usuario && $log->usuario->id == \Auth::user()->id ? 'pull-left' : 'pull-right' }}">{{ $log->created_at ? $log->created_at->format('d/m/Y H:i') : '-' }}</span>
+                  <span class="direct-chat-name {{ $log->origem == 'usuario' ? 'pull-right' : 'pull-left' }}">
+                    @if($log->origem == 'cliente')
+                        Cliente
+                    @elseif($log->usuario->id == \Auth::user()->id)
+                        Você
+                    @else
+                        {{$log->usuario->name ?? 'Cliente'}}
+                    @endif
+                  </span>
+                  <span class="direct-chat-timestamp {{ $log->origem == 'usuario' ? 'pull-left' : 'pull-right' }}">{{ $log->created_at ? $log->created_at->format('d/m/Y H:i') : '-' }}</span>
                 </div>
                 <img class="direct-chat-img" src="holder.js/32x32" alt="">
                 <div class="direct-chat-text">
@@ -285,10 +293,6 @@
               <div class="input-group">
                 <div class="input-group-btn dropup">
 
-                  <label class="btn btn-file btn-default">
-                      Anexar
-                      <input type="file" name="anexo" />
-                  </label>
                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="caret"></span>
                     <span class="sr-only">Toggle Dropdown</span>
@@ -299,13 +303,13 @@
                     <li><a href="#" class="btnRespostaEmail" data-id="3" data-toggle="modal" data-target="#modal-modelo-2">Modelo Resposta #3</a></li>
                     <li role="separator" class="divider"></li>
                     <li><a href="{{ route('email_create', ['id' => $chamado->id]) }}">Email em branco</a></li>
-
                   </ul>
-
                 </div>
                 <textarea type="text" name="descricao" rows="1" placeholder="Mensagem" required class="form-control"></textarea>
                   <span class="input-group-btn">
-                    <button type="submit" class="btn btn-default btn-flat">Enviar</button>
+                    <label class="btn btn-default btn-flat">Cliente <input type="radio" name="side" value="cliente" /></label>
+                    <label class="btn btn-primary btn-flat">Empresa <input type="radio" name="side" value="usuario" checked/></label>
+                    <button type="submit" class="btn btn-success btn-flat">Enviar</button>
                   </span>
               </div>
             </form>

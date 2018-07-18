@@ -373,7 +373,7 @@ class ClientesController extends Controller
         }
 
         $cep = $data['cep'];
-
+/*
         $query = "   SELECT
                          log.log_nome endereco,
                          bai.bai_no bairro,
@@ -391,11 +391,17 @@ class ClientesController extends Controller
                    ";
 
         $resultado = $conection->select($query, [$cep]);
+*/
+        $cepresult = app('Cep')->find($cep);
+
+        $cepInfo = $cepresult->toJson();
+
+        $resultado = json_decode($cepInfo->result(), 1);
 
         if(!empty($resultado)) {
             return json_encode([
               'code' => 100,
-              'data' => is_array($resultado) ? current($resultado) : $resultado
+              'data' => $resultado
             ]);
         }
 

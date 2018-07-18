@@ -5,6 +5,8 @@
 @section('css')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.10/summernote.css" rel="stylesheet"/>
+
 @stop
 
 @section('content_header')
@@ -209,30 +211,42 @@
 
     <script type="text/javascript" src="{{asset('plugins/ckeditor/ckeditor.js')}}"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.10/summernote.min.js"></script>
+
+    <script>
+
+      $(document).ready(function() {
+        $('.editor').summernote({
+          dialogsInBody: true,
+        });
+      });
+
+    </script>
+
     <script type="text/javascript">
 
         @foreach($nomesEmpreendimentos as $key => $item)
 
           setTimeout(function() {
-
+/*
             var editor = CKEDITOR.replace('editor-{{ $key }}' , {
                	height:500,
                filebrowserBrowseUrl:'browse.php',
                filebrowserUploadUrl:'upload.php'
                }, 15000);
-
+*/
           });
 
         @endforeach
 
         setTimeout(function() {
-
+/*
           var editor = CKEDITOR.replace('editor' , {
              	height:500,
              filebrowserBrowseUrl:'browse.php',
              filebrowserUploadUrl:'upload.php'
              }, 15000);
-
+*/
         });
         
 

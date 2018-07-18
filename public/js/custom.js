@@ -77,6 +77,8 @@ $( document ).ready(function(){
 
     carregarItens();
 
+    $('#endereco-cep').mask('00000-000');
+
     $('#select-empreendimento').select2({
         ajax: {
           type: "GET",
@@ -196,8 +198,8 @@ $( document ).ready(function(){
       var cep = self.val();
       var url = self.data('url');
 
-      if(cep.length > 6) {
-
+      if(cep.length > 7) {
+/*
           window.swal({
               title: "Processando",
               text: "Por favor aguarde...",
@@ -205,7 +207,7 @@ $( document ).ready(function(){
               showConfirmButton: false,
               allowOutsideClick: false
             });
-
+*/
           $.ajax(
             {
               url: url,
@@ -231,22 +233,32 @@ $( document ).ready(function(){
               var info = data.data;
 
               $("#endereco-cep").val(info.cep);
-              $("#endereco").val(info.endereco);
+              $("#endereco").val(info.logradouro);
               $("#endereco-bairro").val(info.bairro);
-              $("#endereco-cidade").val(info.cidade);
+              $("#endereco-cidade").val(info.localidade);
               $("#endereco-uf").val(info.uf);
 
+              $("#endereco-numero").focus();
+/*
               window.swal({
                 title: 'Pronto',
                 text: 'Os dados foram encontrados!',
                 showConfirmButton: false,
                 timer: 2000
               });
-
+*/
             }
 
 
           })
+
+      } else {
+
+        swal(
+          'Atenção!',
+          'O CEP deve conter 8 digitos.',
+          'info'
+        )
 
       }
 

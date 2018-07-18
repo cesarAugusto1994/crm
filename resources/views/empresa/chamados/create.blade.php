@@ -31,7 +31,12 @@
               <div class="col-md-3">
                 <div class="form-group">
                   <label>Cliente</label>
-                  <select required style="width:150px" id="select-cliente" name="id_cliente" data-url="{{ route('clientes') }}" class="form-control"></select>
+                    @if($cliente)
+                      <p class="lead">{{ $cliente->nome }}</p>
+                      <input type="hidden" name="id_cliente" value="{{ $cliente->id }}"/>
+                    @else
+                      <select required style="width:150px" id="select-cliente" name="id_cliente" data-url="{{ route('clientes') }}" class="form-control"></select>
+                    @endif
                 </div>
               </div>
 

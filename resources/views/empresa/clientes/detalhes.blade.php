@@ -85,7 +85,7 @@
               {{ csrf_field() }}
 
               <div class="form-group">
-                  <select name="tipo" class="form-control" placeholder="Selecione o tipo" required>
+                  <select name="tipo" class="form-control" id="telefone-tipo" placeholder="Selecione o tipo" required>
                       <option value="">Selecione o tipo do telefone</option>
                       @foreach($tipos as $tipo)
                           <option value="{{ $tipo->id }}">{{ $tipo->tipo }}</option>
@@ -103,7 +103,7 @@
 
                 <div class="col-md-3">
                   <div class="form-group">
-                      <input type="text" class="form-control" placeholder="Ramal" name="ramal">
+                      <input type="text" class="form-control" placeholder="Ramal" id="telefone-ramal" name="ramal">
                   </div>
                 </div>
 
@@ -355,6 +355,8 @@
           </div>
           <div class="box-body">
 
+              <a href="{{ route('chamados.create', ['cliente_id' => $cliente->id]) }}" class="btn btn-bitbucket btn-sm"> Novo Chamado</a>
+
               <br/>
 
               <ul class="products-list product-list-in-box">
@@ -381,11 +383,22 @@
 @stop
 
 @section('js')
+
     <script src="{{ asset('js/custom.js') }}"></script>
 
     <script>
 
       $( document ).ready(function(){
+
+        $("#telefone-tipo").change(function() {
+          var self = $(this);
+
+          if(self.val() == '3') {
+            $("#telefone-ramal").hide();
+          } else {
+            $("#telefone-ramal").show();
+          }
+        })
 
       });
 
@@ -405,7 +418,6 @@
           var option = "";
 
           $.each(data, function(i, item) {
-              console.log(item);
               option += "<option>"+ item.descricao +" dias</option>";
           });
 

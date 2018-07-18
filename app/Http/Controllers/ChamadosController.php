@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Chamados, Manifestacao, Empresa, Produtos, LogEmail};
+use App\Models\{Chamados, Manifestacao, Empresa, Produtos, LogEmail, Clientes};
 use App\Models\Chamados\{Classificacao, Previsao, Status, Empreendimentos, Midias, Logs, Anotacoes};
 use App\Models\Empresa\Departamentos;
 #use Ixudra\Curl\Facades\Curl;
@@ -15,7 +15,7 @@ class ChamadosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = \Auth::user();
 
@@ -30,7 +30,7 @@ class ChamadosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         $user = \Auth::user();
 
@@ -56,7 +56,14 @@ class ChamadosController extends Controller
 
         }
 
-        return view('empresa.chamados.create', compact('chamado', 'classificacao', 'departamentos', 'status', 'manifestacoes'));
+        $cliente = null;
+
+        if($request->has('cliente_id')) {
+            $cliente = $request->get('cliente_id');
+            $cliente = Clientes::findOrFail($cliente);
+        }
+
+        return view('empresa.chamados.create', compact('chamado', 'classificacao', 'departamentos', 'status', 'manifestacoes', 'cliente'));
     }
 
     /**
@@ -313,6 +320,9 @@ class ChamadosController extends Controller
     {
         $data = $request->request->all();
 
+        #echo ($data['descricao-517']);
+        #exit;
+
         $chamado = Chamados::findOrFail($data['chamado']);
 
         //$mensagem = $descricao = $data['descricao'];
@@ -368,6 +378,7 @@ class ChamadosController extends Controller
                     $log->user_id = \Auth::user()->id;
                     $log->descricao = $descricao;
                     $log->email_log_id = $email->id;
+                    $log->origem = 'usuario';
                     $log->save();
 
                 }
@@ -394,6 +405,7 @@ class ChamadosController extends Controller
                   $log->user_id = \Auth::user()->id;
                   $log->descricao = $descricao;
                   $log->email_log_id = $email->id;
+                  $log->origem = 'usuario';
                   $log->save();
 
             }
@@ -406,6 +418,7 @@ class ChamadosController extends Controller
               $log->chamado_id = $chamado->id;
               $log->user_id = \Auth::user()->id;
               $log->descricao = $data['descricao'];
+              $log->origem = $data['side'];
               $log->save();
 
 
@@ -440,12 +453,14 @@ class ChamadosController extends Controller
             }
 
             flash('Email enviado com sucesso!')->success()->important();
-            return redirect()->route('chamados.show', ['id' => $chamado->id]);
+            //return redirect()->route('chamados.show', ['id' => $chamado->id]);
 
         }
 
+        return redirect()->back();
+
         flash('A descrição foi adicionada ao chamado com sucesso!')->success()->important();
-        return redirect()->route('chamados.show', ['id' => $chamado->id]);
+        //return redirect()->route('chamados.show', ['id' => $chamado->id]);
     }
 
     public function empreendimentos(Request $request)

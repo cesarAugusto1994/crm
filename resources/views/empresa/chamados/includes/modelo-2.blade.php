@@ -1,11 +1,12 @@
-<h1>Prezado Cliente, {{ $chamado->cliente->nome }}</h1>
+<div class="well">
+<h3>Prezado {{ $chamado->cliente->nome }},</h3>
 {{ $saudacao }}!!!.
 <p>Em relação ao Empreendimento {{ $emp->nome }} gostaria de mais algum esclarecimento a respeito do produto???</p>
 <p>Caso esse imóvel não seja exatamente o que esteja procurando ou caso o mesmo esteja fora da faixa de preço desejada, gostaria muito de ter a oportunidade de continuar lhe atendendo pois tenho várias outras opções de imóveis no próprio bairro ou em bairros vizinhos. A SEABRA Consultoria é uma imobiliária altamente especializada em imóveis novos ou em fase de entrega de obra e temos em nossa carteira imóveis das principais Incorporadoras do mercado paulistano.</p>
 <p>Gostaria de receber outras opções de imóveis na região???</p>
 
 <p>Cito abaixo como exemplos alguns empreendimentos que selecionei com perfil semelhante ao VN CASA CARDOSO DE MELO ( veja nos links abaixo):</p>
-
+</div>
 <table class="table">
   <tbody>
     @foreach($imoveisModelo2 as $imovel)
@@ -27,8 +28,8 @@ Aguardo o seu retorno para que possa continuar lhe atendendo.</b></p>
 
 <p>Atenciosamente</p>
 
-<h3>{{ \Auth::user()->name }}</h3>
-<h3>Seabra Consultoria de Imóveis Ltda</h3>
+<h4>{{ \Auth::user()->name }}</h4>
+<h4>Seabra Consultoria de Imóveis Ltda</h4>
 <p>No Creci {{ \Auth::user()->creci }}</p>
 <p>Celular/WhatsApp {{ \Auth::user()->celular }}</p>
 

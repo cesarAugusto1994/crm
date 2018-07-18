@@ -181,7 +181,7 @@ return [
         Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class,
         #Ixudra\Curl\CurlServiceProvider::class,
         crocodicstudio\crudbooster\CRUDBoosterServiceProvider::class,
-
+        Canducci\Cep\Providers\CepServiceProvider::class,
     ],
 
     /*
@@ -231,6 +231,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         #'Curl' => Ixudra\Curl\Facades\Curl::class,
+        'Cep'        => Canducci\Cep\Facades\Cep::class,
+        'Endereco'   => Canducci\Cep\Facades\Endereco::class,
 
     ],
 

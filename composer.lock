@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "67a31fd7be3dbb700bc5667cce922e18",
-    "content-hash": "cf5d84394692838c0b692ffb6a05c4e2",
+    "hash": "22d5095457d47b5c6cb4affbfa35ae5b",
+    "content-hash": "c0e9d00b68bc8efbb6463767e296dbf0",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -62,6 +62,56 @@
                 "pdf"
             ],
             "time": "2018-02-07 17:43:25"
+        },
+        {
+            "name": "canducci/cep",
+            "version": "v2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/netdragoon/canduccicep.git",
+                "reference": "7de154e13a0e39d1962dc1430b6993e4deb6b720"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/netdragoon/canduccicep/zipball/7de154e13a0e39d1962dc1430b6993e4deb6b720",
+                "reference": "7de154e13a0e39d1962dc1430b6993e4deb6b720",
+                "shasum": ""
+            },
+            "require": {
+                "ext-fileinfo": "*",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpspec/phpspec": "~2.1",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Canducci\\Cep\\": "src/Canducci/Cep/"
+                },
+                "files": [
+                    "src/Canducci/Cep/CepHelper.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "netdragoon",
+                    "email": "netdragoon@outlook.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "CEP do Brasil",
+            "homepage": "https://github.com/netdragoon/canduccicep",
+            "keywords": [
+                "cep",
+                "laravel"
+            ],
+            "time": "2017-11-13 13:58:52"
         },
         {
             "name": "crocodicstudio/crudbooster",
@@ -3515,7 +3565,7 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "v4.1.0",
+            "version": "v4.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",

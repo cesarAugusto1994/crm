@@ -186,6 +186,7 @@
     <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
     <script src="{{asset('js/fullcalendar/moment.min.js')}}"></script>
     <script src="{{asset('js/fullcalendar/fullcalendar.min.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
     @stack('js')
     @yield('js')
 
