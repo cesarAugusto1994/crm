@@ -24,18 +24,24 @@ class Resposta extends Mailable
 
     private $arquivo;
 
+    private $assunto = "SEABRA – INFORMAÇÕES";
+
+    private $modelo;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Logs $logs, Chamados $chamado, Empresa $empresa, $mensagem, $arquivo)
+    public function __construct(Logs $logs, Chamados $chamado, Empresa $empresa, $mensagem, $arquivo, $assunto, $modelo = 1)
     {
         $this->logs = $logs;
         $this->chamados = $chamado;
         $this->empresa = $empresa;
         $this->mensagem = $mensagem;
         $this->arquivo = $arquivo;
+        $this->assunto = $assunto;
+        $this->modelo = $modelo;
     }
 
     /**
@@ -46,10 +52,11 @@ class Resposta extends Mailable
     public function build()
     {
          $email = $this->markdown('mail.resposta')
-            ->subject('Novidades '. config('app.name'))
+            ->subject($this->assunto)
             ->with([
                       'chamado' => $this->chamados,
-                      'mensagem' => $this->mensagem
+                      'mensagem' => $this->mensagem,
+                      'modelo' => $this->modelo
                   ]);;
 
         if($this->arquivo) {

@@ -199,15 +199,7 @@ $( document ).ready(function(){
       var url = self.data('url');
 
       if(cep.length > 7) {
-/*
-          window.swal({
-              title: "Processando",
-              text: "Por favor aguarde...",
-              imageUrl: "https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.16.1/images/loader-large.gif",
-              showConfirmButton: false,
-              allowOutsideClick: false
-            });
-*/
+
           $.ajax(
             {
               url: url,
@@ -239,14 +231,7 @@ $( document ).ready(function(){
               $("#endereco-uf").val(info.uf);
 
               $("#endereco-numero").focus();
-/*
-              window.swal({
-                title: 'Pronto',
-                text: 'Os dados foram encontrados!',
-                showConfirmButton: false,
-                timer: 2000
-              });
-*/
+
             }
 
 
@@ -287,16 +272,27 @@ $('.select-ajax').change(function() {
 $('.collapse-emprrendimentos, .empreendimentoLabel').click(function() {
     var self = $(this);
 
+    var rota = $("#url-empreendimentos").val();
+
     var referencia = self.data('referencia');
-    var url = 'http://www.seabra.com.br/ajax/imoveis/getEmpreendimentoAjax?referencia='+referencia;
+    var url = rota;
     var target = self.attr('href');
 
     $.ajax(
       {
         url: url,
-        dataType: 'json'
+        dataType: 'json',
+        data: {
+          referencia:referencia
+        }
       }
     ).done(function(data) {
+
+      var tipologias = "";
+
+      $.each(data.tipologias, function(i, tipologia) {
+        tipologias += '<p>'+ tipologia.tipologiaExtenso +'</p>';
+      });
 
       var html = '<div class="row">' +
           '<div class="col-md-4">' +
@@ -318,6 +314,7 @@ $('.collapse-emprrendimentos, .empreendimentoLabel').click(function() {
                   '<li class="list-group-item"><b>Incorporação:</b> <br/>'+data.incorporacao+'</li>' +
                   '<li class="list-group-item"><b>Arquitetura:</b> <br/>'+data.arquitetura+'</li>' +
                   '<li class="list-group-item"><b>Construção:</b> <br/>'+data.construcao+'</li>' +
+                  '<li class="list-group-item"><b>Data Entrega:</b> <br/>'+data.entrega+'</li>' +
                   '<li class="list-group-item"><b>No de torres:</b> <br/>'+data.qtdtorres+'</li>' +
                   '<li class="list-group-item"><b>No de unidades:</b> <br/>'+data.qtdunidades+'</li>' +
               '</ul>' +
@@ -327,9 +324,11 @@ $('.collapse-emprrendimentos, .empreendimentoLabel').click(function() {
           '<div class="col-md-4">' +
 
               '<ul class="list-group">' +
+
                   '<li class="list-group-item"><b>Ponto de referencia:</b> <br/>'+ data.estproximas +'</li>' +
-                  '<li class="list-group-item"><b>Estagio da obra:</b> <br/>'+ data.fasesobra +'</li>' +
+                  '<li class="list-group-item"><b>Estagio da obra:</b> <br/>'+ data.faseobra +'</li>' +
                   '<li class="list-group-item"><b>Valor metro quadrado:</b> <br/>'+data.tipologia.quadrado+'</li>' +
+                  '<li class="list-group-item"><b>Tipologias:</b> <br/>'+ tipologias +'</li>' +
                   '<li class="list-group-item"><b>Link do site:</b> <br/><a target="_blank" class="btn btn-instagram btn-xs" href="http://www.seabra.com.br/'+ data.extras[0].link +'">Acessar</a></li>' +
               '</ul>' +
 
@@ -338,11 +337,9 @@ $('.collapse-emprrendimentos, .empreendimentoLabel').click(function() {
 
       '</div>';
 
-
-
       $(target).find('.box-body').html(html);
 
-      $('.ck-content').replace(/###empreendimento/, '<div></div>');
+      //$('.ck-content').replace(/###empreendimento/, '<div></div>');
 
     });
 });

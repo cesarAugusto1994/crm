@@ -105,7 +105,7 @@ img {
 .content {
     margin: 0;
     padding: 0;
-    width: 100%;
+    width: 700px;
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
     -premailer-width: 100%;
@@ -114,8 +114,9 @@ img {
 /* Header */
 
 .header {
-    padding: 25px 0;
+    padding: 5px 0;
     text-align: center;
+    background-color: #f5f8fa;
 }
 
 .header a {
@@ -144,10 +145,10 @@ img {
     background-color: #FFFFFF;
     margin: 0 auto;
     padding: 0;
-    width: 570px;
+    width: 700px;
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
-    -premailer-width: 570px;
+    -premailer-width: 700px;
 }
 
 /* Subcopy */
@@ -168,10 +169,10 @@ img {
     margin: 0 auto;
     padding: 0;
     text-align: center;
-    width: 570px;
+    width: 700px;
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
-    -premailer-width: 570px;
+    -premailer-width: 700px;
 }
 
 .footer p {
@@ -183,7 +184,7 @@ img {
 /* Tables */
 
 .table table {
-    margin: 30px auto;
+    margin: 0px auto;
     width: 100%;
     -premailer-cellpadding: 0;
     -premailer-cellspacing: 0;
@@ -205,7 +206,7 @@ img {
 }
 
 .content-cell {
-    padding: 35px;
+    padding: 7px;
 }
 
 /* Buttons */

@@ -35,7 +35,7 @@ Route::middleware('auth')->middleware('status')->group(function() {
 
   Route::post('/chamado/{id}/empreendimentos/store', 'ChamadosController@empreendimentoStore')->name('chamados_empreendimento_store');
   Route::post('/chamado/{id}/midias/store', 'ChamadosController@midiaStore')->name('chamados_midia_store');
-  Route::post('/chamado/{id}/logs/store', 'ChamadosController@logStore')->name('chamados_logs_store');
+  Route::post('/chamado/{id}/logs/store-and-send-mail', 'ChamadosController@logStore')->name('chamados_logs_store');
 
   Route::post('/chamado/descricao/responder', 'ChamadosController@responder')->name('responder');
 
@@ -67,6 +67,8 @@ Route::middleware('auth')->middleware('status')->group(function() {
 
   Route::get('/perfil', 'UsersController@profile')->name('perfil');
   Route::put('/perfil', 'UsersController@editarPerfil')->name('perfil_editar');
+
+  Route::get('/empreendimento/ajax', 'ChamadosController@getEmpreendimentoAjax')->name('empreendimento_ajax');
 
   Route::prefix('/admin')->group(function() {
       Route::resource('empresas', 'EmpresasController');

@@ -365,6 +365,8 @@
     <!-- /.modal-dialog -->
   </div>
 
+  <input type="hidden" id="url-empreendimentos" value="{{ route('empreendimento_ajax') }}">
+
 @stop
 
 @section('js')

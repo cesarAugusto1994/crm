@@ -1,28 +1,95 @@
-<h1>Prezado(a) {{ $chamado->cliente->nome ?? 'Cliente Nome' }}</h1>
-{{ $saudacao ?? 'Saudação' }}!, tudo bem ???.
-<p>Segue abaixo uma seleção de Empreendimentos que identifiquei para você no perfil que está buscando ;</p>
-<p>Espero conseguir atendê-lo(a) a contento pois a SEABRA é uma imobiliária com 45 anos de atuação mercadológica ao longo dos quais desenvolveu exclusivas parcerias com as principais Incorporadoras e Construtoras do mercado Imobiliário , o que nos permite oferecer sempre os melhores imóveis disponíveis aos nossos clientes.</p>
+<div class="well">
+  <h3>Prezado(a) {{ $chamado->cliente->nome }}.</h3>
+  <p><b>Em relação ao Empreendimento {{ $emp->nome }} gostaria de mais algum esclarecimento?</b></p>
+  <p>O meu nome é {{ \Auth::user()->name }}, trabalho na Seabra Consultoria de Imóveis ltda.</p>
+  <p>Caso esse imóvel não seja exatamente o que esteja procurando ou caso o mesmo esteja fora da faixa de preço desejada, gostaria muito de ter a oportunidade de continuar lhe atendendo pois tenho várias outras opções de imóveis no próprio bairro ou em bairros vizinhos. A SEABRA Consultoria é uma imobiliária altamente especializada em imóveis novos ou em fase de entrega de obra e temos em nossa carteira imóveis das principais Incorporadoras do mercado paulistano.</p>
+  <p>Veja abaixo algumas opções que selecionei com o perfil que está buscando:</p>
+</div>
 
-<p>Peço que dê uma analisada nos links abaixo e me conte quais lhe interessam.</p>
+<div class="well">
 
-<table class="table">
-  <tbody>
-    @foreach($imoveisModelo3 as $imovel)
-      <tr>
-        <td>{{ $imovel['empreendimento'] }} - {{ $imovel['terreno'] }} {{ $imovel['faseobra'] }}    @if($imovel['faseobra'] == 'LANÇAMENTO')<b>Entrega {{ (new \DateTime($imovel['entrega']))->format('m/Y') }}</b>@endif</td>
-        <td><a href="{{ $imovel['link'] }}">acessar<a></td>
-      </tr>
-    @endforeach
-  </tbody>
-</table>
+  @foreach($imoveisModelo3 as $key => $imovel)
 
-<p>Aguardo seu retorno, </p>
+      @if($loop->index % 2 != 0)
 
-<p>Atenciosamente</p>
+      <div class="row" style="min-height:450px;max-height:450px">
 
-<h3>{{ \Auth::user()->name }}</h3>
-<h3>Seabra Consultoria de Imóveis Ltda</h3>
-<p>No Creci {{ \Auth::user()->creci }}</p>
-<p>Celular/WhatsApp {{ \Auth::user()->celular }}</p>
+      <div class="col-xs-6">
+          <img class="img" style="width:100%;min-height:400px;max-height:400px" src="{{ $imovel['imagens'][0] }}" alt="..." />
+      </div>
 
-<a href="https://www.seabra.com.br">www.seabra.com.br</a>
+      <div class="col-xs-6">
+
+          <h2>{{ $imovel['empreendimento'] }}</h2>
+          <p>Referência {{ $imovel['referencia'] }}</p>
+
+          <p>{{ $imovel['extras'][0]['bairro'] }} / {{ $imovel['extras'][0]['cidade'] }}</p>
+
+          <p>{{ $imovel['tipologia']['dorms'] }}</p>
+          <p>{{ $imovel['tipologia']['suites'] }}</p>
+          <p>{{ $imovel['tipologia']['vagas'] }}</p>
+          <p>{{ $imovel['tipologia']['area'] }}</p>
+
+          <p>Estágio: {{ $imovel['faseobra'] }}</p>
+          <p>Arquitetura: {{ $imovel['arquitetura'] }}</p>
+          <p>Entrega (previsão): {{ $imovel['entrega'] }}</p>
+          <p>Ponto de referêcia: {{ $imovel['imovel']['estproximas'] }}</p>
+
+            <a href="{{ url($imovel['link']) }}" class="btn btn-xs btn-google">Acessar</a>
+
+      </div>
+
+      </div>
+
+      @else
+
+      <div class="row" style="min-height:450px;max-height:450px">
+
+      <div class="col-xs-6">
+
+          <h2>{{ $imovel['empreendimento'] }}</h2>
+          <p>Referência {{ $imovel['referencia'] }}</p>
+
+          <p>{{ $imovel['extras'][0]['bairro'] }} / {{ $imovel['extras'][0]['cidade'] }}</p>
+
+          <p>{{ $imovel['tipologia']['dorms'] }}</p>
+          <p>{{ $imovel['tipologia']['suites'] }}</p>
+          <p>{{ $imovel['tipologia']['vagas'] }}</p>
+          <p>{{ $imovel['tipologia']['area'] }}</p>
+
+          <p>Estágio: {{ $imovel['faseobra'] }}</p>
+          <p>Arquitetura: {{ $imovel['arquitetura'] }}</p>
+          <p>Entrega (previsão): {{ $imovel['entrega'] }}</p>
+          <p>Ponto de referêcia: {{ $imovel['imovel']['estproximas'] }}</p>
+
+          <a href="{{ url($imovel['link']) }}" class="btn btn-xs btn-google">Acessar</a>
+
+      </div>
+
+      <div class="col-xs-6">
+          <img class="img" style="width:100%;min-height:400px;max-height:400px" src="{{ $imovel['imagens'][0] }}" alt="..." />
+      </div>
+
+      </div>
+
+      @endif
+
+
+
+  @endforeach
+
+</div>
+
+<div class="row">
+    <div class="col-xs-12 text-center">
+        <div class="well text-black" style="color:black">
+            <h4><b>AGENDE A SUA VISITA!</b></h4>
+            <h4><b style="color:black">Aguardo o seu retorno.</b></h4>
+            <h4><b style="color:black">Atenciosamente,</b></h4>
+            <h4><b style="color:black">{{ \Auth::user()->name }}</b></h4>
+            <h4><b style="color:black">Seabra Consultoria de Imóveis Ltda</b></h4>
+            <h4><b style="color:black">No Creci {{ \Auth::user()->creci }}</b></h4>
+            <h4><b style="color:black">Celular/WhatsApp {{ \Auth::user()->celular }}</b></h4>
+        </div>
+    </div>
+</div>

@@ -320,17 +320,15 @@ class ChamadosController extends Controller
     {
         $data = $request->request->all();
 
-        #echo ($data['descricao-517']);
-        #exit;
-
         $chamado = Chamados::findOrFail($data['chamado']);
 
-        //$mensagem = $descricao = $data['descricao'];
         $path = "";
 
         if(isset($data['enviar_email'])) {
 
-            $empresa = Empresa::where('id', \Auth::user()->id)->get();
+            $user = \Auth::user();
+
+            $empresa = Empresa::where('id', $user->empresa_id)->get();
             $empresa = $empresa->first();
 
             $descricao = "";
@@ -369,8 +367,7 @@ class ChamadosController extends Controller
 
                     $email->save();
 
-                    $emp = Produtos::findOrFail($item);
-
+                    $emp = Produtos::find($item);
                     $descricao = "Email enviado para o cliente com as informações do empreendimento " . $emp->nome;
 
                     $log = new Logs();
@@ -424,10 +421,9 @@ class ChamadosController extends Controller
 
             }
 
-
         if(isset($data['enviar_email']) && isset($data['empreendimentos']) || isset($data['email_em_branco'])) {
 
-            $emails = explode(',', $data['email']);
+            $emails = explode(', ', $data['email']);
 
             if(isset($data['empreendimentos'])) {
 
@@ -435,32 +431,39 @@ class ChamadosController extends Controller
 
                     $texto = $data['descricao-'.$item];
 
+                    $assunto = 'SEABRA – '.$data['empreendimento'][$key].' – INFORMAÇÕES';
+
+                    if($data['modelo'] == 3) {
+                      $assunto = 'SEABRA – IMÓVEIS SELECIONADOS CONFORME PERFIL DESEJADO';
+                    }
+
+                    $assunto = strtoupper($assunto);
+
                     foreach ($emails as $key => $email) {
                       \Mail::to([
                         $chamado->cliente->nome => $email,
-                      ])->send(new \App\Mail\Resposta($log, $chamado, $empresa, $texto, $path));
+                      ])->send(new \App\Mail\Resposta($log, $chamado, $empresa, $texto, $path, $assunto, $data['modelo']));
                     }
 
                 }
             } elseif(isset($data['email_em_branco'])) {
 
+              $assunto = 'SEABRA – INFORMAÇÕES';
+
               foreach ($emails as $key => $email) {
                 \Mail::to([
                   $chamado->cliente->nome => $email,
-                ])->send(new \App\Mail\Resposta($log, $chamado, $empresa, $data['descricao'], $path));
+                ])->send(new \App\Mail\Resposta($log, $chamado, $empresa, $data['descricao'], $path, $assunto, $data['modelo']));
               }
 
             }
 
             flash('Email enviado com sucesso!')->success()->important();
-            //return redirect()->route('chamados.show', ['id' => $chamado->id]);
-
         }
 
         return redirect()->back();
 
         flash('A descrição foi adicionada ao chamado com sucesso!')->success()->important();
-        //return redirect()->route('chamados.show', ['id' => $chamado->id]);
     }
 
     public function empreendimentos(Request $request)
@@ -568,34 +571,65 @@ class ChamadosController extends Controller
 
           $emp = Produtos::findOrFail($item);
           $nomesEmpreendimentos[$emp->id] = $emp->nome;
+          $lista[] = $this->getEmpreendimento($emp->referencia);
+        }
+
+        #dd($lista);
+
+
+        foreach ($empreendimentos as $key => $item) {
+
+          $emp = Produtos::findOrFail($item);
+          $nomesEmpreendimentos[$emp->id] = $emp->nome;
           $empreendimento = $this->getEmpreendimento($emp->referencia);
-
-          $imoveisModelo2[] = [
-              'empreendimento' => $emp->nome,
-              'codigo' => $empreendimento['imovel'],
-              'terreno' => str_replace('área privativa', '', $empreendimento['tipologia']['area']),
-              'faseobra' => $empreendimento['faseobra'],
-              'entrega' => $empreendimento['entrega'],
-              'link' => 'http://www.seabra.com.br/' . $empreendimento['extras'][0]['link']
-          ];
-
-          $imoveisModelo3[] = [
-              'empreendimento' => $emp->nome,
-              'codigo' => $empreendimento['imovel'],
-              'terreno' => $empreendimento['terreno'],
-              'faseobra' => $empreendimento['faseobra'],
-              'entrega' => $empreendimento['entrega'],
-              'link' => 'http://www.seabra.com.br/' . $empreendimento['extras'][0]['link']
-          ];
 
           $tipologias = $this->getTipolias($empreendimento['imovel'], $empreendimento['tipo']);
           $imovel = $this->getImovel($empreendimento['imovel']);
+
+          $dataEntrega = null;
+
+          if(!empty($imovel[0]->emp_previsao_entrega)) {
+            $dataEntrega = new \DateTime($imovel[0]->emp_previsao_entrega);
+            $dataEntrega = $dataEntrega->format('d/m/Y');
+          }
+
+          $imoveisModelo2[] = [
+              'empreendimento' => $emp->nome,
+              'referencia' => $emp->referencia,
+              'imovel' => $empreendimento,
+              'arquitetura' => $empreendimento['arquitetura'],
+              'codigo' => $empreendimento['imovel'],
+              'tipologia' => $empreendimento['tipologia'],
+              'terreno' => str_replace('área privativa', '', $empreendimento['tipologia']['area']),
+              'faseobra' => $empreendimento['faseobra'],
+              'entrega' => $dataEntrega,
+              'imagens' => $imagensfachada = $this->getImagensImoveis($empreendimento['imovel'], 4),
+              'link' => 'http://www.seabra.com.br/' . $empreendimento['extras'][0]['link'],
+              'extras' => $this->getImovelExtras($empreendimento['imovel'])
+          ];
+
+          $imoveisModelo3[] = [
+            'empreendimento' => $emp->nome,
+            'referencia' => $emp->referencia,
+            'imovel' => $empreendimento,
+            'arquitetura' => $empreendimento['arquitetura'],
+            'codigo' => $empreendimento['imovel'],
+            'tipologia' => $empreendimento['tipologia'],
+            'terreno' => str_replace('área privativa', '', $empreendimento['tipologia']['area']),
+            'faseobra' => $empreendimento['faseobra'],
+            'entrega' => $dataEntrega,
+            'imagens' => $imagensfachada = $this->getImagensImoveis($empreendimento['imovel'], 4),
+            'link' => 'http://www.seabra.com.br/' . $empreendimento['extras'][0]['link'],
+            'extras' => $this->getImovelExtras($empreendimento['imovel'])
+          ];
+
           $decricaoProjeto = $this->getDescricao($empreendimento['imovel'], 1);
           $areasComuns = $this->getAreasComuns($empreendimento['imovel']);
           $imagensEmpreendimento = $this->getImagensImoveis($empreendimento['imovel'], 2);
           $plantasEmpreendimento = $this->getImagensImoveis($empreendimento['imovel'], 3);
           $imagensImovel = $this->getImagensImoveis($empreendimento['imovel'], 5);
           $imagensfachada = $this->getImagensImoveis($empreendimento['imovel'], 4);
+          $imagensLazer = $this->getImagensImovel($empreendimento['imovel']);
 
           $lista[$emp->id] = [
             'empreendimento' => $empreendimento,
@@ -607,7 +641,8 @@ class ChamadosController extends Controller
             'imagensEmpreendimento' => $imagensEmpreendimento,
             'plantasEmpreendimento' => $plantasEmpreendimento,
             'imagensImovel' => $imagensImovel,
-            'imagensfachada' => $imagensfachada
+            'imagensfachada' => $imagensfachada,
+            'imagensLazer' => $imagensLazer
           ];
 
         }
@@ -631,26 +666,86 @@ class ChamadosController extends Controller
             return $email->email;
         })->toArray();
 
-        $emailList = implode('', $emails);
+        $emailList = implode(', ', $emails);
 
         $mensagem = [];
 
+        $modeloKey = null;
+
         foreach ($lista as $key => $item) {
+
+          if(empty($modeloKey)) {
+            $modeloKey = $key;
+          }
+
+          $imagensLazer = $imagemFachada = $imagensEmpreendimento = $planta = $imagemFooter = [];
+
+          if(!empty($item['imagensLazer'])) {
+
+            foreach ($item['imagensLazer'] as $img) {
+              $imagensLazer[] = 'http://www.seabra.com.br/admin/' . str_replace('../', '', $img->imagem);
+            }
+
+          }
+
+          if(!empty($item['imagensfachada'])) {
+            $imagemFachada = current($item['imagensfachada']);
+          }
+
+          if(empty($imagemFachada)) {
+            //$imagemFachada = current($item['imagensEmpreendimento']);
+          }
+
+          //$imagensEmpreendimento = array_slice($item['imagensEmpreendimento'], 1, 5);
+
+          if(!empty($item['plantasEmpreendimento'])) {
+            $planta = current($item['plantasEmpreendimento']);
+          }
+
+          $imagensEmpreendimento = array_merge($imagensEmpreendimento, [$planta]);
+
+          if(!empty($item['imagensEmpreendimento'])) {
+            $ultimaImagem = array_slice($item['imagensEmpreendimento'], -1);
+            $imagemFooter = current($ultimaImagem);
+          }
+
+          if(count($imagensLazer) < 8) {
+
+              $imagensLazer = array_merge(array_slice($imagensEmpreendimento, 1, count($imagensLazer) - 8));
+
+          } elseif(count($imagensLazer) > 8) {
+
+              $imagensLazer = array_slice($imagensLazer, 1, 8);
+          }
+
+          $dataEntrega = null;
+
+          if(!empty($item['imovel'][0]->emp_previsao_entrega)) {
+            $dataEntrega = new \DateTime($imovel[0]->emp_previsao_entrega);
+            $dataEntrega = $dataEntrega->format('d/m/Y');
+          }
+
           $mensagem[$key] = view('empresa.chamados.includes.modelo-'.$modelo,
-          compact('saudacao', 'chamado', 'nomesEmpreendimentos', 'imoveisModelo2', 'imoveisModelo3', 'modelo'))
+          compact('saudacao', 'chamado', 'nomesEmpreendimentos', 'imoveisModelo2', 'imoveisModelo3', 'modelo', 'dataEntrega'))
+          ->with('imagensLazer', $imagensLazer)
           ->with('empreendimento', $item['empreendimento'])
           ->with('emp', $item['emp'])
           ->with('tipologias', $item['tipologias'])
           ->with('imovel', $item['imovel'])
           ->with('decricaoProjeto', $item['decricaoProjeto'])
           ->with('areasComuns', $item['areasComuns'])
-          ->with('imagensEmpreendimento', $item['imagensEmpreendimento'])
-          ->with('plantasEmpreendimento', $item['plantasEmpreendimento'])
+          ->with('imagensEmpreendimento', $imagensEmpreendimento)
+          ->with('plantasEmpreendimento', $planta)
           ->with('imagensImovel', $item['imagensImovel'])
-          ->with('imagensfachada', $item['imagensfachada']);
+          ->with('imagemFachada', $imagemFachada)
+          ->with('imagemFooter', $imagemFooter);
         }
 
-        return view('empresa.chamados.editor', compact('mensagem', 'imovel', 'chamado', 'emailList', 'nomesEmpreendimentos', 'modelo'))
+        $mensagem = ($modelo == 2) ? [$modeloKey => current($mensagem)] : $mensagem;
+        $nomesEmpreendimentos = ($modelo == 2) ? [current($nomesEmpreendimentos)] : $nomesEmpreendimentos;
+
+        return view('empresa.chamados.editor',
+        compact('mensagem', 'imovel', 'chamado', 'emailList', 'nomesEmpreendimentos', 'modelo'))
         ->with('empreendimento', current($lista));
     }
 
@@ -753,6 +848,23 @@ class ChamadosController extends Controller
         return $imovel;
     }
 
+    public function getImagensImovel($id, $tipo = 'img_lazer')
+    {
+        $sql = "Select imagens.img_diretorio imagem
+          from imoveis IMV
+          left JOIN empreendimentos AS EMP ON EMP.imv_id = IMV.imv_id
+          INNER JOIN imagens_imoveis AS imagens ON imagens.imv_id = IMV.imv_id
+          where IMV.imv_id = ? ";
+
+        $sql .= " AND $tipo = 1 ";
+
+        $imovel = \DB::connection('mysql_seabra')->select($sql, [$id]);
+
+        #dd($imovel);
+
+        return $imovel;
+    }
+
     public function getTipolias($id, $tipo)
     {
       $sql = "select tip_dorms, tip_suite, tip_vagas, tip_area from tipologias where imv_id = ? and tip_status = 0 ";
@@ -847,6 +959,18 @@ class ChamadosController extends Controller
         return $result;
     }
 
+    public function getEmpreendimentoAjax(Request $request)
+    {
+        if(!$request->has('referencia')) {
+            return response()->json([
+              'code' => 403,
+              'message' => 'Parametros insuficientes para a pesquisa.'
+            ]);
+        }
+
+        return json_encode($this->getEmpreendimento($request->get('referencia')));
+    }
+
     public function getEmpreendimento($referencia)
     {
         $sql = "select IMV.imv_id, imv_referencia, imv_publicidade, imv_tipo,
@@ -864,6 +988,9 @@ class ChamadosController extends Controller
         $result = [];
 
         foreach ($empreendimentos as $empreendimento) {
+
+            $entrega = $empreendimento->emp_previsao_entrega;
+
             $result['imovel'] = $empreendimento->imv_id;
             $result['referencia'] = $empreendimento->imv_referencia;
             $result['incorporacao'] = $empreendimento->emp_incorporacao;
@@ -873,13 +1000,14 @@ class ChamadosController extends Controller
             $result['qtdunidades'] = $empreendimento->emp_qtd_unidades;
             $result['qtdelevadores'] = $empreendimento->emp_qtd_elevadores;
             $result['estproximas'] = $empreendimento->emp_estacoes_proximas;
-            $result['entrega'] = $empreendimento->emp_previsao_entrega;
+            $result['entrega'] = (new \DateTime($entrega))->format('d/m/Y');
             $result['faseobra'] = mb_strtoupper($this->getPublicidade($empreendimento->imv_publicidade), 'UTF-8');
             $result['tipo'] = $empreendimento->imv_tipo;
             $result['terreno'] = $empreendimento->imv_area_terreno.' mts<sup>2</sup>';
             $result['hotsite'] = $empreendimento->emp_link_hot_site;
             $result['video'] = $empreendimento->emp_link_video;
             $result['tipologia'] = $this->getTipologia($empreendimento->imv_id, $empreendimento->imv_tipo == 1);
+            $result['tipologias'] = $this->getTipolias($empreendimento->imv_id, $empreendimento->imv_tipo);
             $result['extras'] = $this->getImovelExtras($empreendimento->imv_id);
         }
 
@@ -1143,7 +1271,7 @@ class ChamadosController extends Controller
 
         $minArea = number_format($minArea, 2, ',', '.');
 
-        $result['quadrado'] = '( R$ '.$minArea.'  por m<sup>2</sup> )';
+        $result['quadrado'] = 'R$ '.$minArea.'  por m<sup>2</sup>';
 
         /* Preço M² Aluguel **/
 

@@ -4,7 +4,7 @@
             <tr>
                 <td class="content-cell" align="center">
 
-                    <img style="max-width:570px" src="http://seabra.com.br/admin/assets/images/banners/footer.jpg" alt=""/>
+                    <img style="max-width:700px" src="http://seabra.com.br/admin/assets/images/banners/footer.jpg" alt=""/>
 
                 </td>
             </tr>
