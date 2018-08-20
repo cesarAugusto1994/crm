@@ -1,6 +1,14 @@
 <div class="row">
 
-    <div class="col-xs-12">
+    <div class="col-md-12" style="margin-bottom:20px;border-radius:4px">
+      @if($modelo == 2)
+      <img style="width:100%" src="http://seabra.com.br/admin/assets/images/banners/header2.png" alt=""/>
+      @else
+      <img style="width:100%" src="http://seabra.com.br/admin/assets/images/banners/header.jpg" alt=""/>
+      @endif
+    </div>
+
+    <div class="col-md-12">
 
         <div class="well">
             <p style="font-weight:bolder;">Prezado(a) {{ $chamado->cliente->nome }},</p>
@@ -10,7 +18,7 @@
 
     </div>
 
-    <div class="col-xs-12">
+    <div class="col-md-12">
 
         <h4 class="text-center" style="text-transform: uppercase;">Segue Abaixo as informações solicitadas</h4>
 
@@ -113,7 +121,7 @@
 
     </div>
 
-    <div class="col-xs-12">
+    <div class="col-md-12">
 
         <h4 class="text-center" style="text-transform: uppercase;">Detalhes do Projeto</h4>
         <div class="well">
@@ -125,7 +133,7 @@
 
     </div>
 
-    <div class="col-xs-12">
+    <div class="col-md-12">
 
         <h4 class="text-center" style="text-transform: uppercase;">Tipologias Existentes</h4>
         <div class="well">
@@ -140,7 +148,7 @@
 
     </div>
 
-    <div class="col-xs-12">
+    <div class="col-md-12">
 
         <h4 class="text-center" style="text-transform: uppercase;">Áreas comuns</h4>
         <div class="well">
@@ -155,12 +163,13 @@
 
     </div>
 
-    <h4 class="text-center" style="text-transform: uppercase;">Imagens (Empreendimento)</h4>
-    <div class="col-xs-12" style="background-color:#0330b5;padding:1em">
+    <div class="col-md-12">
 
         <div class="row">
 
-            <div class="col-xs-12" >
+            <h4 class="text-center" style="text-transform: uppercase;">Imagens (Empreendimento)</h4>
+
+            <div class="col-md-12" style="background-color:#2B4C9B;padding:2em">
 
                 <div class="row">
                   <!--
@@ -184,22 +193,24 @@
 
     </div>
 
-    <div class="col-xs-12" style="background-color:#0330b5;padding:2em">
+    <div class="col-md-12" style="background-color:#2B4C9B;padding:2em">
 
-        <div class="row">
-            <div class="text-center">
-                <div class="col-xs-12 text-center" style="background-color:white;">
-                    <h4 style="color:#0330b5">AGENDE A SUA VISITA!</h4>
-                    <h4>Aguardo o seu retorno.</h4>
-                    <h4>Atenciosamente,</h4>
-                    <h4>{{ \Auth::user()->name }}</h4>
-                    <h4>Seabra Consultoria de Imóveis Ltda</h4>
-                    <h4>No Creci {{ \Auth::user()->creci }}</h4>
-                    <h4><b style="color:black">Celular/WhatsApp {{ \Auth::user()->celular }}</b></h4>
-                </div>
+        <div class="text-center">
+            <div class="col-xs-12 text-center" style="background-color:white;">
+                <h4 style="color:#0330b5">AGENDE A SUA VISITA!</h4>
+                <h4>Aguardo o seu retorno.</h4>
+                <h4>Atenciosamente,</h4>
+                <h4>{{ \Auth::user()->name }}</h4>
+                <h4>Seabra Consultoria de Imóveis Ltda</h4>
+                <h4>No Creci {{ \Auth::user()->creci }}</h4>
+                <h4><b style="color:black">Celular/WhatsApp {{ \Auth::user()->celular }}</b></h4>
             </div>
         </div>
 
+    </div>
+
+    <div class="col-md-12" style="margin-bottom:20px;border-radius:4px">
+        <img style="width:100%" src="http://seabra.com.br/admin/assets/images/banners/footer.jpg" alt=""/>
     </div>
 
 </div>

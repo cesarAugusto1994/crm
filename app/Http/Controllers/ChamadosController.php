@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\{Chamados, Manifestacao, Empresa, Produtos, LogEmail, Clientes};
-use App\Models\Chamados\{Classificacao, Previsao, Status, Empreendimentos, Midias, Logs, Anotacoes};
+use App\Models\Chamados\{Classificacao, Previsao, Status, Empreendimentos, Midias, Logs, Anotacoes, Fase};
 use App\Models\Empresa\Departamentos;
 #use Ixudra\Curl\Facades\Curl;
 
@@ -116,10 +116,6 @@ class ChamadosController extends Controller
     {
         $chamado = Chamados::findOrFail($id);
 
-        #$seabra = \DB::connection('mysql_seabra');
-
-        #dd($seabra->select('select * from zonas'));
-
         $this->authorize('manage-chamados.view', $chamado);
 
         $user = \Auth::user();
@@ -127,8 +123,9 @@ class ChamadosController extends Controller
         $classificacao = Classificacao::where('id_empresa', $user->empresa->id)->get();
         $departamentos = Departamentos::where('id_empresa', $user->empresa->id)->get();
         $status = Status::where('id_empresa', $user->empresa->id)->get();
+        $fases = Fase::where('empresa_id', $user->empresa->id)->get();
 
-        return view('empresa.chamados.detalhes', compact('chamado', 'classificacao', 'departamentos', 'status'));
+        return view('empresa.chamados.detalhes', compact('chamado', 'classificacao', 'departamentos', 'status', 'fases'));
     }
 
     /**
@@ -153,8 +150,6 @@ class ChamadosController extends Controller
     {
         $data = $request->request->all();
 
-        #dd($data);
-
         $chamado = Chamados::findOrFail($id);
 
         if(isset($data['id_cliente'])) {
@@ -172,6 +167,7 @@ class ChamadosController extends Controller
             $chamado->descricao = $data['descricao'];
         }
 
+        $chamado->fase_id = $data['fase_id'];
         $chamado->situacao = $data['situacao'];
         $chamado->conclusao = $data['conclusao'] ?? '';
         $chamado->abertura_chamado = new \DateTime('now');
@@ -567,19 +563,9 @@ class ChamadosController extends Controller
 
         $imoveisModelo2 = $imoveisModelo3 = [];
 
-        foreach ($empreendimentos as $key => $item) {
+        foreach ($empreendimentos as $key => $itemLoop) {
 
-          $emp = Produtos::findOrFail($item);
-          $nomesEmpreendimentos[$emp->id] = $emp->nome;
-          $lista[] = $this->getEmpreendimento($emp->referencia);
-        }
-
-        #dd($lista);
-
-
-        foreach ($empreendimentos as $key => $item) {
-
-          $emp = Produtos::findOrFail($item);
+          $emp = Produtos::findOrFail($itemLoop);
           $nomesEmpreendimentos[$emp->id] = $emp->nome;
           $empreendimento = $this->getEmpreendimento($emp->referencia);
 

@@ -126,6 +126,18 @@ return [
             'can'         => 'manage-clientes.index',
         ],
         [
+            'text'        => 'Empreendimentos',
+            'url'         => '/empreendimentos',
+            'icon'        => 'building',
+            'can'         => 'manage-empreendimentos.index',
+        ],
+        [
+            'text'        => 'Perfils',
+            'url'         => '/perfis',
+            'icon'        => 'address-card',
+            'can'         => 'manage-perfis.index',
+        ],
+        [
             'text'        => 'Empresas',
             'url'         => '/admin/empresas',
             'icon'        => 'building',

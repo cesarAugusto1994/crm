@@ -69,6 +69,17 @@
                   </div>
                   <div class="col-md-3">
                     <div class="form-group">
+                      <label>Fase </label>
+                      <select id="fase" class="form-control select2" style="width: 100%;"
+                      name="fase_id">
+                        @foreach($fases as $item)
+                            <option value="{{ $item->id }}" {{ $item->id == $chamado->fase_id ? 'selected' : '' }}>{{ $item->nome }}</option>
+                        @endforeach
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
                       <label>Previsão de conclusão </label>
                       <select id="previsao" class="form-control select2" style="width: 100%;"
                       name="previsao_conclusao" data-default="{{ $chamado->previsao_conclusao }}">

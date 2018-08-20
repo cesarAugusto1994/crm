@@ -135,6 +135,62 @@ $( document ).ready(function(){
         width: '100%'
     });
 
+    $('#select-bairros').select2({
+        ajax: {
+          type: "GET",
+          url: $('#select-bairros').data('url'),
+          data: function (params) {
+            var query = {
+              search: params.term,
+              type: 'public'
+            }
+
+            return query;
+          },
+          processResults: function (data) {
+              return {
+                  results: $.map(JSON.parse(data), function (item) {
+                      return {
+                          text: item.nome,
+                          id: item.id
+                      }
+                  })
+              };
+          }
+        },
+        placeholder: 'Selecione um bairro',
+        minimumInputLength: 1,
+        width: '100%'
+    });
+
+    $('#select-areas-privativas').select2({
+        ajax: {
+          type: "GET",
+          url: $('#select-areas-privativas').data('url'),
+          data: function (params) {
+            var query = {
+              search: params.term,
+              type: 'public'
+            }
+
+            return query;
+          },
+          processResults: function (data) {
+              return {
+                  results: $.map(JSON.parse(data), function (item) {
+                      return {
+                          text: item.nome,
+                          id: item.id
+                      }
+                  })
+              };
+          }
+        },
+        placeholder: 'Selecione uma área',
+        minimumInputLength: 1,
+        width: '100%'
+    });
+
     $('#select-cliente').select2({
         ajax: {
           type: "GET",

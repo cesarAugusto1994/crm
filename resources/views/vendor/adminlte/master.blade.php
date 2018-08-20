@@ -61,6 +61,13 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js"></script>
 @endif
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+
+    <script>
+        $('.money').mask('000.000.000.000.000,00', {reverse: true});
+    </script>
+
+
 @yield('adminlte_js')
 
 </body>

@@ -48,5 +48,11 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::resource('manage-midias', 'App\Policies\MidiasPolicy');
         Gate::define('manage-midias.index', 'App\Policies\MidiasPolicy@index');
+
+        Gate::resource('manage-empreendimentos', 'App\Policies\EmpreendimentosPolicy');
+        Gate::define('manage-empreendimentos.index', 'App\Policies\EmpreendimentosPolicy@index');
+
+        Gate::resource('manage-perfis', 'App\Policies\PerfisPolicy');
+        Gate::define('manage-perfis.index', 'App\Policies\PerfisPolicy@index');
     }
 }

@@ -21,7 +21,11 @@ Route::middleware('auth')->middleware('status')->group(function() {
   Route::get('/', 'HomeController@index')->name('home');
   Route::resource('chamados', 'ChamadosController');
   Route::resource('clientes', 'ClientesController');
+  Route::resource('empreendimentos', 'EmpreendimentosController');
   Route::resource('agenda', 'AgendaController');
+  Route::resource('perfis', 'PerfisController');
+
+  Route::get('perfis/{id}/imoveis', 'PerfisController@adicionarImovel')->name('adicionar_imoveis');
 
   Route::get('/chamado/previsoes', 'ChamadosController@previsao')->name('previsao');
   //Route::get('/chamado/departamentos', 'ChamadosController@departamentos')->name('departamentos');
@@ -69,6 +73,9 @@ Route::middleware('auth')->middleware('status')->group(function() {
   Route::put('/perfil', 'UsersController@editarPerfil')->name('perfil_editar');
 
   Route::get('/empreendimento/ajax', 'ChamadosController@getEmpreendimentoAjax')->name('empreendimento_ajax');
+
+  Route::get('/empreendimento/bairros', 'EmpreendimentosController@bairros')->name('bairros');
+  Route::get('/empreendimento/areas-privativas', 'EmpreendimentosController@areaPrivativa')->name('areas_privativas');
 
   Route::prefix('/admin')->group(function() {
       Route::resource('empresas', 'EmpresasController');
