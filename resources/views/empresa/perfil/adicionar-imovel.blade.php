@@ -55,26 +55,75 @@
                     </div>
                   </div>
 
-                  <div class="col-md-3">
+                  <div class="col-md-2">
                     <div class="form-group">
                       <label for="nome">Nome</label>
                       <input type="text" class="form-control" id="nome" name="nome" placeholder="">
                     </div>
                   </div>
 
-                  <div class="col-md-3">
+                  <div class="col-md-2">
                     <div class="form-group">
                       <label for="select-empreendimento">Empreendimento</label>
                       <select style="width:150px" id="select-empreendimento" name="empreendimento" data-url="{{ route('empreendimentos') }}" class="select2"></select>
                     </div>
                   </div>
 
-                  <div class="col-md-3">
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label for="select-midias">Zona</label>
+                      <select id="select-zonas" name="zona" class="form-control">
+                        <option value=""></option>
+                        <option value="1">Centro</option>
+                        <option value="2">Leste</option>
+                        <option value="3">Norte</option>
+                        <option value="4">Oeste</option>
+                        <option value="5">Sul</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-1">
+                    <div class="form-group">
+                      <label for="select-midias">Tipo Imóvel</label>
+                      <select id="select-zonas" name="zona" class="form-control">
+                        <option value=""></option>
+                        <option value="1">Apartamento</option>
+                        <option value="2">Casa</option>
+                        <option value="3">Cobertura</option>
+                        <option value="4">Conjunto Comercial</option>
+                        <option value="5">Duplex</option>
+
+                        <option value="6">Flat</option>
+                        <option value="7">Loja</option>
+                        <option value="8">Ponto Comercial</option>
+                        <option value="9">Terreno/Loteamento</option>
+                        <option value="10">Vaga de Garagem</option>
+                        <option value="11">Rural</option>
+
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label for="select-midias">Cidade</label>
+                      <select style="width:150px" id="select-cidade" name="cidade" data-url="{{ route('cidades') }}" class="form-control"></select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-2">
                     <div class="form-group">
                       <label for="select-midias">Bairro</label>
                       <select style="width:150px" id="select-bairros" name="bairros" data-url="{{ route('bairros') }}" class="form-control"></select>
                     </div>
                   </div>
+
+
+
+                </div>
+
+                <div class="row">
 
                   <div class="col-md-2">
                     <div class="form-group">
@@ -83,16 +132,20 @@
                     </div>
                   </div>
 
-                </div>
-
-                <div class="row">
-
                   <div class="col-md-1">
                     <div class="form-group">
                       <label for="select-midias">Dormitórios</label>
-                      <input type="checkbox" id="" name="habilitar_dormitorios" value="1">
-                      <select name="dormitorios" class="form-control">
-                        @foreach(range(0, 10) as $item)
+                      <input type="checkbox" id="habilitar_dormitorios" class="enabler" name="habilitar_dormitorios" value="1">
+                      <select name="dormitorios_min" class="form-control disabled" data-target-element="habilitar_dormitorios">
+                        <option value=""></option>
+                        @foreach(range(1, 10) as $item)
+                            <option value="{{ $item }}">{{ $item }}</option>
+                        @endforeach
+                      </select>
+
+                      <select name="dormitorios_max" class="form-control disabled" data-target-element="habilitar_dormitorios">
+                        <option value=""></option>
+                        @foreach(range(1, 10) as $item)
                             <option value="{{ $item }}">{{ $item }}</option>
                         @endforeach
                       </select>
@@ -102,9 +155,17 @@
                   <div class="col-md-1">
                     <div class="form-group">
                       <label for="select-midias">Suites</label>
-                      <input type="checkbox" id="" name="habilitar_suites" value="1">
-                      <select name="suites" class="form-control">
-                        @foreach(range(0, 10) as $item)
+                      <input type="checkbox" id="habilitar_suites" class="enabler" name="habilitar_suites" value="1">
+                      <select name="suites_min" class="form-control disabled" data-target-element="habilitar_suites">
+                        <option value=""></option>
+                        @foreach(range(1, 10) as $item)
+                            <option value="{{ $item }}">{{ $item }}</option>
+                        @endforeach
+                      </select>
+
+                      <select name="suites_max" class="form-control disabled" data-target-element="habilitar_suites">
+                        <option value=""></option>
+                        @foreach(range(1, 10) as $item)
                             <option value="{{ $item }}">{{ $item }}</option>
                         @endforeach
                       </select>
@@ -114,9 +175,17 @@
                   <div class="col-md-1">
                     <div class="form-group">
                       <label for="select-midias">Vagas</label>
-                      <input type="checkbox" id="" name="habilitar_vagas" value="1">
-                      <select name="vagas" class="form-control">
-                        @foreach(range(0, 10) as $item)
+                      <input type="checkbox" id="habilitar_vagas" class="enabler" name="habilitar_vagas" value="1">
+                      <select name="vagas_min" class="form-control disabled" data-target-element="habilitar_vagas">
+                        <option value=""></option>
+                        @foreach(range(1, 10) as $item)
+                            <option value="{{ $item }}">{{ $item }}</option>
+                        @endforeach
+                      </select>
+
+                      <select name="vagas_max" class="form-control disabled" data-target-element="habilitar_vagas">
+                        <option value=""></option>
+                        @foreach(range(1, 10) as $item)
                             <option value="{{ $item }}">{{ $item }}</option>
                         @endforeach
                       </select>
@@ -126,31 +195,25 @@
                   <div class="col-md-1">
                     <div class="form-group">
                       <label for="select-midias">Área</label>
-                      <input type="checkbox" id="" name="habilitar_areas" value="1"/>
-                      <input type="text" class="form-control" id="area_min" name="area_min"/>
-                      Até
-                      <input type="text" class="form-control" id="area_max" name="area_max"/>
+                      <input type="checkbox" id="habilitar_areas" class="enabler" name="habilitar_areas" value="1"/>
+                      <input type="text" class="form-control disabled" id="area_min" name="area_min" data-target-element="habilitar_areas"/>
+                      <input type="text" class="form-control disabled" id="area_max" name="area_max" data-target-element="habilitar_areas"/>
                     </div>
                   </div>
 
                   <div class="col-md-1">
                     <div class="form-group">
-                      <label for="select-midias">Cobertura</label>
-                      <input type="checkbox" id="habilitar_cobertura" name="habilitar_cobertura" value="1"/>
-                      <select name="cobertura" class="form-control">
-                          <option value="1">Sim</option>
-                          <option value="0" selected>Não</option>
-                      </select>
+                      <label for="select-midias">Entrega</label>
+                      <input type="checkbox" id="habilitar_entrega" class="enabler" name="habilitar_entrega" value="1"/>
+                      <input type="text" class="form-control date disabled" data-target-element="habilitar_entrega" id="entrega_min" name="entrega_min"/>
+                      <input type="text" class="form-control date disabled" id="entrega_max" data-target-element="habilitar_entrega" name="entrega_max"/>
                     </div>
                   </div>
 
-                  <div class="col-md-1">
+                  <div class="col-md-3">
                     <div class="form-group">
-                      <label for="select-midias">Valor MT2</label>
-                      <input type="checkbox" id="habilitar_valor_mt2" name="habilitar_valor_mt2" value="1"/>
-                      <input type="text" class="form-control money" id="valor_min" name="valor_min"/>
-                      Até
-                      <input type="text" class="form-control money" id="valor_max" name="valor_max"/>
+                      <label for="select-midias">Incorporadora</label>
+                      <input type="text" class="form-control" id="incorporadora" name="incorporadora"/>
                     </div>
                   </div>
 
@@ -180,26 +243,18 @@
             <thead>
               <tr>
                 <th style="width: 10px"></th>
-                <th>Código</th>
                 <th>Titulo</th>
-                <th>Localidade</th>
+                <th>Código</th>
                 <th>Referencia</th>
-                <th>Incorporação</th>
-                <th>Construtora</th>
-                <th>Arquitetura</th>
-                <th>Torres</th>
-                <th>Unidades</th>
-                <th>Elevadores</th>
+                <th>Area privativa</th>
                 <th>Dormitórios</th>
                 <th>Suites</th>
                 <th>Vagas</th>
-                <th>Area</th>
-                <th>Estações</th>
-                <th>Entrega</th>
-                <th>Faixa Precço</th>
-                <th>Faixa Precço</th>
                 <th>Fase Obra</th>
-                <th>Areas Comuns</th>
+                <th>Entrega</th>
+                <th>Faixa Preço</th>
+                <th>Localidade</th>
+                <th>Incorporação</th>
               </tr>
             </thead>
             <tbody>
@@ -209,42 +264,18 @@
                       $query = http_build_query($empreendimento);
                     @endphp
                     <td><a href="?adicionar_imovel=1&perfil_id={{ $perfil->id }}&imovel_id={{ $empreendimento['id'] }}&{{ request()->getQueryString() }}&{{ $query }}" class="btn btn-success btn-xs">Adicionar</a></td>
-                    <td>{{ $empreendimento['id'] }}</td>
                     <td>{{ $empreendimento['titulo'] }}</td>
-                    <td>{{ $empreendimento['localidade'] }}</td>
+                    <td>{{ $empreendimento['id'] }}</td>
                     <td>{{ $empreendimento['referencia'] }}</td>
-                    <td>{{ $empreendimento['incorporacao'] }}</td>
-                    <td>{{ $empreendimento['construcao'] }}</td>
-                    <td>{{ $empreendimento['arquitetura'] }}</td>
-                    <td>{{ $empreendimento['torres'] }}</td>
-                    <td>{{ $empreendimento['unidades'] }}</td>
-                    <td>{{ $empreendimento['elevadores'] }}</td>
+                    <td>{{ $empreendimento['areas'] }}</td>
                     <td>{{ $empreendimento['dormitorios'] }}</td>
                     <td>{{ $empreendimento['suites'] }}</td>
                     <td>{{ $empreendimento['vagas'] }}</td>
-                    <td>{{ $empreendimento['areas'] }}</td>
-                    <td>{{ $empreendimento['estacoes_proximas'] }}</td>
-                    <td>{{ $empreendimento['previsao_entrega'] }}</td>
-                    <td>{{ $empreendimento['faixa_preco_ini'] }}</td>
-                    <td>{{ $empreendimento['faixa_preco_fim'] }}</td>
                     <td>{{ $empreendimento['fases_obra'] }}</td>
-                    <td>
-                      @php
-
-                        $areas = [];
-
-                        if(!empty($empreendimento['areas_comuns'])) {
-                          $areas = explode(',' ,$empreendimento['areas_comuns']);
-                        }
-
-                      @endphp
-
-                      @foreach($areas as $area)
-
-                        - {{ $area }} <br/>
-
-                      @endforeach
-                    </td>
+                    <td>{{ $empreendimento['previsao_entrega'] }}</td>
+                    <td>{{ number_format($empreendimento['faixa_preco_ini'], 2, ',', '.') }} / {{ number_format($empreendimento['faixa_preco_fim'], 2, ',', '.') }}</td>
+                    <td>{{ $empreendimento['localidade'] }}</td>
+                    <td>{{ $empreendimento['incorporacao'] }}</td>
                   </tr>
               @empty
                   <tr>
@@ -273,4 +304,54 @@
 
 @section('js')
     <script src="{{ asset('js/custom.js') }}"></script>
+
+    <script>
+
+      $(document).ready(function() {
+
+        var disabled = $(".disabled");
+        disabled.attr('disabled', true);
+
+        var item = $(".enabler");
+
+        item.change(function() {
+
+          var self = $(this);
+
+          if (self.is(':checked')) {
+
+            $.each(disabled, function(idx, element) {
+
+              var elemento = $(element);
+
+              if(elemento.data('target-element') == self.attr('id')) {
+
+                elemento.attr('disabled', false);
+
+              }
+
+            });
+
+          } else {
+
+            $.each(disabled, function(idx, element) {
+
+              var elemento = $(element);
+
+              if(elemento.data('target-element') == self.attr('id')) {
+
+                elemento.attr('disabled', true);
+
+              }
+
+            });
+
+
+          }
+
+        });
+
+      });
+
+    </script>
 @stop

@@ -62,8 +62,8 @@
                     <td>{{ $perfil->id }}</td>
                     <td>{{ $perfil->nome }}</td>
                     <td>
-                      <a href="{{ route('perfis.show', $perfil->id) }}"><i class="fa fa-eye"></i></a>
-                      <a href="{{ route('perfis.edit', $perfil->id) }}"><i class="fa fa-edit"></i></a>
+                      <a class="btn btn-primary" href="{{ route('perfis.show', $perfil->id) }}"><i class="fa fa-home"></i> Imóveis</a>
+                      <a class="btn btn-info" href="{{ route('perfis.edit', $perfil->id) }}"><i class="fa fa-edit"></i> Editar</a>
                     </td>
                   </tr>
               @empty

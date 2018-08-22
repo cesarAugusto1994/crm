@@ -71,6 +71,10 @@ Route::middleware('auth')->middleware('status')->group(function() {
 
   Route::get('/perfil', 'UsersController@profile')->name('perfil');
   Route::put('/perfil', 'UsersController@editarPerfil')->name('perfil_editar');
+  Route::get('/perfil/{id}/envio-email', 'PerfisController@envioEmail')->name('perfil_envio_email_cliente');
+  Route::post('/perfil/{id}/send/email', 'PerfisController@sendEmail')->name('perfil_send_email');
+
+  Route::get('/perfil/cidades', 'PerfisController@cidades')->name('cidades');
 
   Route::get('/empreendimento/ajax', 'ChamadosController@getEmpreendimentoAjax')->name('empreendimento_ajax');
 

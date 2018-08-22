@@ -807,13 +807,6 @@ class ChamadosController extends Controller
         return $descricao;
     }
 
-    public function getTipo($id)
-    {
-        $imovel = \DB::connection('mysql_seabra')->select('select * from imoveis where id = ?', [$id]);
-
-        dd($imovel);
-    }
-
     public function getImovel($id)
     {
         $sql = "Select IMV.imv_id, BAI.bai_id, imv_referencia,

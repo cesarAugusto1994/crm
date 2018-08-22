@@ -135,6 +135,34 @@ $( document ).ready(function(){
         width: '100%'
     });
 
+    $('#select-cidade').select2({
+        ajax: {
+          type: "GET",
+          url: $('#select-cidade').data('url'),
+          data: function (params) {
+            var query = {
+              search: params.term,
+              type: 'public'
+            }
+
+            return query;
+          },
+          processResults: function (data) {
+              return {
+                  results: $.map(JSON.parse(data), function (item) {
+                      return {
+                          text: item.nome,
+                          id: item.id
+                      }
+                  })
+              };
+          }
+        },
+        placeholder: 'Selecione uma cidade',
+        minimumInputLength: 1,
+        width: '100%'
+    });
+
     $('#select-bairros').select2({
         ajax: {
           type: "GET",

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Perfil;
 use App\Models\Imovel;
 use App\Models\Perfil\Imoveis as PerfilImovel;
+use App\Models\{Chamados, Manifestacao, Empresa, Produtos, LogEmail, Clientes};
 
 class PerfisController extends Controller
 {
@@ -119,17 +120,13 @@ class PerfisController extends Controller
                 where aci.imv_id = imovel.imv_id";
 
             if(!empty($data['areas'])) {
-
               if(is_array($data['areas'])) {
+                foreach ($data['areas'] as $key => $area) {
 
-              foreach ($data['areas'] as $key => $area) {
+                  $sql .= " AND aci.arc_id = " . (int)$area . " ";
 
-                $sql .= " AND aci.arc_id = " . (int)$area . " ";
-
+                }
               }
-
-              }
-
             }
 
             $sql .= ") as areas
@@ -162,6 +159,18 @@ class PerfisController extends Controller
                 $sql .= " AND imovel.imv_id = " . (int)$request->get('codigo');
             }
 
+            if($request->has('zona') && !empty($request->get('zona'))) {
+                $sql .= " AND local.zn_id = " . (int)$request->get('zona');
+            }
+
+            if($request->has('cidade') && !empty($request->get('cidade'))) {
+                $sql .= " AND local.cid_id = " . (int)$request->get('cidade');
+            }
+
+            if($request->has('incorporadora') && !empty($request->get('incorporadora'))) {
+                $sql .= " AND emp.emp_incorporacao LIKE '%" . $request->get('incorporadora') . "%'";
+            }
+
             if($request->has('nome') && !empty($request->get('nome'))) {
                 $sql .= " AND imovel.imv_titulo LIKE '%" . $request->get('nome') . "%'";
             }
@@ -171,23 +180,61 @@ class PerfisController extends Controller
             }
 
             if($request->has('habilitar_dormitorios')) {
-                $sql .= " AND tip.tip_dorms = " . (int)$request->get('dormitorios');
-            }
 
-            if($request->has('habilitar_dormitorios')) {
-                $sql .= " AND tip.tip_dorms = " . (int)$request->get('dormitorios');
+                if($request->has('dormitorios_min') && !empty($request->get('dormitorios_min'))) {
+                    $sql .= " AND tip.tip_dorms >= " . $request->get('dormitorios_min');
+                }
+
+                if($request->has('dormitorios_max') && !empty($request->get('dormitorios_max'))) {
+                    $sql .= " AND tip.tip_dorms <= " . $request->get('dormitorios_max');
+                }
+
             }
 
             if($request->has('habilitar_suites')) {
-                $sql .= " AND tip.tip_suite = " . (int)$request->get('suites');
+
+                if($request->has('suites_min') && !empty($request->get('suites_min'))) {
+                    $sql .= " AND tip.tip_suite >= " . $request->get('suites_min');
+                }
+
+                if($request->has('suites_max') && !empty($request->get('suites_max'))) {
+                    $sql .= " AND tip.tip_suite <= " . $request->get('suites_max');
+                }
+
             }
 
             if($request->has('habilitar_vagas')) {
-                $sql .= " AND tip.tip_vagas = " . (int)$request->get('vagas');
+
+                if($request->has('vagas_min') && !empty($request->get('vagas_min'))) {
+                    $sql .= " AND tip.tip_vagas >= " . $request->get('vagas_min');
+                }
+
+                if($request->has('vagas_max') && !empty($request->get('vagas_max'))) {
+                    $sql .= " AND tip.tip_vagas <= " . $request->get('vagas_max');
+                }
+
             }
 
-            if($request->has('habilitar_cobertura')) {
-                $sql .= " AND tip.tip_cobertura = " . (int)$request->get('cobertura');
+            if($request->has('habilitar_entrega')) {
+
+                if($request->has('entrega_min') && !empty($request->get('entrega_min'))) {
+
+                    $entregaInicio = $request->get('entrega_min');
+                    $entregaInicio = \DateTime::createFromFormat('d/m/Y', $entregaInicio);
+                    $entregaInicio->setTime(0,0,0);
+
+                    $sql .= " AND emp.emp_previsao_entrega >= '" . $entregaInicio->format('Y-m-d H:i:s') . "'";
+                }
+
+                if($request->has('entrega_max') && !empty($request->get('entrega_max'))) {
+
+                    $entregaFim = $request->get('entrega_max');
+                    $entregaFim = \DateTime::createFromFormat('d/m/Y', $entregaFim);
+                    $entregaFim->setTime(23,59,59);
+
+                    $sql .= " AND emp.emp_previsao_entrega <= '" . $entregaFim->format('Y-m-d H:i:s') . "'";
+                }
+
             }
 
             if($request->has('habilitar_areas')) {
@@ -215,28 +262,20 @@ class PerfisController extends Controller
 
             $registros = \DB::connection('mysql_seabra')->select($sql);
 
-            #dd($registros);
-
             foreach ($registros as $key => $empreendimento) {
 
                 $slug = (int)$empreendimento->imv_id.":".(int)$empreendimento->emp_qtd_unidades.":".(int)$empreendimento->tip_area;
 
                 $i = '0:0:0';
 
-                //if(empty($imovel)) {
                 $imovel = Imovel::where('seabra_id', $empreendimento->imv_id)
                 ->where('unidades', (int)$empreendimento->emp_qtd_unidades)
                 ->where('areas', (int)$empreendimento->tip_area)->get();
-                //}
 
                 if($imovel->isNotEmpty()) {
                   $imovel = $imovel->first();
                   $i = (int)$imovel->seabra_id.':'.(int)$imovel->unidades.':'.(int)$imovel->areas;
                 }
-
-                //dd($imovel);
-
-                //dd($slug, $i);
 
                 if($i == $slug) {
                   continue;
@@ -304,5 +343,780 @@ class PerfisController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function envioEmail(Request $request, $id)
+    {
+        $data = $request->request->all();
+
+        $perfil = Perfil::findOrFail($id);
+
+        if($perfil->imoveis->isEmpty()) {
+          flash('Nenhum imóvel encontrado')->info()->important();
+          return back();
+        }
+
+        $modelo = $data['modelo'] ?? 3;
+
+        $imoveisModelo2 = $imoveisModelo3 = [];
+
+        foreach ($perfil->imoveis as $key => $itemLoop) {
+
+          $referencia = $itemLoop->imovel->referencia;
+          $imovelId = $itemLoop->imovel->seabra_id;
+
+          $emp = \App\Models\Produtos::where('referencia', $referencia)->get()->first();
+          $nomesEmpreendimentos[$emp->id] = $emp->nome;
+          $empreendimento = $this->getEmpreendimento($emp->referencia);
+
+          $tipologias = $this->getTipolias($empreendimento['imovel'], $empreendimento['tipo']);
+          $imovel = $this->getImovel($empreendimento['imovel']);
+
+          $dataEntrega = null;
+
+          if(!empty($imovel[0]->emp_previsao_entrega)) {
+            $dataEntrega = new \DateTime($imovel[0]->emp_previsao_entrega);
+            $dataEntrega = $dataEntrega->format('d/m/Y');
+          }
+
+          $imoveisModelo2[$imovelId] = [
+              'empreendimento' => $emp->nome,
+              'referencia' => $emp->referencia,
+              'imovel' => $empreendimento,
+              'arquitetura' => $empreendimento['arquitetura'],
+              'codigo' => $empreendimento['imovel'],
+              'tipologia' => $empreendimento['tipologia'],
+              'terreno' => str_replace('área privativa', '', $empreendimento['tipologia']['area']),
+              'faseobra' => $empreendimento['faseobra'],
+              'entrega' => $dataEntrega,
+              'imagens' => $imagensfachada = $this->getImagensImoveis($empreendimento['imovel'], 4),
+              'link' => 'http://www.seabra.com.br/' . $empreendimento['extras'][0]['link'],
+              'extras' => $this->getImovelExtras($empreendimento['imovel'])
+          ];
+
+          $imoveisModelo3[$imovelId] = [
+            'empreendimento' => $emp->nome,
+            'referencia' => $emp->referencia,
+            'imovel' => $empreendimento,
+            'arquitetura' => $empreendimento['arquitetura'],
+            'codigo' => $empreendimento['imovel'],
+            'tipologia' => $empreendimento['tipologia'],
+            'terreno' => str_replace('área privativa', '', $empreendimento['tipologia']['area']),
+            'faseobra' => $empreendimento['faseobra'],
+            'entrega' => $dataEntrega,
+            'imagens' => $imagensfachada = $this->getImagensImoveis($empreendimento['imovel'], 4),
+            'link' => 'http://www.seabra.com.br/' . $empreendimento['extras'][0]['link'],
+            'extras' => $this->getImovelExtras($empreendimento['imovel'])
+          ];
+
+          $decricaoProjeto = $this->getDescricao($empreendimento['imovel'], 1);
+          $areasComuns = $this->getAreasComuns($empreendimento['imovel']);
+          $imagensEmpreendimento = $this->getImagensImoveis($empreendimento['imovel'], 2);
+          $plantasEmpreendimento = $this->getImagensImoveis($empreendimento['imovel'], 3);
+          $imagensImovel = $this->getImagensImoveis($empreendimento['imovel'], 5);
+          $imagensfachada = $this->getImagensImoveis($empreendimento['imovel'], 4);
+          $imagensLazer = $this->getImagensImovel($empreendimento['imovel']);
+
+          $lista[$emp->id] = [
+            'empreendimento' => $empreendimento,
+            'emp' => $emp,
+            'tipologias' => $tipologias,
+            'imovel' => $imovel,
+            'decricaoProjeto' => $decricaoProjeto,
+            'areasComuns' => $areasComuns,
+            'imagensEmpreendimento' => $imagensEmpreendimento,
+            'plantasEmpreendimento' => $plantasEmpreendimento,
+            'imagensImovel' => $imagensImovel,
+            'imagensfachada' => $imagensfachada,
+            'imagensLazer' => $imagensLazer
+          ];
+
+        }
+
+        $mensagem = [];
+
+        $modeloKey = null;
+
+        foreach ($lista as $key => $item) {
+
+          if(empty($modeloKey)) {
+            $modeloKey = $key;
+          }
+
+          $imagensLazer = $imagemFachada = $imagensEmpreendimento = $planta = $imagemFooter = [];
+
+          if(!empty($item['imagensLazer'])) {
+
+            foreach ($item['imagensLazer'] as $img) {
+              $imagensLazer[] = 'http://www.seabra.com.br/admin/' . str_replace('../', '', $img->imagem);
+            }
+
+          }
+
+          if(!empty($item['imagensfachada'])) {
+            $imagemFachada = current($item['imagensfachada']);
+          }
+
+          if(empty($imagemFachada)) {
+            //$imagemFachada = current($item['imagensEmpreendimento']);
+          }
+
+          //$imagensEmpreendimento = array_slice($item['imagensEmpreendimento'], 1, 5);
+
+          if(!empty($item['plantasEmpreendimento'])) {
+            $planta = current($item['plantasEmpreendimento']);
+          }
+
+          $imagensEmpreendimento = array_merge($imagensEmpreendimento, [$planta]);
+
+          if(!empty($item['imagensEmpreendimento'])) {
+            $ultimaImagem = array_slice($item['imagensEmpreendimento'], -1);
+            $imagemFooter = current($ultimaImagem);
+          }
+
+          if(count($imagensLazer) < 8) {
+
+              $imagensLazer = array_merge(array_slice($imagensEmpreendimento, 1, count($imagensLazer) - 8));
+
+          } elseif(count($imagensLazer) > 8) {
+
+              $imagensLazer = array_slice($imagensLazer, 1, 8);
+          }
+
+          $dataEntrega = null;
+
+          if(!empty($item['imovel'][0]->emp_previsao_entrega)) {
+            $dataEntrega = new \DateTime($imovel[0]->emp_previsao_entrega);
+            $dataEntrega = $dataEntrega->format('d/m/Y');
+          }
+
+          $mensagem[$key] = view('empresa.chamados.includes.modelo-'.$modelo,
+          compact('chamado', 'nomesEmpreendimentos', 'imoveisModelo2', 'imoveisModelo3', 'modelo', 'dataEntrega'))
+          ->with('imagensLazer', $imagensLazer)
+          ->with('empreendimento', $item['empreendimento'])
+          ->with('emp', $item['emp'])
+          ->with('tipologias', $item['tipologias'])
+          ->with('imovel', $item['imovel'])
+          ->with('decricaoProjeto', $item['decricaoProjeto'])
+          ->with('areasComuns', $item['areasComuns'])
+          ->with('imagensEmpreendimento', $imagensEmpreendimento)
+          ->with('plantasEmpreendimento', $planta)
+          ->with('imagensImovel', $item['imagensImovel'])
+          ->with('imagemFachada', $imagemFachada)
+          ->with('imagemFooter', $imagemFooter);
+        }
+
+        $mensagem = ($modelo == 2) ? [$modeloKey => current($mensagem)] : $mensagem;
+        $nomesEmpreendimentos = ($modelo == 2) ? [current($nomesEmpreendimentos)] : $nomesEmpreendimentos;
+
+        return view('empresa.perfil.editor',
+        compact('mensagem', 'imovel', 'perfil', 'nomesEmpreendimentos', 'modelo'))
+        ->with('empreendimento', current($lista));
+    }
+
+    public function sendEmail(Request $request, $id)
+    {
+        $data = $request->request->all();
+
+        $perfil = Perfil::findOrFail($id);
+
+        $path = "";
+
+        if(isset($data['enviar_email'])) {
+
+            $user = \Auth::user();
+
+            $empresa = Empresa::where('id', $user->empresa_id)->get();
+            $empresa = $empresa->first();
+
+            $descricao = "";
+
+            if(!$empresa->mail_username || !$empresa->mail_password || !$empresa->mail_driver || !$empresa->mail_host || !$empresa->mail_port) {
+                flash('Erro no envio: Por favor verifique as configurações de envio de email na cadastro da empresa!')->error()->important();
+                return redirect()->back();
+            } else {
+
+                \Config::set('mail.username', $empresa->mail_username);
+                \Config::set('mail.password', $empresa->mail_password);
+                \Config::set('mail.port', $empresa->mail_port);
+                \Config::set('mail.driver', $empresa->mail_driver);
+                \Config::set('mail.host', $empresa->mail_host);
+                \Config::set('mail.encryption', $empresa->mail_encription);
+                \Config::set('app.name', $empresa->nome);
+
+            }
+
+
+
+            }
+
+        if(isset($data['enviar_email']) && isset($data['empreendimentos']) || isset($data['email_em_branco'])) {
+
+            $emails = explode(', ', $data['email']);
+
+            if(isset($data['empreendimentos'])) {
+
+                foreach ($data['empreendimentos'] as $key => $item) {
+
+                    $texto = $data['descricao-'.$item];
+
+                    $assunto = 'SEABRA – '.$data['empreendimento'][$key].' – INFORMAÇÕES';
+
+                    if($data['modelo'] == 3) {
+                      $assunto = 'SEABRA – IMÓVEIS SELECIONADOS CONFORME PERFIL DESEJADO';
+                    }
+
+                    $assunto = strtoupper($assunto);
+
+                    foreach ($emails as $key => $email) {
+                      \Mail::to([
+                        $perfil->cliente->nome => $email,
+                      ])->send(new \App\Mail\Perfil($perfil, $empresa, $texto, $path, $assunto, $data['modelo']));
+                    }
+
+                }
+            } elseif(isset($data['email_em_branco'])) {
+
+              $assunto = 'SEABRA – INFORMAÇÕES';
+
+              foreach ($emails as $key => $email) {
+                \Mail::to([
+                  $perfil->cliente->nome => $email,
+                ])->send(new \App\Mail\Resposta($log, $perfil, $empresa, $data['descricao'], $path, $assunto, $data['modelo']));
+              }
+
+            }
+
+            flash('Email enviado com sucesso!')->success()->important();
+        }
+
+        return redirect()->back();
+
+        flash('A descrição foi adicionada ao chamado com sucesso!')->success()->important();
+    }
+
+    public function getAreasComuns($id)
+    {
+        $sql = "select arc_nome
+        from imoveis AS IMV
+        INNER JOIN areas_comuns_imoveis AS AREA ON AREA.imv_id = IMV.imv_id
+        INNER JOIN areas_comuns AS COM ON COM.arc_id = AREA.arc_id
+        where IMV.imv_id = ?";
+
+        $areas = \DB::connection('mysql_seabra')->select($sql, [$id]);
+
+        return $areas;
+    }
+
+    public function getDescricao($id, $tipo)
+    {
+        switch ($tipo) {
+            case 1:
+                $field = 'des_basica';
+                break;
+            case 2:
+                $field = 'des_regiao';
+                break;
+            case 3:
+                $field = 'des_areas_comuns';
+                break;
+            default:
+                $field = 'des_plantas';
+                break;
+        }
+
+        $sql = "select $field from descricoes_imoveis where imv_id = ?";
+
+        $descricao = \DB::connection('mysql_seabra')->select($sql, [$id]);
+
+        return $descricao;
+    }
+
+    public function getImovel($id)
+    {
+        $sql = "Select IMV.imv_id, BAI.bai_id, imv_referencia,
+          imv_publicidade, imv_uso, imv_titulo, imv_tipo, EMP.emp_previsao_entrega,
+          imv_localidade, imv_oferta, est_uf, cid_nome,
+          bai_nome, imv_oferta, emp_faixa_preco_ini,
+          imv_area_terreno, imv_operacao, imv_portifolio
+          from imoveis IMV
+          LEFT JOIN empreendimentos AS EMP ON EMP.imv_id = IMV.imv_id
+          LEFT JOIN localidades AS LOC ON LOC.imv_id = IMV.imv_id
+          LEFT JOIN estados AS EST ON EST.est_id = LOC.est_id
+          LEFT JOIN cidades AS CID ON CID.cid_id = LOC.cid_id
+          LEFT JOIN bairros AS BAI ON BAI.bai_id = LOC.bai_id
+          where IMV.imv_id = ? ";
+
+        $imovel = \DB::connection('mysql_seabra')->select($sql, [$id]);
+
+        return $imovel;
+    }
+
+    public function getImagensImovel($id, $tipo = 'img_lazer')
+    {
+        $sql = "Select imagens.img_diretorio imagem
+          from imoveis IMV
+          left JOIN empreendimentos AS EMP ON EMP.imv_id = IMV.imv_id
+          INNER JOIN imagens_imoveis AS imagens ON imagens.imv_id = IMV.imv_id
+          where IMV.imv_id = ? ";
+
+        $sql .= " AND $tipo = 1 ";
+
+        $imovel = \DB::connection('mysql_seabra')->select($sql, [$id]);
+
+        #dd($imovel);
+
+        return $imovel;
+    }
+
+    public function getTipolias($id, $tipo)
+    {
+      $sql = "select tip_dorms, tip_suite, tip_vagas, tip_area from tipologias where imv_id = ? and tip_status = 0 ";
+
+      if ($tipo == 1) {
+          //$sql .= " AND tip_cobertura = 1";
+      }
+
+      $tipologias = \DB::connection('mysql_seabra')->select($sql, [$id]);
+
+      $result = [];
+
+      $i = 0;
+
+      foreach ($tipologias as $tipologia) {
+          if ($tipo == 4 || $tipo == 7 || $tipo == 8 || $tipo == 13 || $tipo == 14) {
+              $result[$i]['tipologiaExtenso'] = $tipologia->tip_vagas.' vaga(s) | ';
+
+              $result[$i]['tipologiaExtenso'] .= $tipologia->tip_area.' m<sup>2</sup> área privativa';
+          } elseif ($tipo == 9 || $tipo == 11) {
+              $result[$i]['tipologiaExtenso'] = $tipologia->tip_area.' m<sup>2</sup> área privativa';
+          } else {
+              $result[$i]['tipologiaExtenso'] = $tipologia->tip_dorms.' dormitório(s) | ';
+
+              $result[$i]['tipologiaExtenso'] .= $tipologia->tip_suite.' suite(s) | ';
+
+              $result[$i]['tipologiaExtenso'] .= $tipologia->tip_vagas.' vaga(s) | ';
+
+              $result[$i]['tipologiaExtenso'] .= $tipologia->tip_area.' m<sup>2</sup> área privativa';
+          }
+
+          ++$i;
+      }
+
+      return $result;
+    }
+
+    public function getImagensImoveis($id, $tipo)
+    {
+        $where = '';
+
+        switch ($tipo) {
+            case 1:
+                $where = "AND img_home = '1'";
+                break;
+
+            case 2:
+                $where = "AND img_lazer = '1'";
+                break;
+
+            case 3:
+                $where = "AND img_planta = '1'";
+                break;
+
+            case 4:
+                $where = "AND img_fachada = '1'";
+                break;
+
+            case 5:
+                $where = "AND img_decorado = '1'";
+                break;
+
+            case 6:
+                $where = "AND (img_fachada = '1' OR img_planta = '1')";
+                break;
+
+            default:
+                $where = 'AND img_home = 0 AND img_lazer = 0 AND img_planta = 0 AND img_fachada = 0 AND img_decorado = 0';
+                break;
+        }
+
+        $sql = " select img_diretorio from imagens_imoveis where imv_id = ? $where ";
+
+        $imagens = \DB::connection('mysql_seabra')->select($sql, [$id]);
+
+        $result = [];
+
+        $i = 0;
+
+        if (count($imagens) > 0) {
+            foreach ($imagens as $imagem) {
+                $path = pathinfo($imagem->img_diretorio);
+
+                $result[$i] = 'http://www.seabra.com.br/admin/assets/images/upload/img/'.$path['basename'];
+
+                ++$i;
+            }
+        } elseif ($tipo == 1) {
+            $result[0] = 'http://www.seabra.com.br/admin/assets/images/upload/img/image_break.jpg';
+        }
+
+        return $result;
+    }
+
+    public function getEmpreendimentoAjax(Request $request)
+    {
+        if(!$request->has('referencia')) {
+            return response()->json([
+              'code' => 403,
+              'message' => 'Parametros insuficientes para a pesquisa.'
+            ]);
+        }
+
+        return json_encode($this->getEmpreendimento($request->get('referencia')));
+    }
+
+    public function getEmpreendimento($referencia)
+    {
+        $sql = "select IMV.imv_id, imv_referencia, imv_publicidade, imv_tipo,
+        imv_area_terreno, emp_incorporacao, emp_construcao,
+        emp_arquitetura, emp_qtd_torres, emp_qtd_unidades,
+        emp_qtd_elevadores, emp_estacoes_proximas, emp_previsao_entrega,
+        emp_fases_obra, emp_link_hot_site, emp_link_video
+        from empreendimentos AS EMP
+        INNER JOIN imoveis AS IMV ON IMV.imv_id = EMP.imv_id
+        where IMV.imv_referencia = ?
+        ";
+
+        $empreendimentos = \DB::connection('mysql_seabra')->select($sql, [$referencia]);
+
+        $result = [];
+
+        foreach ($empreendimentos as $empreendimento) {
+
+            $entrega = $empreendimento->emp_previsao_entrega;
+
+            $result['imovel'] = $empreendimento->imv_id;
+            $result['referencia'] = $empreendimento->imv_referencia;
+            $result['incorporacao'] = $empreendimento->emp_incorporacao;
+            $result['construcao'] = $empreendimento->emp_construcao;
+            $result['arquitetura'] = $empreendimento->emp_arquitetura;
+            $result['qtdtorres'] = $empreendimento->emp_qtd_torres;
+            $result['qtdunidades'] = $empreendimento->emp_qtd_unidades;
+            $result['qtdelevadores'] = $empreendimento->emp_qtd_elevadores;
+            $result['estproximas'] = $empreendimento->emp_estacoes_proximas;
+            $result['entrega'] = (new \DateTime($entrega))->format('d/m/Y');
+            $result['faseobra'] = mb_strtoupper($this->getPublicidade($empreendimento->imv_publicidade), 'UTF-8');
+            $result['tipo'] = $empreendimento->imv_tipo;
+            $result['terreno'] = $empreendimento->imv_area_terreno.' mts<sup>2</sup>';
+            $result['hotsite'] = $empreendimento->emp_link_hot_site;
+            $result['video'] = $empreendimento->emp_link_video;
+            $result['tipologia'] = $this->getTipologia($empreendimento->imv_id, $empreendimento->imv_tipo == 1);
+            $result['tipologias'] = $this->getTipolias($empreendimento->imv_id, $empreendimento->imv_tipo);
+            $result['extras'] = $this->getImovelExtras($empreendimento->imv_id);
+        }
+
+        return $result;
+
+    }
+
+    public function getImovelExtras($id)
+    {
+        $sql = "select IMV.imv_id, imv_titulo,
+          imv_publicidade, imv_uso, imv_tipo,
+          est_uf, cid_nome, bai_nome, imv_localidade
+          from imoveis AS IMV
+          LEFT JOIN localidades AS LOC ON LOC.imv_id = IMV.imv_id
+          LEFT JOIN estados AS EST ON EST.est_id = LOC.est_id
+          LEFT JOIN cidades AS CID ON CID.cid_id = LOC.cid_id
+          LEFT JOIN bairros AS BAI ON BAI.bai_id = LOC.bai_id
+          where IMV.imv_id = ?
+        ";
+
+        $imoveis = $empreendimentos = \DB::connection('mysql_seabra')->select($sql, [$id]);
+
+        $result = [];
+
+        if (count($imoveis) > 0) {
+            $i = 0;
+
+            foreach ($imoveis as $imovel) {
+
+                $id = $imovel->imv_id;
+
+                $titulo = $imovel->imv_titulo;
+
+                $estado = $imovel->est_uf;
+
+                $cidade = $imovel->cid_nome;
+
+                $bairro = $imovel->bai_nome;
+
+                $endereco = $imovel->imv_localidade;
+
+                $uso = $imovel->imv_uso;
+
+                $tipo2 = $imovel->imv_tipo;
+
+                $result[$i]['value'] = $id;
+
+                $result[$i]['titulo'] = $titulo;
+
+                $result[$i]['endereco'] = $endereco;
+
+                $result[$i]['tipo'] = $tipo2;
+
+                $result[$i]['estado'] = $estado;
+
+                $result[$i]['cidade'] = mb_strtoupper($cidade, 'UTF-8');
+
+                $result[$i]['bairro'] = mb_strtoupper($bairro, 'UTF-8');
+
+                $result[$i]['link'] = 'app_user/imoveis/detalhes_busca/estado='.$this->sanitizeString($estado).'/cidade='.$this->sanitizeString(preg_replace('/\s+/', '_', $cidade)).'/bairro='.$this->sanitizeString(preg_replace('/\s+/', '_', $bairro)).'/tipo='.$this->detectTipo($tipo2).'/'.$id;
+
+                ++$i;
+            }
+        }
+
+        return $result;
+    }
+
+    public function getPublicidade($publicidade)
+    {
+        switch ($publicidade) {
+            case 1:
+                $publicidade = 'Pronto Para Morar';
+                break;
+            case 2:
+                $publicidade = 'Em Construção';
+                break;
+            case 3:
+                $publicidade = 'Lançamento';
+                break;
+            case 4:
+                $publicidade = 'Pronto Para Morar *';
+                break;
+            default:
+                $publicidade = 'Indisponível';
+                break;
+        }
+
+        return $publicidade;
+    }
+
+    public function queryTipologias($id, $campo)
+    {
+        $sql = " select $campo from tipologias where imv_id = ? AND tip_status = 0 ";
+
+        $result = \DB::connection('mysql_seabra')->select($sql, [$id]);
+
+        return $result;
+    }
+
+    public function sanitizeString($str)
+    {
+        $str = preg_replace('/[áàãâä]/ui', 'a', $str);
+        $str = preg_replace('/[éèêë]/ui', 'e', $str);
+        $str = preg_replace('/[íìîï]/ui', 'i', $str);
+        $str = preg_replace('/[óòõôö]/ui', 'o', $str);
+        $str = preg_replace('/[úùûü]/ui', 'u', $str);
+        $str = preg_replace('/[ç]/ui', 'c', $str);
+        return $str;
+    }
+
+    public function detectTipo($tipo)
+    {
+        switch ($tipo) {
+            case 1:
+                $tipo = 'Apartamento';
+                break;
+            case 2:
+                $tipo = 'Casa';
+                break;
+            case 3:
+                $tipo = 'Cobertura';
+                break;
+            case 4:
+                $tipo = 'Conjunto Comercial';
+                break;
+            case 5:
+                $tipo = 'Duplex';
+                break;
+            case 6:
+                $tipo = 'Flat';
+                break;
+            case 7:
+                $tipo = 'Loja';
+                break;
+            case 8:
+                $tipo = 'Ponto Comercial';
+                break;
+            case 9:
+                $tipo = 'Terreno/Loteamento';
+                break;
+            case 10:
+                $tipo = 'Vaga de Garagem';
+                break;
+            case 11:
+                $tipo = 'Rural';
+                break;
+            default:
+                $tipo = 'Indefinido';
+                break;
+        }
+
+        return $tipo;
+    }
+
+    public function getTipologia($id, $tipo)
+    {
+        $cobertura = $tipo;
+
+        if ($cobertura == 1) {
+            //$sql .= " AND tip_cobertura = 1";
+        }
+
+        $dormitorios = $this->queryTipologias($id, 'tip_dorms');
+
+        $resultDormitorio = [];
+
+        foreach ($dormitorios as $key => $item) {
+          $resultDormitorio[] = $item->tip_dorms;
+        }
+
+        $minDorms = min($resultDormitorio);
+        $maxDorms = max($resultDormitorio);
+
+        $result = [];
+
+        if ($maxDorms > $minDorms) {
+            $result['dorms'] = $minDorms.' a '.$maxDorms.' dormitório(s)';
+        } else {
+            $result['dorms'] = $minDorms.' dormitório(s)';
+        }
+
+        /* SUITES **/
+        $suites = $this->queryTipologias($id, 'tip_suite');
+
+        $arraySuites = [];
+
+        foreach ($suites as $key => $item) {
+          $arraySuites[] = $item->tip_suite;
+        }
+
+        $minSuites = min($arraySuites);
+        $maxSuites = max($arraySuites);
+
+        if ($maxSuites > $minSuites) {
+            $result['suites'] = $minSuites.' a '.$maxSuites.' suite(s)';
+        } else {
+            $result['suites'] = $minSuites.' suite(s)';
+        }
+
+        /* Vagas **/
+
+        $vagas = $this->queryTipologias($id, 'tip_vagas');
+
+        $arrayVagas = [];
+
+        foreach ($vagas as $key => $item) {
+          $arrayVagas[] = $item->tip_vagas;
+        }
+
+        $minVagas = min($arrayVagas);
+        $maxVagas = max($arrayVagas);
+
+        if ($maxVagas > $minVagas) {
+            $result['vagas'] = $minVagas.' a '.$maxVagas.' vaga(s)';
+        } else {
+            $result['vagas'] = $minVagas.' vaga(s)';
+        }
+
+        /* Vagas **/
+
+        $area = $this->queryTipologias($id, 'tip_area');
+
+        $arrayArea = [];
+
+        foreach ($area as $key => $item) {
+          $arrayArea[] = $item->tip_area;
+        }
+
+        $minArea = min($arrayArea);
+        $maxArea = max($arrayArea);
+
+        $result['valor'] = 0;
+
+        if ($maxArea > $minArea) {
+            $result['area'] = $minArea.' a '.$maxArea.' m<sup>2</sup> área privativa';
+        } else {
+            $result['area'] = $minArea.' m<sup>2</sup> área privativa';
+            $result['valor'] = $minArea;
+        }
+
+        /* Preço M² Venda **/
+
+        $mt2 = $this->queryTipologias($id, 'tip_valor_metro_quad');
+
+        $arrayMt2 = [];
+
+        foreach ($mt2 as $key => $item) {
+          $arrayMt2[] = $item->tip_valor_metro_quad;
+        }
+
+        $minArea = min($arrayMt2);
+
+        $result['valorImovelTotal'] = 0;
+
+        if ($result['valor'] > 0) {
+            $result['valorImovelTotal'] = number_format($minArea * $result['valor'], 2, ',', '.');
+
+            $result['valorImovelTotal'] = substr($result['valorImovelTotal'], 0, -2);
+        }
+
+        $minArea = number_format($minArea, 2, ',', '.');
+
+        $result['quadrado'] = 'R$ '.$minArea.'  por m<sup>2</sup>';
+
+        /* Preço M² Aluguel **/
+
+        $tipoArea = $this->queryTipologias($id, 'tip_area');
+
+        $arrayTipoArea = [];
+
+        foreach ($tipoArea as $key => $item) {
+          $arrayTipoArea[] = $item->tip_area;
+        }
+
+        $tipArea = max($arrayTipoArea);
+
+        $sql = "select imvof_valor_aluguel from imoveis_oferta where imv_id = ?";
+        $areaAluguelResult = \DB::connection('mysql_seabra')->select($sql, [$id]);
+
+        #dd($areaAluguel);
+
+        $areaAluguel = 0;
+
+        if($tipArea > 0 && $areaAluguelResult > 0) {
+           $areaAluguel = $areaAluguel / $tipArea;
+        }
+
+        $areaAluguel = number_format($areaAluguel, 2, ',', '.');
+
+        $result['quadradoAluguel'] = '( R$ '.$areaAluguel.'  por m<sup>2</sup> )';
+
+        return $result;
+    }
+
+    public function cidades(Request $request)
+    {
+        $data = $request->request->all();
+
+        $search = $data['search'];
+
+        $user = \Auth::user();
+
+        $cidades = \App\Models\Cidade::where('nome', 'like', "%$search%")->get();
+
+        return $cidades->toJson();
     }
 }

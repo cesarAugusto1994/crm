@@ -26,7 +26,7 @@
           <p class="lead">{{ $perfil->nome }}</p>
 
           <a href="{{ route('adicionar_imoveis', $perfil->id) }}" class="btn btn-success">Adicionar Imóveis</a>
-          <a href="{{ route('adicionar_imoveis', $perfil->id) }}" class="btn btn-warning">Enviar Email</a>
+          <a href="{{ route('perfil_envio_email_cliente', $perfil->id) }}" class="btn btn-warning">Enviar Email</a>
 
         </div>
       </div>
@@ -46,26 +46,19 @@
               <thead>
 
                 <tr>
-                  <th>Código</th>
+                  <th style="width: 10px"></th>
                   <th>Titulo</th>
-                  <th>Localidade</th>
+                  <th>Código</th>
                   <th>Referencia</th>
-                  <th>Incorporação</th>
-                  <th>Construtora</th>
-                  <th>Arquitetura</th>
-                  <th>Torres</th>
-                  <th>Unidades</th>
-                  <th>Elevadores</th>
+                  <th>Area privativa</th>
                   <th>Dormitórios</th>
                   <th>Suites</th>
                   <th>Vagas</th>
-                  <th>Area</th>
-                  <th>Estações</th>
-                  <th>Entrega</th>
-                  <th>Faixa Precço</th>
-                  <th>Faixa Precço</th>
                   <th>Fase Obra</th>
-                  <th>Areas Comuns</th>
+                  <th>Entrega</th>
+                  <th>Faixa Preço</th>
+                  <th>Localidade</th>
+                  <th>Incorporação</th>
                 </tr>
 
               </thead>
@@ -80,42 +73,19 @@
                     @endphp
 
                     <tr>
-                      <td>{{ $imovel->id }}</td>
+                      <td></td>
                       <td>{{ $imovel->titulo }}</td>
-                      <td>{{ $imovel->localidade }}</td>
+                      <td>{{ $imovel->id }}</td>
                       <td>{{ $imovel->referencia }}</td>
-                      <td>{{ $imovel->incorporacao }}</td>
-                      <td>{{ $imovel->construcao }}</td>
-                      <td>{{ $imovel->arquitetura }}</td>
-                      <td>{{ $imovel->torres }}</td>
-                      <td>{{ $imovel->unidades }}</td>
-                      <td>{{ $imovel->elevadores }}</td>
+                      <td>{{ $imovel->areas }}</td>
                       <td>{{ $imovel->dormitorios }}</td>
                       <td>{{ $imovel->suites }}</td>
                       <td>{{ $imovel->vagas }}</td>
-                      <td>{{ $imovel->areas }}</td>
-                      <td>{{ $imovel->estacoes_proximas }}</td>
-                      <td>{{ $imovel->previsao_entrega }}</td>
-                      <td>{{ $imovel->faixa_preco_ini }}</td>
-                      <td>{{ $imovel->faixa_preco_fim }}</td>
                       <td>{{ $imovel->fases_obra }}</td>
-                      <td>
-                        @php
-
-                          $areas = [];
-
-                          if(!empty($imovel->areas_comuns)) {
-                            $areas = explode(',' ,$imovel->areas_comuns);
-                          }
-
-                        @endphp
-
-                        @foreach($areas as $area)
-
-                          - {{ $area }} <br/>
-
-                        @endforeach
-                      </td>
+                      <td>{{ $imovel->previsao_entrega }}</td>
+                      <td>{{ $imovel->faixa_preco_ini }} - {{ $imovel->faixa_preco_fim }}</td>
+                      <td>{{ $imovel->localidade }}</td>
+                      <td>{{ $imovel->incorporacao }}</td>
                     </tr>
                 @empty
                     <tr>
