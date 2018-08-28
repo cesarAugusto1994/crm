@@ -101,6 +101,7 @@
               <tr>
                 <th style="width: 10px">#</th>
                 <th>Cliente</th>
+                <th>Empresa</th>
                 <th>Email</th>
                 <th>Empreendimentos</th>
                 <th>Midias</th>
@@ -116,6 +117,7 @@
                   <tr>
                     <td>{{ $cliente->id }}</td>
                     <td>{{ $cliente->nome ?? '-' }}</td>
+                    <td>{{ $cliente->empresa ?? '-' }}</td>
                     <td>
                       @foreach($cliente->emails as $emails)
                           <p>{{ $emails->email ?? '-' }}</p>
@@ -140,12 +142,13 @@
                       {{ $cliente->created_at ? $cliente->created_at->format('d/m/Y') : '-' }}
                     </td>
                     <td>
-                      <a href="{{ url('/clientes/' . $cliente->id) }}" class="btn btn-primary btn-xs">Visualizar</a>
+                      <a href="{{ route('clientes.show', $cliente->id) }}" class="btn btn-primary"><i class="icon fa fa-eye"></i> </a>
+                      <a data-route="{{ route('clientes.destroy', $cliente->id) }}" class="btn btn-danger btnRemoveItem"><i class="icon fa fa-trash"></i> </a>
                     </td>
                   </tr>
               @empty
                   <tr>
-                    <td colspan="8">
+                    <td colspan="9">
                       <div class="callout callout-info">
                         <h4><i class="icon fa fa-info"></i> Ops...</h4>
                         <p>Nenhum registro encontrado.</p>

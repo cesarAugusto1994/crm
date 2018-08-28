@@ -46,7 +46,7 @@
         <div class="icon">
           <i class="ion ion-person-add"></i>
         </div>
-        <a href="{{ route('clientes.index') }}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="{{ route('clientes.index') }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
 
@@ -108,17 +108,7 @@
                               <label>Data e Hora</label>
                               <div class="input-group">
                                   <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                  <input type="text" id="agenda-data" name="agd_data_hora" required readonly class="form-control datetimepicker"/>
-                              </div>
-                          </div>
-                      </div>
-
-                      <div class="col-md-12">
-                          <div class="form-group ">
-                              <label>Data e Hora Lembrete</label>
-                              <div class="input-group">
-                                  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                  <input type="text" id="agenda-lembrete" name="agd_lemb_data_hora" required readonly class="form-control datetimepicker"/>
+                                  <input type="text" id="agenda-data" name="data_hora" required readonly class="form-control datetimepicker"/>
                               </div>
                           </div>
                       </div>
@@ -128,7 +118,7 @@
                               <label>Local</label>
                               <div class="input-group">
                                   <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-                                  <input type="text" id="agenda-local" name="agd_local" class="form-control"/>
+                                  <input type="text" id="agenda-local" name="local" class="form-control"/>
                               </div>
                           </div>
                       </div>
@@ -139,7 +129,7 @@
                               <div class="input-group">
                                   <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
                                   <select class="form-control select2 select-ajax" id="agenda-area" data-target="#agenda-resposanvel"
-                                  data-url="{{ route('responsaveis') }}" name="agd_func_area">
+                                  data-url="{{ route('responsaveis') }}" name="area_id">
                                     <option value="">Selecione</option>
                                     @foreach($areas as $area)
                                         <option value="{{ $area->id }}">{{ $area->descricao }}</option>
@@ -155,7 +145,7 @@
                               <div class="input-group">
                                   <span class="input-group-addon"><i class="fa fa-users"></i></span>
                                   <select class="form-control" required
-                                  name="agd_func_id" id="agenda-resposanvel">
+                                  name="user_id" id="agenda-resposanvel">
                                   <option value="">Selecione</option>
                                   </select>
                               </div>
@@ -166,7 +156,7 @@
                           <div class="form-group">
                               <label>Descrição</label>
                               <div class="input-group col-md-12 col-xs-12 col-sm-12">
-                                  <textarea required class="form-control" rows="6" id="agenda-notas" name="agd_nome"></textarea>
+                                  <textarea required class="form-control" rows="6" id="agenda-notas" name="descricao"></textarea>
                               </div>
                           </div>
                       </div>
@@ -223,7 +213,7 @@
             </button>
           </div>
         </div>
-        <div class="box-body table-responsive">
+        <div class="box-body">
 
           <div class="row">
             <div class="col-md-12">
@@ -261,7 +251,7 @@
                       @endif
                     </td>
                     <td>
-                      <a href="{{ route('empresas.edit', ['id' => $empresa->id]) }}" class="btn btn-primary btn-xs">Visualizar</a>
+                      <a href="{{ route('empresas.edit', ['id' => $empresa->id]) }}" class="btn btn-primary"><i class="fa fa-eye"></i></a>
                     </td>
                   </tr>
               @empty
@@ -290,7 +280,7 @@
             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
           </div>
         </div>
-        <div class="box-body table-responsive">
+        <div class="box-body">
 
           <div class="row">
             <div class="col-md-12">
@@ -328,17 +318,18 @@
                     <td>{{ $user->name}}</td>
                     <td>{{ $user->login}}</td>
                     <td>{{ $user->email}}</td>
+
                     <td>{{ $user->nivel}}</td>
                     <td>
-                      @if($user->status)
+                      @if($user->ativo)
                           <span class="badge bg-teal">Ativo</span>
                       @else
                           <span class="badge bg-red">Inativo</span>
                       @endif
                     </td>
                     <td>
-                      <a href="{{ route('usuarios.edit', ['id' => $user->id]) }}" class="btn btn-primary btn-xs">Visualizar</a>
-                      <a href="{{ route('editar_senha', ['id' => $user->id]) }}" class="btn btn-danger btn-xs">Editar Senha</a>
+                      <a href="{{ route('usuarios.edit', ['id' => $user->id]) }}" class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                      <a href="{{ route('editar_senha', ['id' => $user->id]) }}" class="btn btn-info"><i class="fa fa-edit"></i></a>
                     </td>
                   </tr>
               @empty

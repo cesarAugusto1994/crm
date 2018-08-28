@@ -10,7 +10,7 @@ class Midias extends Model
     protected $table = 'midias';
 
     protected $fillable = [
-        'nome', 'empresa_id', 'ativo',
+        'id', 'nome', 'empresa_id', 'ativo',
     ];
 
     public function empresa()

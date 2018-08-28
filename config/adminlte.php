@@ -45,7 +45,7 @@ return [
     |
     */
 
-    'skin' => 'blue-light',
+    'skin' => 'blue',
 
     /*
     |--------------------------------------------------------------------------
@@ -58,7 +58,7 @@ return [
     |
     */
 
-    'layout' => null,
+    'layout' => 'top-nav',
 
     /*
     |--------------------------------------------------------------------------
@@ -156,9 +156,9 @@ return [
             'can'         => 'manage-midias.index',
         ],
         [
-            'text'        => 'Perfil',
+            'text'        => 'Configurações',
             'url'         => '/perfil',
-            'icon'        => 'newspaper-o',
+            'icon'        => 'cog',
         ],
     ],
 

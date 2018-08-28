@@ -14,7 +14,7 @@ class CreateChamadoTable extends Migration {
 	{
 		Schema::create('chamado', function(Blueprint $table)
 		{
-			$table->integer('id', true);
+			$table->increments('id');
 			$table->integer('produto_servico')->nullable();
 			$table->integer('manifestacao')->nullable();
 			$table->integer('grupo_manifestacao')->nullable();
@@ -36,6 +36,7 @@ class CreateChamadoTable extends Migration {
 			$table->boolean('arquivado')->default(0);
 			$table->string('empreendimento', 120)->nullable();
 			$table->string('midia', 80)->nullable();
+			$table->uuid('uuid');
 			$table->timestamps();
 		});
 	}

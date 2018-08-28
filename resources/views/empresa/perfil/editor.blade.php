@@ -51,7 +51,16 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Email</label>
                   <div class="col-sm-10">
-                    <input type="email" name="email" id="email" value="">
+                    @php
+                      $emailsCliente = $chamado->cliente->emails;
+
+                      $emails = $emailsCliente->map(function($email) {
+                          return $email->email;
+                      })->toArray();
+
+                      $emailList = implode(', ', $emails);
+                    @endphp
+                    <input type="email" name="email" id="email" value="{{$emailList}}">
                   </div>
                 </div>
 

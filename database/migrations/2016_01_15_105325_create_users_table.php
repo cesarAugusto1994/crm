@@ -18,10 +18,10 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('login')->unique();
             $table->string('email')->unique();
-            $table->integer('nivel');
-            $table->integer('status');
-            $table->integer('area_id');
-            $table->integer('empresa_id');
+            $table->integer('nivel')->default(1);
+            $table->integer('ativo')->default(true);
+            $table->integer('area_id')->nullable();
+            $table->integer('empresa_id')->nullable();
             $table->boolean('log')->default(false);
             $table->string('password');
             $table->rememberToken();

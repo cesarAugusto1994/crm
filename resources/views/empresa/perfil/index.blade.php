@@ -62,8 +62,12 @@
                     <td>{{ $perfil->id }}</td>
                     <td>{{ $perfil->nome }}</td>
                     <td>
-                      <a class="btn btn-primary" href="{{ route('perfis.show', $perfil->id) }}"><i class="fa fa-home"></i> Imóveis</a>
-                      <a class="btn btn-info" href="{{ route('perfis.edit', $perfil->id) }}"><i class="fa fa-edit"></i> Editar</a>
+                      <a class="btn btn-primary" href="{{ route('perfis.show', $perfil->id) }}"><i class="fa fa-home"></i> </a>
+                      <a class="btn btn-info" href="{{ route('perfis.edit', $perfil->id) }}"><i class="fa fa-edit"></i> </a>
+                      <a class="btn btn-danger btnRemover"><i class="fa fa-trash"></i> </a>
+
+                      <form id="delete-form" action="{{ route('perfis.destroy', $perfil->id) }}" method="POST"
+                            style="display: none;">{{ csrf_field() }} {{ method_field('DELETE') }}</form>
                     </td>
                   </tr>
               @empty
@@ -91,4 +95,35 @@
 
 @section('js')
     <script src="{{ asset('js/custom.js') }}"></script>
+
+    <script>
+
+      $('.btnRemover').click(function() {
+
+        swal({
+          title: 'Remover Perfil?',
+          text: "Este perfil não poderá ser recuperado!",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sim',
+          cancelButtonText: 'Cancelar'
+          }).then((result) => {
+          if (result.value) {
+
+            document.getElementById('delete-form').submit();
+
+            swal(
+              'Ok!',
+              'Perfil Deletado.',
+              'success'
+            )
+          }
+        })
+
+      });
+
+    </script>
+
 @stop

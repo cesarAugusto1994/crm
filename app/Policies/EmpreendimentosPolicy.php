@@ -21,6 +21,6 @@ class EmpreendimentosPolicy
 
     public function index(User $user)
     {
-        return $user->isUser();
+        return false; return $user->isUser();
     }
 }

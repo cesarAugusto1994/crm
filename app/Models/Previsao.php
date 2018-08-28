@@ -8,5 +8,5 @@ class Previsao extends Model
 {
     protected $table = 'previsao';
 
-    protected $fillable = ['descricao', 'id_classificacao'];
+    protected $fillable = ['id', 'descricao', 'id_classificacao'];
 }

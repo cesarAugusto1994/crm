@@ -24,10 +24,10 @@
           </div>
         </div>
         <div class="box-body">
-          <p class="lead">{{ $perfil->nome }}
-            <a href="{{ route('perfis.edit', $perfil->id) }}" class="btn btn-success pull-right">Editar</a>
-            <a href="{{ route('perfis.show', $perfil->id) }}" class="btn btn-warning pull-right">Imóveis</a>
-          </p>
+          <p class="lead">{{ $perfil->nome }}</p>
+
+          <a href="{{ route('perfis.edit', $perfil->id) }}" class="btn btn-primary"><i class="fa fa-edit"></i> IEditar</a>
+          <a href="{{ route('perfis.show', $perfil->id) }}" class="btn btn-info"><i class="fa fa-home"></i> Imóveis</a>
         </div>
       </div>
     </div>

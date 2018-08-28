@@ -21,7 +21,7 @@
             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
           </div>
         </div>
-        <div class="box-body table-responsive">
+        <div class="box-body">
 
           <div class="row">
             <div class="col-md-12">
@@ -43,6 +43,8 @@
                 <th>Nome</th>
                 <th>Login</th>
                 <th>Email</th>
+                <th>Creci</th>
+                <th>Celular</th>
                 <th>Nivel</th>
                 <th>Status</th>
                 <th>Opções</th>
@@ -59,17 +61,19 @@
                     <td>{{ $user->name}}</td>
                     <td>{{ $user->login}}</td>
                     <td>{{ $user->email}}</td>
+                    <td>{{ $user->creci}}</td>
+                    <td>{{ $user->celular}}</td>
                     <td>{{ $user->nivel}}</td>
                     <td>
-                      @if($user->status)
+                      @if($user->ativo)
                           <span class="badge bg-teal">Ativo</span>
                       @else
                           <span class="badge bg-red">Inativo</span>
                       @endif
                     </td>
                     <td>
-                      <a href="{{ route('usuarios.edit', ['id' => $user->id]) }}" class="btn btn-primary btn-xs">Visualizar</a>
-                      <a href="{{ route('editar_senha', ['id' => $user->id]) }}" class="btn btn-danger btn-xs">Editar Senha</a>
+                      <a href="{{ route('usuarios.edit', ['id' => $user->id]) }}" class="btn btn-primary"><i class="fa fa-eye"></i></a>
+                      <a href="{{ route('editar_senha', ['id' => $user->id]) }}" class="btn btn-danger"><i class="fa fa-key"></i></a>
                     </td>
                   </tr>
               @empty

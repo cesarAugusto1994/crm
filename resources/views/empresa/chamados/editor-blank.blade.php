@@ -67,7 +67,27 @@
                   <label class="col-sm-2 control-label">Mensagem</label>
                   <div class="col-sm-10">
 
-                    <textarea rows="8" name="descricao" id="editor" class="form-control editor"></textarea>
+                    <textarea rows="8" name="descricao" id="editor" class="form-control editor">
+
+                      <div class="row">
+
+                        <div class="col-md-12" style="margin-bottom:20px;border-radius:4px">
+                          <img style="width:100%" src="http://seabra.com.br/admin/assets/images/banners/header2.png" alt=""/>
+                        </div>
+
+                        <div class="col-md-12" style="margin-bottom:20px;border-radius:4px;height:250px">
+
+                          Seu texto aqui...
+
+                        </div>
+
+                        <div class="col-md-12" style="margin-bottom:20px;border-radius:4px">
+                            <img style="width:100%" src="http://seabra.com.br/admin/assets/images/banners/footer.jpg" alt=""/>
+                        </div>
+
+                      </div>
+
+                    </textarea>
 
                   </div>
                 </div>

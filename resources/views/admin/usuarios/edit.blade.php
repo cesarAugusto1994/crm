@@ -50,7 +50,7 @@
                   <div class="col-md-2">
                     <div class="form-group">
                       <label>Email
-                        <input type="text" class="form-control" name="email" value="{{ $user->email }}"/>
+                        <input type="text" class="form-control" name="email" value="{{ $user->email }}" disabled/>
                       </label>
                     </div>
                   </div>
@@ -83,11 +83,42 @@
 
                   <div class="col-md-2">
                     <div class="form-group">
+                      <label>Acesso
+                        <select class="form-control" name="role_id">
+                          @foreach(\App\Role::all() as $role)
+                              @if($role->level > 4)
+                                  @continue;
+                              @endif
+                              <option value="{{ $role->id }}" {{ $role->id == $user->hasRole($role->name) ? 'selected' : '' }}>{{ $role->name }}</option>
+                          @endforeach
+                        </select>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-2">
+                    <div class="form-group">
                       <label>Situação
                         <select class="form-control" name="status">
                             <option value="1" {{ $user->status == "1" ? 'selected' : '' }}>Ativo</option>
                             <option value="0" {{ $user->status == "0" ? 'selected' : '' }}>Inativo</option>
                         </select>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label>Creci
+                        <input type="text" class="form-control" name="creci" value="{{ $user->creci }}"/>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label>Celular
+                        <input type="text" class="form-control" name="celular" value="{{ $user->celular }}"/>
                       </label>
                     </div>
                   </div>

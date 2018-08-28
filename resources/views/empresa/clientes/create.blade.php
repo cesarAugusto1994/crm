@@ -46,6 +46,13 @@
 
               <div class="col-md-3">
                 <div class="form-group">
+                  <label>Empresa </label>
+                  <input class="form-control" type="text" id="empresa" name="empresa" value="">
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group">
                   <label>Pessoa </label>
                   <select class="form-control select2" id="pessoa"
                   style="width: 100%;"

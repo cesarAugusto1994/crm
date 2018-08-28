@@ -19,7 +19,13 @@ class UsersController extends Controller
     {
         $this->authorize('manage-users.index', User::class);
 
-        $users = User::paginate();
+        $user = \Auth::user();
+
+        if($user->isSuperuser()) {
+            $users = User::where('empresa_id', $user->empresa_id)->paginate();
+        } else {
+            $users = User::paginate();
+        }
 
         return view('admin.usuarios.index', compact('users'));
     }
@@ -131,7 +137,7 @@ class UsersController extends Controller
 
         $validate = Validator::make($data, [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,id,'.$id,
+            /*'email' => 'required|string|email|max:255|unique:users,id,'.$id,*/
         ]);
 
         if($validate->fails()) {
@@ -144,6 +150,17 @@ class UsersController extends Controller
             $user
            ->roles()
            ->attach(Role::where('name', 'user')->first());
+        }
+
+        if($request->has('role_id')) {
+
+          $user
+         ->detachAllRoles();
+
+          $user
+         ->roles()
+         ->attach(Role::findOrFail($data['role_id']));
+
         }
 
         $user->update($data);

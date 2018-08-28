@@ -180,8 +180,9 @@ return [
         Way\Generators\GeneratorsServiceProvider::class,
         Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class,
         #Ixudra\Curl\CurlServiceProvider::class,
-        crocodicstudio\crudbooster\CRUDBoosterServiceProvider::class,
         Canducci\Cep\Providers\CepServiceProvider::class,
+        jeremykenedy\LaravelRoles\RolesServiceProvider::class,
+        Emadadly\LaravelUuid\LaravelUuidServiceProvider::class,
     ],
 
     /*

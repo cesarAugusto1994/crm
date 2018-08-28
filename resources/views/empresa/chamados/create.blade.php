@@ -141,7 +141,7 @@
           <div class="box-body">
             <div class="row">
 
-                  <div class="col-md-3">
+                  <div class="col-md-2">
                     <div class="form-group">
                       <label>Status/Classificação</label>
                       <select id="classificacao" name="classificacao" onload="carregarItens()" data-target="#previsao" data-url="{{ route('previsao') }}" class="form-control select2 select-ajax" style="width: 100%;">
@@ -152,7 +152,18 @@
                       </select>
                     </div>
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label>Fase </label>
+                      <select id="fase" class="form-control select2" style="width: 100%;"
+                      name="fase_id">
+                        @foreach($fases as $item)
+                            <option value="{{ $item->id }}">{{ $item->nome }}</option>
+                        @endforeach
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
                     <div class="form-group">
                       <label>Previsão de conclusão </label>
                       <select id="previsao" class="form-control select2" style="width: 100%;" name="previsao_conclusao">

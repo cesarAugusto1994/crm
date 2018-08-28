@@ -24,8 +24,10 @@ Route::middleware('auth')->middleware('status')->group(function() {
   Route::resource('empreendimentos', 'EmpreendimentosController');
   Route::resource('agenda', 'AgendaController');
   Route::resource('perfis', 'PerfisController');
+  Route::resource('imoveis', 'PerfilImoveisController');
 
   Route::get('perfis/{id}/imoveis', 'PerfisController@adicionarImovel')->name('adicionar_imoveis');
+  Route::get('perfis/{id}/cliente', 'PerfisController@adicionarCliente')->name('adicionar_cliente');
 
   Route::get('/chamado/previsoes', 'ChamadosController@previsao')->name('previsao');
   //Route::get('/chamado/departamentos', 'ChamadosController@departamentos')->name('departamentos');
@@ -54,6 +56,7 @@ Route::middleware('auth')->middleware('status')->group(function() {
   Route::get('/empresa/area/responsaveis', 'EmpresasController@responsaveis')->name('responsaveis');
 
   Route::get('/agenda/compromissos/agenda', 'AgendaController@compromissos')->name('compromissos_agenda');
+  Route::post('/agenda/{id}/update-ajax', 'AgendaController@updateAjax')->name('atualizar_agenda');
 
   Route::post('/cliente/{id}/empreendimentos/store', 'ClientesController@empreendimentoStore')->name('clientes_empreendimento_store');
   Route::post('/cliente/{id}/midias/store', 'ClientesController@midiaStore')->name('clientes_midia_store');

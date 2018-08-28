@@ -22,7 +22,7 @@ class CheckStatus
             return Redirect::route('login');
         }
 
-        if(Auth::check() && Auth::user() && !Auth::user()->status) {
+        if(Auth::check() && Auth::user() && !Auth::user()->ativo) {
             Auth::logout();
             return Redirect::route('login')->withErrors('Desculpe, mas o Usuário está desativado, entre em contato com o Administrador.');
         }

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
+use jeremykenedy\LaravelRoles\Traits\HasRoleAndPermission;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Empresa;
 use App\Models\Clientes\Departamentos;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 class User extends Authenticatable
 {
     use Notifiable;
+    use HasRoleAndPermission;
 
     /**
      * The attributes that are mass assignable.
@@ -18,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'login', 'nivel', 'status', 'area_id', 'empresa_id', 'email', 'password', 'creci', 'celular',
+        'name', 'login', 'nivel', 'ativo', 'area_id', 'empresa_id', 'email', 'password', 'creci', 'celular',
     ];
 
     /**

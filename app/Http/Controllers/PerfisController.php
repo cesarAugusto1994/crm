@@ -7,6 +7,7 @@ use App\Models\Perfil;
 use App\Models\Imovel;
 use App\Models\Perfil\Imoveis as PerfilImovel;
 use App\Models\{Chamados, Manifestacao, Empresa, Produtos, LogEmail, Clientes};
+use App\Models\Chamados\{Classificacao, Previsao, Status, Empreendimentos, Midias, Logs, Anotacoes, Fase};
 
 class PerfisController extends Controller
 {
@@ -342,18 +343,64 @@ class PerfisController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $perfil = Perfil::findOrFail($id);
+        $perfil->delete();
+
+        return redirect()->route('perfis.index');
+    }
+
+    public function adicionarCliente(Request $request, $id)
+    {
+        $perfil = Perfil::findOrFail($id);
+
+        return view('empresa.perfil.adicionar-cliente', compact('perfil'));
     }
 
     public function envioEmail(Request $request, $id)
     {
         $data = $request->request->all();
 
+        if(!$request->has('cliente')) {
+          flash('Informe o cliente para enviar o e-mail.')->error()->important();
+          return back();
+        }
+
         $perfil = Perfil::findOrFail($id);
 
         if($perfil->imoveis->isEmpty()) {
           flash('Nenhum imóvel encontrado')->info()->important();
           return back();
+        }
+
+        if($request->has('cliente')) {
+
+          $cliente = Clientes::findOrFail($request->get('cliente'));
+
+          $chamados = Chamados::where('perfil_id', $perfil->id)->where('id_cliente', $cliente->id)->get();
+
+          if($chamados->isNotEmpty()) {
+
+              $chamado = $chamados->first();
+
+          } else {
+
+              $chamado = new Chamados();
+              $chamado->id_usuario = \Auth::user()->id;
+              $chamado->id_empresa = \Auth::user()->empresa_id;
+              $chamado->id_cliente = $cliente->id;
+              $chamado->perfil_id = $perfil->id;
+              $chamado->abertura_chamado = now();
+              $cliente = $request->get('cliente');
+
+              $chamado->save();
+
+              $anotacao = new Anotacoes();
+              $anotacao->descricao = 'Chamado gerado a aprtir do Perfil #' . $perfil->id;
+              $anotacao->chamado_id = $chamado->id;
+              $anotacao->save();
+
+          }
+
         }
 
         $modelo = $data['modelo'] ?? 3;
@@ -510,7 +557,7 @@ class PerfisController extends Controller
         $nomesEmpreendimentos = ($modelo == 2) ? [current($nomesEmpreendimentos)] : $nomesEmpreendimentos;
 
         return view('empresa.perfil.editor',
-        compact('mensagem', 'imovel', 'perfil', 'nomesEmpreendimentos', 'modelo'))
+        compact('mensagem', 'imovel', 'perfil', 'nomesEmpreendimentos', 'modelo', 'chamado'))
         ->with('empreendimento', current($lista));
     }
 

@@ -30,7 +30,7 @@
 
                 <div class="row">
 
-                  <div class="col-md-2">
+                  <div class="col-md-3">
                     <div class="form-group {{ $errors->has('name') ? ' has-error' : '' }}">
                       <label>Nome
                         <input type="text" class="form-control" name="name"/>
@@ -43,7 +43,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-2">
+                  <div class="col-md-3">
                     <div class="form-group {{ $errors->has('login') ? ' has-error' : '' }}">
                       <label>Login
                         <input type="text" class="form-control" name="login"/>
@@ -56,7 +56,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-2">
+                  <div class="col-md-3">
                     <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
                       <label>Email
                         <input type="text" class="form-control" name="email"/>
@@ -72,11 +72,16 @@
                   <div class="col-md-2">
                     <div class="form-group {{ $errors->has('empresa_id') ? ' has-error' : '' }}">
                       <label>Empresa
+                        @if(\Auth::user()->isAdmin())
                         <select class="form-control" name="empresa_id">
                           @foreach($empresas as $empresa)
                               <option value="{{ $empresa->id }}">{{ $empresa->nome }}</option>
                           @endforeach
                         </select>
+                        @else
+                            <input type="hidden" name="empresa_id" value="{{ \Auth::user()->empresa_id }}">
+                            <p class="lead">{{ \Auth::user()->empresa->nome }}</p>
+                        @endif
                         @if ($errors->has('empresa_id'))
             								<span class="help-block">
             		                <strong>{{ $errors->first('empresa_id') }}</strong>
@@ -131,6 +136,32 @@
                         @if ($errors->has('status'))
             								<span class="help-block">
             		                <strong>{{ $errors->first('status') }}</strong>
+            		            </span>
+            						@endif
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-2">
+                    <div class="form-group {{ $errors->has('creci') ? ' has-error' : '' }}">
+                      <label>Creci
+                        <input type="text" class="form-control" name="creci"/>
+                        @if ($errors->has('creci'))
+            								<span class="help-block">
+            		                <strong>{{ $errors->first('creci') }}</strong>
+            		            </span>
+            						@endif
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-2">
+                    <div class="form-group {{ $errors->has('celular') ? ' has-error' : '' }}">
+                      <label>Telefone
+                        <input type="text" class="form-control" name="celular"/>
+                        @if ($errors->has('celular'))
+            								<span class="help-block">
+            		                <strong>{{ $errors->first('celular') }}</strong>
             		            </span>
             						@endif
                       </label>

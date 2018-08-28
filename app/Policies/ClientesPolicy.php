@@ -12,7 +12,7 @@ class ClientesPolicy
 
     public function index(User $user)
     {
-        return (boolean)$user->isUser();
+        return (boolean)$user->isUser() || $user->isSuperuser();;
     }
 
     /**
@@ -24,7 +24,7 @@ class ClientesPolicy
      */
     public function view(User $user, Clientes $clientes)
     {
-        return (boolean)$user->isUser();
+        return (boolean)$user->isUser() || $user->isSuperuser();;
     }
 
     /**

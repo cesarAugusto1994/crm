@@ -54,6 +54,20 @@ class ClientesController extends Controller
 
         $clientes = $clientes->orderByDesc('id')->paginate();
 
+        foreach ($data as $key => $value) {
+
+            $clientes->appends($key, $value);
+
+        }
+
+        /*$paginate = 10;
+        $page = $request->get('page', 1) ?? 1;
+        $offSet = ($page * $paginate) - $paginate;
+        $itemsForCurrentPage = array_slice($clientes->toArray(), $offSet, $paginate, true);
+
+        $clientes = new \Illuminate\Pagination\LengthAwarePaginator($clientes->toArray(), count($clientes), $paginate, $page, ['path'=>url('?' . $request->getQueryString())]);
+*/
+
         return view('empresa.clientes.index', compact('clientes'));
     }
 
@@ -138,7 +152,14 @@ class ClientesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->request->all();
+
+        $cliente = Clientes::findOrFail($id);
+        $cliente->update($data);
+
+        flash('O cliente foi atualizado com sucesso!')->success()->important();
+
+        return redirect()->back();
     }
 
     /**
@@ -149,7 +170,21 @@ class ClientesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $registro = Clientes::findOrFail($id);
+            $registro->delete();
+
+            return response()->json([
+              'code' => 201,
+              'message' => 'Removido com sucesso!'
+            ]);
+
+        } catch(Exception $e) {
+            return response()->json([
+              'code' => 501,
+              'message' => $e->getMessage()
+            ]);
+        }
     }
 
     public function empreendimentoStore(Request $request, $id)

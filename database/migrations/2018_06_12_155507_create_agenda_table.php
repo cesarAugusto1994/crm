@@ -14,16 +14,20 @@ class CreateAgendaTable extends Migration {
 	{
 		Schema::create('agenda', function(Blueprint $table)
 		{
-			$table->integer('agd_id', true);
-			$table->integer('agd_func_area');
-			$table->integer('agd_func_id');
-			$table->date('agd_lemb_data');
-			$table->time('agd_lemb_hora');
-			$table->string('agd_nome', 40);
-			$table->string('agd_local', 40);
-			$table->date('agd_data');
-			$table->time('agd_hora');
-			$table->char('agd_status', 1);
+			$table->increments('id');
+
+			$table->integer('area_id')->unsigned()->index();
+			$table->foreign('area_id')->references('id')->on('area');
+
+			$table->integer('user_id')->unsigned()->index();
+			$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+			$table->datetime('data_hora');
+			$table->string('descricao')->nullable();
+			$table->string('local')->nullable();
+			$table->enum('status', ['pendente', 'realizado'])->default('pendente');
+			$table->boolean('ativo')->default(true);
+
 			$table->timestamps();
 		});
 	}

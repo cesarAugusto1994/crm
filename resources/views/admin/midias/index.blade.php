@@ -22,7 +22,7 @@
             </button>
           </div>
         </div>
-        <div class="box-body table-responsive">
+        <div class="box-body">
 
           <div class="row">
             <div class="col-md-12">
@@ -61,7 +61,8 @@
                       @endif
                     </td>
                     <td>
-                      <a href="{{ route('midias.edit', ['id' => $midia->id]) }}" class="btn btn-primary btn-xs">Visualizar</a>
+                      <a href="{{ route('midias.edit', $midia->id) }}" class="btn btn-primary"><i class="icon fa fa-edit"></i> </a>
+                      <a data-route="{{ route('midias.destroy', $midia->id) }}" class="btn btn-danger btnRemoveItem"><i class="icon fa fa-trash"></i> </a>
                     </td>
                   </tr>
               @empty

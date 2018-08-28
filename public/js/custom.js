@@ -471,20 +471,111 @@ $('.collapse-emprrendimentos, .empreendimentoLabel').click(function() {
     $("#agenda-notas").val(event.notas);
   }
 
-  $('.calendar').fullCalendar({
-    height: 380,
-    contentHeight: 590,
-    lang: 'es',
-    defaultView: 'agendaWeek',
-    eventBorderColor: "#de1f1f",
+  function popularModalAjax(event) {
+
+    var url = '/agenda/'+ event.id +'/update-ajax';
+
+    $("#formAgendaModal").prop('action', url);
+
+    //$("#formAgendaModal").append('<input name="_method" type="hidden" value="PUT">');
+    $("#formAgendaModal").append('<input name="agd_func_id" type="hidden" value="'+ event.responsavel +'">');
+
+    //$("#formAgendaModal").val(event.responsavel);
+
+    //$("#cadastra-agenda-modal").modal('show');
+    $("#cadastra-agenda-modal").find('#title').val(event.title);
+
+    $("#agenda-data").val(event.start.format('DD/MM/YYYY HH:mm'));
+    $("#agenda-lembrete").val(event.lembrete);
+
+    $("#agenda-local").val(event.local);
+
+    $('#agenda-area option')
+     .removeAttr('selected')
+     .filter('[value="' + event.area + '"]')
+         .attr('selected', true)
+
+     $('#agenda-resposanvel option')
+      .removeAttr('selected')
+      .filter('[value="' + event.resposanvel + '"]')
+          .attr('selected', true)
+
+    $("#agenda-notas").val(event.notas);
+
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        type: "POST",
+        url: $("#formAgendaModal").attr('action'),
+        data: $("#formAgendaModal").serialize(),
+        dataType: 'json',
+        success: function(data) {
+            //openSwalScreenProgress();
+        },
+        error: function(data) {
+            //openSwalMessage('Erro', data.message);
+        }
+    })
+  }
+
+  let $calendar = $('.calendar');
+
+  $calendar.fullCalendar({
+      views: {
+        listDay: {
+          buttonText: 'list day',
+          titleFormat: "dddd, DD MMMM YYYY",
+          columnFormat: "",
+          timeFormat: "HH:mm"
+        },
+
+        listWeek: {
+          buttonText: 'list week',
+          columnFormat: "ddd D",
+          timeFormat: "HH:mm"
+        },
+
+        listMonth: {
+          buttonText: 'list month',
+          titleFormat: "MMMM YYYY",
+          timeFormat: "HH:mm"
+        },
+
+        month: {
+          buttonText: 'month',
+          titleFormat: 'MMMM YYYY',
+          columnFormat: "ddd",
+          timeFormat: "HH:mm"
+        },
+
+        agendaWeek: {
+          buttonText: 'agendaWeek',
+          titleFormat: 'MMM D YYYY',
+          columnFormat: "ddd D",
+          timeFormat: "HH:mm"
+        },
+
+        agendaDay: {
+          buttonText: 'agendaDay',
+          titleFormat: 'dddd, DD MMMM YYYY',
+          columnFormat: "",
+          timeFormat: "HH:mm"
+        },
+      },
+      lang: 'pt-br',
+      defaultView: 'month',
+      eventBorderColor: "#de1f1f",
+      eventColor: "#AC1E23",
+      slotLabelFormat: 'HH:mm',
+      eventLimitText: 'consultas',
       minTime: '06:00:00',
       maxTime: '22:00:00',
-     header:
-    {
-        left: 'prev,next,today',
-        center: 'title',
-        right: 'month,agendaWeek,agendaDay'
-    },
+      header: {
+          left: 'prev,next,today',
+          center: 'title',
+          right: 'month,agendaWeek,agendaDay'
+      },
 
       navLinks: true,
       selectable: true,
@@ -494,7 +585,7 @@ $('.collapse-emprrendimentos, .empreendimentoLabel').click(function() {
           limparModal();
           var view = $('.calendar').fullCalendar('getView');
 
-          if(view.name == 'agendaDay') {
+          if(view.name == 'agendaDay' || view.name == 'agendaWeek') {
 
             $("#cadastra-agenda-modal").modal('show');
             $("#agenda-data").val(start.format('DD/MM/YYYY HH:mm'));
@@ -516,14 +607,14 @@ $('.collapse-emprrendimentos, .empreendimentoLabel').click(function() {
 
           jsEvent.preventDefault();
 
-            setTimeout(function() {
+            /*setTimeout(function() {
 
               $('.calendar').fullCalendar('gotoDate', date);
               $('.calendar').fullCalendar('changeView','agendaDay');
 
               carregarResponsvel();
 
-            }, 100);
+            }, 100);*/
 
       },
       events: $("#agenda-json").val(),
@@ -531,7 +622,7 @@ $('.collapse-emprrendimentos, .empreendimentoLabel').click(function() {
       textColor: 'yellow', // an option!
       //When u drop an event in the calendar do the following:
       eventDrop: function (event, delta, revertFunc) {
-        popularModal(event);
+        popularModalAjax(event);
         carregarResponsvel();
       },
       //When u resize an event in the calendar do the following:
@@ -572,7 +663,10 @@ $('.collapse-emprrendimentos, .empreendimentoLabel').click(function() {
           today: "Hoje",
           month: "Mês",
           week: "Semana",
-          day: "Dia"
+          day: "Dia",
+          listMonth: "Lista Mensal",
+          listWeek: "Lista Semanal",
+          listDay: "Lista Diária"
       }
 
   });

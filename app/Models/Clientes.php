@@ -9,7 +9,7 @@ class Clientes extends Model
 {
     protected $table = 'clientes';
 
-    protected $fillable = ['nome', 'pessoa', 'cpf', 'tipo', 'forma_tratamento', 'sexo', 'id_empresa'];
+    protected $fillable = ['id', 'nome', 'pessoa', 'cpf', 'tipo', 'forma_tratamento', 'sexo', 'id_empresa', 'empresa'];
 
     public function chamados()
     {

@@ -17,7 +17,16 @@ class MidiasController extends Controller
     {
         $this->authorize('manage-midias.index', Midias::class);
 
-        $midias = Midias::orderBy('empresa_id')->paginate();
+        $midias = Midias::orderBy('empresa_id');
+
+        $user = \Auth::user();
+
+        if($user->isSuperuser()) {
+            $midias->where('empresa_id', $user->empresa_id);
+        }
+
+        $midias = $midias->paginate();
+
         return view('admin.midias.index', compact('midias'));
     }
 
@@ -114,6 +123,20 @@ class MidiasController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $registro = Midias::findOrFail($id);
+            $registro->delete();
+
+            return response()->json([
+              'code' => 201,
+              'message' => 'Removido com sucesso!'
+            ]);
+
+        } catch(Exception $e) {
+            return response()->json([
+              'code' => 501,
+              'message' => $e->getMessage()
+            ]);
+        }
     }
 }

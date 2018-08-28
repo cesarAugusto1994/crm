@@ -10,9 +10,10 @@ class ChamadosPolicy
 {
     use HandlesAuthorization;
 
+
     public function index(User $user)
      {
-         return (boolean)$user->isUser();
+         return (boolean)$user->isUser() || $user->isSuperuser();;
      }
     /**
      * Determine whether the user can view the chamados.
@@ -23,7 +24,7 @@ class ChamadosPolicy
      */
     public function view(User $user, Chamados $chamados)
     {
-        return (boolean)$user->isUser();
+        return (boolean)$user->isUser() || $user->isSuperuser();;
     }
 
     /**

@@ -12,7 +12,7 @@ class MidiasPolicy
 
     public function index(User $user)
     {
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isSuperuser();
     }
 
     /**
@@ -24,7 +24,7 @@ class MidiasPolicy
      */
     public function view(User $user, Midias $midias)
     {
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isSuperuser();
     }
 
     /**
@@ -35,7 +35,7 @@ class MidiasPolicy
      */
     public function create(User $user)
     {
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isSuperuser();
     }
 
     /**
@@ -47,7 +47,7 @@ class MidiasPolicy
      */
     public function update(User $user, Midias $midias)
     {
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isSuperuser();
     }
 
     /**
@@ -59,6 +59,6 @@ class MidiasPolicy
      */
     public function delete(User $user, Midias $midias)
     {
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isSuperuser();
     }
 }

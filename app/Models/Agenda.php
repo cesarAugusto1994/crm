@@ -8,9 +8,7 @@ class Agenda extends Model
 {
     protected $table = 'agenda';
 
-    protected $fillable = ['agd_data', 'agd_hora', 'agd_local', 'agd_func_area', 'agd_func_id', 'agd_nome', 'agd_lemb_data', 'agd_lemb_hora', 'agd_status'];
+    protected $fillable = ['data_hora', 'local', 'area_id', 'user_id', 'descricao', 'status', 'ativo'];
 
-    protected $dates = ['agd_data', 'agd_lemb_data'];
-
-    protected $primaryKey = 'agd_id';
+    protected $dates = ['data_hora'];
 }

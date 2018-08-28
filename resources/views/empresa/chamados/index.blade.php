@@ -40,7 +40,6 @@
               <tr>
                 <th style="width: 10px">#</th>
                 <th>Cliente</th>
-                <th>Descrição</th>
                 <th>Empreendimentos</th>
                 <th>Midias</th>
                 <th>Status</th>
@@ -59,7 +58,6 @@
                   <tr>
                     <td>{{ $chamado->id }}</td>
                     <td>{{ $chamado->cliente->nome ?? '-' }}</td>
-                    <td>{{ $chamado->descricao }}</td>
                     <td>
                       @foreach($chamado->empreendimentos as $empreendimento)
                           <p>{{ $empreendimento->empreendimento->nome ?? '-' }}</p>
@@ -67,7 +65,7 @@
                     </td>
                     <td>
                       @foreach($chamado->midias as $midia)
-                          {{ $midia->midia->nome ?? '-' }}
+                          {{ $midia->midia->nome ?? '-' }} <br/>
                       @endforeach
                     </td>
                     <td>
@@ -80,7 +78,8 @@
                       {{ $chamado->previsao_conclusao ? $chamado->previsao_conclusao->format('d/m/Y') : '-' }}
                     </td>
                     <td>
-                      <a href="{{ route('chamados.show', ['id' => $chamado->id]) }}" class="btn btn-primary btn-xs">Visualizar</a>
+                      <a href="{{ route('chamados.show', $chamado->id) }}" class="btn btn-primary"><i class="icon fa fa-eye"></i> </a>
+                      <a data-route="{{ route('chamados.destroy', $chamado->id) }}" class="btn btn-danger btnRemoveItem"><i class="icon fa fa-trash"></i> </a>
                     </td>
                   </tr>
               @empty

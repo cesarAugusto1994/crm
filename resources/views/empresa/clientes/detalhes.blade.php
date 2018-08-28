@@ -15,22 +15,69 @@
 
   <div class="row">
 
-      <div class="col-md-2">
-          <div class="box box-widget widget-user">
-            <div class="widget-user-header bg-green">
-              <h3 class="widget-user-username">{{ $cliente->nome }}</h3>
-              <h5 class="widget-user-desc">#{{ $cliente->id }}</h5>
+        <div class="col-md-2">
+          <div class="box box-solid">
+            <div class="box-header with-border">
+              <h3 class="box-title">Informações</h3>
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+              </div>
             </div>
-            <div class="box-footer no-padding">
-              <ul class="nav nav-stacked">
-                <li><a href="#"><b>Publico</b> <span class="pull-right">{{ $cliente->tipoCadastro->nome }}</span></a></li>
-                <li><a href="#"><b>Tratamento</b> <span class="pull-right">{{ $cliente->tratamento->forma }}</span></a></li>
-                <li><a href="#"><b>Sexo</b> <span class="pull-right">{{ $cliente->sexo == 1 ? 'Masculino' : 'Feminino' }}</span></a></li>
-                <li><a href="#"><b>Tipo Pessoa</b> <span class="pull-right">{{ $cliente->pessoa == 1 ? 'Pessoa Fisica' : 'Pessoa Juridica' }}</span></a></li>
-              </ul>
+            <div class="box-body">
+
+              <form action="{{ route('clientes.update', ['id' => $cliente->id]) }}" method="post">
+                {{ csrf_field() }}
+                {{ method_field('PUT') }}
+
+                <div class="form-group">
+                  <label for="codigo">Código</label>
+                  <input type="text" class="form-control" disabled value="#{{ $cliente->id }}">
+                </div>
+
+                <div class="form-group">
+                  <label for="nome">Nome</label>
+                  <input type="text" class="form-control" id="nome" name="nome" placeholder="Informe o nome do cliente" required value="{{ $cliente->nome }}">
+                </div>
+
+                <div class="form-group">
+                  <label for="nome">Empresa</label>
+                  <input type="text" class="form-control" id="empresa" name="empresa" placeholder="Informe a Empresa do cliente" required value="{{ $cliente->empresa }}">
+                </div>
+
+                <div class="form-group">
+                  <label for="tipo">Tipo</label>
+                  <select class="form-control" name="tipo" id="tipo">
+                    @foreach(\App\Models\Clientes\Tipo::all() as $tipo)
+                        <option value="{{  $tipo->id }}" {{  $tipo->id == $cliente->tipoCadastro->id ? 'selected' : '' }}>{{ $tipo->nome }}</option>
+                    @endforeach
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="tratamento">Tratamento</label>
+                  <select class="form-control" name="forma_tratamento" id="tratamento">
+                    @foreach(\App\Models\Clientes\Tratamento::all() as $tratamento)
+                        <option value="{{  $tratamento->id }}" {{  $tratamento->id == $cliente->tratamento->id ? 'selected' : '' }}>{{ $tratamento->forma }}</option>
+                    @endforeach
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="sexo">Sexo</label>
+                  <select class="form-control" name="sexo" id="sexo">
+                    <option value="1" {{ $cliente->sexo == 1 ? 'selected' : '' }}>Masculino</option>
+                    <option value="0" {{ $cliente->sexo == 0 ? 'selected' : '' }}>Feminino</option>
+                  </select>
+                </div>
+
+                <button type="submit" class="btn btn-success btn-flat"><i class="fa fa-check"></i> Salvar</button>
+
+              </form>
+
             </div>
           </div>
         </div>
+
 
       <div class="col-md-3">
         <div class="box box-solid">
@@ -95,19 +142,19 @@
 
               <div class="row">
 
-                <div class="col-md-3">
+                <div class="col-md-6">
                   <div class="form-group">
                       <input type="text" class="form-control" placeholder="DDD" name="ddd" maxlength="3">
                   </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-6">
                   <div class="form-group">
                       <input type="text" class="form-control" placeholder="Ramal" id="telefone-ramal" name="ramal">
                   </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-12">
                   <div class="input-group">
                       <input type="text" class="form-control" name="telefone" placeholder="Telefone" required>
                       <span class="input-group-btn">
@@ -267,7 +314,7 @@
 
   <div class="row">
 
-    <div class="col-md-8">
+    <div class="col-md-6">
       <div class="box box-solid">
         <div class="box-header with-border">
           <h3 class="box-title">Empreendimentos</h3>
@@ -316,7 +363,7 @@
       </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-3">
       <div class="box box-solid">
         <div class="box-header with-border">
           <h3 class="box-title">Midias</h3>
@@ -346,7 +393,9 @@
           </div>
         </div>
       </div>
+    </div>
 
+    <div class="col-md-3">
       <div class="box box-solid">
         <div class="box-header with-border">
           <h3 class="box-title">Chamados</h3>

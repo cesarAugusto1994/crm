@@ -8,8 +8,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
-    <link href="{{ asset('css/fullcalendar.css') }}" rel="stylesheet" />
-
     <style>
 
         .btn-file  input[type="file"] {
@@ -184,8 +182,6 @@
 
 @section('adminlte_js')
     <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
-    <script src="{{asset('js/fullcalendar/moment.min.js')}}"></script>
-    <script src="{{asset('js/fullcalendar/fullcalendar.min.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
     @stack('js')
     @yield('js')
@@ -206,15 +202,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.time.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.resize.min.js"></script>
 
-    <script src="{{asset('js/bootstrap-datetimepicker.min.js')}}"></script>
-
-    <script>
-
-    $('.datepicker').datepicker({
-      format: 'dd/mm/yyyy',
-      language: 'pt-BR'
-    });
-
-    </script>
+    
 
 @stop

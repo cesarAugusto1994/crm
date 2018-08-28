@@ -11,7 +11,7 @@ class UsersPolicy
 
     public function index(User $user)
     {
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isSuperuser();
     }
 
     /**
@@ -23,7 +23,7 @@ class UsersPolicy
      */
     public function view(User $user, User $model)
     {
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isSuperuser();
     }
 
     /**
@@ -34,7 +34,7 @@ class UsersPolicy
      */
     public function create(User $user)
     {
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isSuperuser();
     }
 
     /**
@@ -46,7 +46,7 @@ class UsersPolicy
      */
     public function update(User $user, User $model)
     {
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isSuperuser();
     }
 
     /**
@@ -58,6 +58,6 @@ class UsersPolicy
      */
     public function delete(User $user, User $model)
     {
-        return $user->isAdmin();
+        return $user->isAdmin() || $user->isSuperuser();
     }
 }

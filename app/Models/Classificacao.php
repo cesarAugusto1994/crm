@@ -8,5 +8,5 @@ class Classificacao extends Model
 {
     protected $table = 'classificacao';
 
-    protected $fillable = ['descricao', 'empresa_id'];
+    protected $fillable = ['id', 'descricao', 'empresa_id'];
 }

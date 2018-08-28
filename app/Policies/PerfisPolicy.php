@@ -21,6 +21,6 @@ class PerfisPolicy
 
     public function index(User $user)
     {
-        return $user->isUser();
+        return $user->isUser() || $user->isSuperuser();
     }
 }

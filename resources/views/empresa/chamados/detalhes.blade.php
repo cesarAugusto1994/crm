@@ -263,6 +263,7 @@
             </div>
           </div>
           <div class="box-body">
+            @if($chamado->logs->isNotEmpty())
             <div class="direct-chat-messages">
               @forelse($chamado->logs as $log)
               <div class="direct-chat-msg {{ $log->origem == 'usuario' ? 'right' : '' }}">
@@ -270,7 +271,7 @@
                   <span class="direct-chat-name {{ $log->origem == 'usuario' ? 'pull-right' : 'pull-left' }}">
                     @if($log->origem == 'cliente')
                         Cliente
-                    @elseif($log->usuario->id == \Auth::user()->id)
+                    @elseif($log->usuario && $log->usuario->id == \Auth::user()->id)
                         Você
                     @else
                         {{$log->usuario->name ?? 'Cliente'}}
@@ -295,7 +296,7 @@
 
               @endforelse
             </div>
-
+            @endif
           </div>
           <div class="box-footer">
             <form action="{{ route('chamados_logs_store', ['id' => $chamado->id]) }}" method="post">

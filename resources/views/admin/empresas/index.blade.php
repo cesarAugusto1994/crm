@@ -22,7 +22,7 @@
             </button>
           </div>
         </div>
-        <div class="box-body table-responsive">
+        <div class="box-body">
 
           <div class="row">
             <div class="col-md-12">
@@ -59,7 +59,7 @@
                       @endif
                     </td>
                     <td>
-                      <a href="{{ route('empresas.edit', ['id' => $empresa->id]) }}" class="btn btn-primary btn-xs">Visualizar</a>
+                      <a href="{{ route('empresas.edit', ['id' => $empresa->id]) }}" class="btn btn-info"><i class="fa fa-edit"></i></a>
                     </td>
                   </tr>
               @empty

@@ -9,9 +9,12 @@ use App\Models\Chamados\Midias;
 use App\Models\Chamados\Status;
 use App\Models\Chamados\Classificacao;
 use App\User;
+use Emadadly\LaravelUuid\Uuids;
 
 class Chamados extends Model
 {
+    use Uuids;
+
     protected $table = 'chamado';
 
     protected $dates = ['abertura_chamado', 'previsao_conclusao', 'conclusao_chamado', 'atendimento_chamado'];

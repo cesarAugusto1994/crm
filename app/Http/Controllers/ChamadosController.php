@@ -38,11 +38,13 @@ class ChamadosController extends Controller
         $departamentos = Departamentos::where('id_empresa', $user->empresa->id)->get();
         $status = Status::where('id_empresa', $user->empresa->id)->get();
         $manifestacoes = Manifestacao::all();
+        $fases = Fase::where('empresa_id', $user->empresa->id)->get();
 
         $ultimoChamado = Chamados::orderByDesc('id')->get();
+
         $ultimoChamado = $ultimoChamado->first();
 
-        if(!$ultimoChamado->id_cliente && !$ultimoChamado->pessoa_responsavel) {
+        if($ultimoChamado && !$ultimoChamado->id_cliente && !$ultimoChamado->pessoa_responsavel) {
 
           $chamado = $ultimoChamado;
 
@@ -63,7 +65,7 @@ class ChamadosController extends Controller
             $cliente = Clientes::findOrFail($cliente);
         }
 
-        return view('empresa.chamados.create', compact('chamado', 'classificacao', 'departamentos', 'status', 'manifestacoes', 'cliente'));
+        return view('empresa.chamados.create', compact('chamado', 'classificacao', 'departamentos', 'status', 'manifestacoes', 'cliente', 'fases'));
     }
 
     /**
@@ -99,6 +101,7 @@ class ChamadosController extends Controller
         $anotacao = new Anotacoes();
         $anotacao->descricao = $data['descricao'];
         $anotacao->chamado_id = $chamado->id;
+        $anotacao->user_id = \Auth::user()->id;
         $anotacao->save();
 
         flash('Novo Chamado adicionado com sucesso!')->success()->important();
@@ -233,7 +236,21 @@ class ChamadosController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $registro = Chamados::findOrFail($id);
+            $registro->delete();
+
+            return response()->json([
+              'code' => 201,
+              'message' => 'Removido com sucesso!'
+            ]);
+
+        } catch(Exception $e) {
+            return response()->json([
+              'code' => 501,
+              'message' => $e->getMessage()
+            ]);
+        }
     }
 
     public function previsao(Request $request)

@@ -25,8 +25,8 @@
         <div class="box-body">
           <p class="lead">{{ $perfil->nome }}</p>
 
-          <a href="{{ route('adicionar_imoveis', $perfil->id) }}" class="btn btn-success">Adicionar Imóveis</a>
-          <a href="{{ route('perfil_envio_email_cliente', $perfil->id) }}" class="btn btn-warning">Enviar Email</a>
+          <a href="{{ route('adicionar_imoveis', $perfil->id) }}" class="btn btn-primary"><i class="fa fa-home"></i> Adicionar Imóveis</a>
+          <a href="{{ route('adicionar_cliente', $perfil->id) }}" class="btn btn-info"><i class="fa fa-user"></i> Adicionar Cliente</a>
 
         </div>
       </div>
@@ -59,6 +59,7 @@
                   <th>Faixa Preço</th>
                   <th>Localidade</th>
                   <th>Incorporação</th>
+                  <th>Opções</th>
                 </tr>
 
               </thead>
@@ -86,6 +87,9 @@
                       <td>{{ $imovel->faixa_preco_ini }} - {{ $imovel->faixa_preco_fim }}</td>
                       <td>{{ $imovel->localidade }}</td>
                       <td>{{ $imovel->incorporacao }}</td>
+                      <td>
+                        <a data-route="{{ route('imoveis.destroy', $imovel->id) }}" class="btn btn-danger btnRemoveItem"><i class="icon fa fa-trash"></i> </a>
+                      </td>
                     </tr>
                 @empty
                     <tr>
