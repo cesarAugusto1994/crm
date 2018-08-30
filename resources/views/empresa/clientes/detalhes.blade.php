@@ -15,77 +15,100 @@
 
   <div class="row">
 
-        <div class="col-md-2">
+        <div class="col-md-12">
           <div class="box box-solid">
             <div class="box-header with-border">
               <h3 class="box-title">Informações</h3>
-              <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-              </div>
             </div>
-            <div class="box-body">
 
-              <form action="{{ route('clientes.update', ['id' => $cliente->id]) }}" method="post">
+            <form class="form-inline" action="{{ route('clientes.update', ['id' => $cliente->id]) }}" method="post">
+
+              <div class="box-body">
+
                 {{ csrf_field() }}
                 {{ method_field('PUT') }}
 
-                <div class="form-group">
-                  <label for="codigo">Código</label>
-                  <input type="text" class="form-control" disabled value="#{{ $cliente->id }}">
+                <div class="row">
+
+                  <div class="col-md-2">
+
+                    <div class="form-group">
+                      <label for="codigo">Código</label>
+                      <input type="text" class="form-control" disabled value="#{{ $cliente->id }}">
+                    </div>
+
+                  </div>
+                  <div class="col-md-2">
+
+                    <div class="form-group">
+                      <label for="nome">Nome</label>
+                      <input type="text" class="form-control" id="nome" name="nome" placeholder="Informe o nome do cliente" required value="{{ $cliente->nome }}">
+                    </div>
+
+                  </div>
+                  <div class="col-md-2">
+
+                    <div class="form-group">
+                      <label for="nome">Empresa</label>
+                      <input type="text" class="form-control" id="empresa" name="empresa" placeholder="Informe a Empresa do cliente" value="{{ $cliente->empresa }}">
+                    </div>
+
+                  </div>
+                  <div class="col-md-2">
+
+                    <div class="form-group">
+                      <label for="tipo">Tipo</label>
+                      <select class="form-control" name="tipo" id="tipo" style="width:100%">
+                        @foreach(\App\Models\Clientes\Tipo::all() as $tipo)
+                            <option value="{{  $tipo->id }}" {{  $tipo->id == $cliente->tipoCadastro->id ? 'selected' : '' }}>{{ $tipo->nome }}</option>
+                        @endforeach
+                      </select>
+                    </div>
+
+                  </div>
+                  <div class="col-md-2">
+
+                    <div class="form-group">
+                      <label for="tratamento">Tratamento</label>
+                      <select class="form-control" name="forma_tratamento" id="tratamento" style="width:100%">
+                        @foreach(\App\Models\Clientes\Tratamento::all() as $tratamento)
+                            <option value="{{  $tratamento->id }}" {{  $tratamento->id == $cliente->tratamento->id ? 'selected' : '' }}>{{ $tratamento->forma }}</option>
+                        @endforeach
+                      </select>
+                    </div>
+
+                  </div>
+                  <div class="col-md-2">
+
+                    <div class="form-group">
+                      <label for="sexo">Sexo</label>
+                      <select class="form-control" name="sexo" id="sexo" style="width:100%">
+                        <option value="1" {{ $cliente->sexo == 1 ? 'selected' : '' }}>Masculino</option>
+                        <option value="0" {{ $cliente->sexo == 0 ? 'selected' : '' }}>Feminino</option>
+                      </select>
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-12">
+
+                  </div>
+
                 </div>
-
-                <div class="form-group">
-                  <label for="nome">Nome</label>
-                  <input type="text" class="form-control" id="nome" name="nome" placeholder="Informe o nome do cliente" required value="{{ $cliente->nome }}">
-                </div>
-
-                <div class="form-group">
-                  <label for="nome">Empresa</label>
-                  <input type="text" class="form-control" id="empresa" name="empresa" placeholder="Informe a Empresa do cliente" required value="{{ $cliente->empresa }}">
-                </div>
-
-                <div class="form-group">
-                  <label for="tipo">Tipo</label>
-                  <select class="form-control" name="tipo" id="tipo">
-                    @foreach(\App\Models\Clientes\Tipo::all() as $tipo)
-                        <option value="{{  $tipo->id }}" {{  $tipo->id == $cliente->tipoCadastro->id ? 'selected' : '' }}>{{ $tipo->nome }}</option>
-                    @endforeach
-                  </select>
-                </div>
-
-                <div class="form-group">
-                  <label for="tratamento">Tratamento</label>
-                  <select class="form-control" name="forma_tratamento" id="tratamento">
-                    @foreach(\App\Models\Clientes\Tratamento::all() as $tratamento)
-                        <option value="{{  $tratamento->id }}" {{  $tratamento->id == $cliente->tratamento->id ? 'selected' : '' }}>{{ $tratamento->forma }}</option>
-                    @endforeach
-                  </select>
-                </div>
-
-                <div class="form-group">
-                  <label for="sexo">Sexo</label>
-                  <select class="form-control" name="sexo" id="sexo">
-                    <option value="1" {{ $cliente->sexo == 1 ? 'selected' : '' }}>Masculino</option>
-                    <option value="0" {{ $cliente->sexo == 0 ? 'selected' : '' }}>Feminino</option>
-                  </select>
-                </div>
-
-                <button type="submit" class="btn btn-success btn-flat"><i class="fa fa-check"></i> Salvar</button>
-
-              </form>
 
             </div>
+            <div class="box-footer">
+              <button type="submit" class="btn btn-success btn-flat"><i class="fa fa-check"></i> Salvar</button>
+            </div>
+            </form>
           </div>
         </div>
 
 
-      <div class="col-md-3">
+      <div class="col-md-4">
         <div class="box box-solid">
           <div class="box-header with-border">
             <h3 class="box-title">Email</h3>
-            <div class="box-tools pull-right">
-              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-            </div>
           </div>
           <div class="box-body">
 
@@ -118,13 +141,10 @@
         </div>
       </div>
 
-      <div class="col-md-3">
+      <div class="col-md-4">
         <div class="box box-solid">
           <div class="box-header with-border">
             <h3 class="box-title">Telefone</h3>
-            <div class="box-tools pull-right">
-              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-            </div>
           </div>
           <div class="box-body">
 
@@ -192,9 +212,6 @@
         <div class="box box-solid">
           <div class="box-header with-border">
             <h3 class="box-title">Endereço</h3>
-            <div class="box-tools pull-right">
-              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-            </div>
           </div>
           <div class="box-body">
 
@@ -318,9 +335,6 @@
       <div class="box box-solid">
         <div class="box-header with-border">
           <h3 class="box-title">Empreendimentos</h3>
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-          </div>
           <div class="box-body">
 
             <form name="form-emails" action="{{ route('clientes_empreendimento_store', ['id' => $cliente->id]) }}" method="post">
@@ -367,9 +381,6 @@
       <div class="box box-solid">
         <div class="box-header with-border">
           <h3 class="box-title">Midias</h3>
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-          </div>
           <div class="box-body">
 
               <form name="form-emails" action="{{ route('clientes_midia_store', ['id' => $cliente->id]) }}" method="post">
@@ -382,9 +393,14 @@
 
               <br/>
 
-              <ul class="list-group">
+              <ul class="products-list product-list-in-box">
                 @forelse($cliente->midias->sortByDesc('id') as $item)
-                  <li class="list-group-item"><p class="lead">{{ $item->midia->nome }}</p> <small class="">Adicionado em {{ $item->created_at ? $item->created_at->format('d/m/Y H:i') : '-' }}</small></li>
+                  <li class="item">
+                    <div class="product-info" style="margin-left:0">
+                      <a class="product-title lead" class="lead">{{ $item->midia->nome }}</a>
+                      <small class="product-description">Adicionado em: {{ $item->created_at ? $item->created_at->format('d/m/Y H:i') : '-' }}</small>
+                    </div>
+                  </li>
                 @empty
 
                 @endforelse
@@ -399,9 +415,6 @@
       <div class="box box-solid">
         <div class="box-header with-border">
           <h3 class="box-title">Chamados</h3>
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-          </div>
           <div class="box-body">
 
               <a href="{{ route('chamados.create', ['cliente_id' => $cliente->id]) }}" class="btn btn-bitbucket btn-sm"> Novo Chamado</a>

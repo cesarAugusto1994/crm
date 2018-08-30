@@ -62,7 +62,7 @@
                         data-url="{{ route('previsao') }}" class="form-control select2 select-ajax" style="width: 100%;">
                         <option value="">Selecione</option>
                         @foreach($classificacao as $item)
-                            <option value="{{ $item->id }}" {{ $item->id == $chamado->categoria->id ? 'selected' : '' }}>{{ $item->descricao }}</option>
+                            <option value="{{ $item->id }}" {{ $chamado->categoria && $item->id == $chamado->categoria->id ? 'selected' : '' }}>{{ $item->descricao }}</option>
                         @endforeach
                       </select>
                     </div>
@@ -236,9 +236,14 @@
 
                 <div class="direct-chat-messages">
 
-                <ul class="list-group">
-                  @forelse($chamado->midias as $item)
-                    <li class="list-group-item"><p class="lead">{{ $item->midia->nome }}</p> <small class="">Adicionado em {{ $item->created_at ? $item->created_at->format('d/m/Y H:i') : '-' }}</small></li>
+                <ul class="products-list product-list-in-box">
+                  @forelse($chamado->midias->sortByDesc('id') as $item)
+                    <li class="item">
+                      <div class="product-info" style="margin-left:0">
+                        <a class="product-title lead" class="lead">{{ $item->midia->nome }}</a>
+                        <small class="product-description">Adicionado em: {{ $item->created_at ? $item->created_at->format('d/m/Y H:i') : '-' }}</small>
+                      </div>
+                    </li>
                   @empty
 
                   @endforelse

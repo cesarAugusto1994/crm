@@ -52,9 +52,7 @@
             <tbody>
 
               @forelse($chamados as $chamado)
-                  @if(!$chamado->cliente)
-                    @continue;
-                  @endif
+
                   <tr>
                     <td>{{ $chamado->id }}</td>
                     <td>{{ $chamado->cliente->nome ?? '-' }}</td>
@@ -69,7 +67,7 @@
                       @endforeach
                     </td>
                     <td>
-                      {{ $chamado->status->descricao }}
+                      {{ $chamado->status->descricao ?? '' }}
                     </td>
                     <td>
                       {{ $chamado->abertura_chamado ? $chamado->abertura_chamado->format('d/m/Y') : '-' }}

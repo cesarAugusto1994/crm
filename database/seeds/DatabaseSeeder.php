@@ -22,13 +22,14 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionsTableSeeder::class);
         $this->call(ConnectRelationshipsSeeder::class);
 
-
         $this->call(EmpresasTableSeeder::class);
         $this->call(AreaTableSeeder::class);
 
         $this->call(TipoClienteTableSeeder::class);
         $this->call(FormaTratamentoTableSeeder::class);
         $this->call(ClientesTableSeeder::class);
+        $this->call(EmailTableSeeder::class);
+
 
         $this->call(UsersTableSeeder::class);
 
@@ -36,6 +37,10 @@ class DatabaseSeeder extends Seeder
         $this->call(ProdutosTableSeeder::class);
 
         $this->call(CadastrosTableSeeder::class);
+        $this->call(TelefoneTableSeeder::class);
+
+        $this->call(ChamadosTableSeeder::class);
+        $this->call(ClienteProdutosMidiasTableSeeder::class);
 
     }
 }

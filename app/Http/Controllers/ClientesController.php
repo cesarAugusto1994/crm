@@ -52,7 +52,7 @@ class ClientesController extends Controller
             });
         }
 
-        $clientes = $clientes->orderByDesc('id')->paginate();
+        $clientes = $clientes->paginate();
 
         foreach ($data as $key => $value) {
 
