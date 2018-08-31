@@ -157,6 +157,22 @@ return [
         ],
         [
             'text'        => 'Configurações',
+            'submenu'        => [
+                [
+                    'text'        => 'Templates',
+                    'url'         => '/admin/templates',
+                    'icon'        => 'newspaper-o',
+                ],
+                [
+                    'text'        => 'Modelos',
+                    'url'         => '/admin/modelos',
+                    'icon'        => 'newspaper-o',
+                ],
+            ],
+        ],
+
+        [
+            'text'        => 'Configurações',
             'url'         => '/perfil',
             'icon'        => 'cog',
         ],

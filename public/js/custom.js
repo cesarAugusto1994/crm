@@ -670,3 +670,31 @@ $('.collapse-emprrendimentos, .empreendimentoLabel').click(function() {
       }
 
   });
+
+  $('.btnRemover').click(function(e) {
+
+    e.preventDefault();
+
+    swal({
+      title: 'Remover Template?',
+      text: "Este Template não poderá ser recuperado!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim',
+      cancelButtonText: 'Cancelar'
+      }).then((result) => {
+      if (result.value) {
+
+        document.getElementById('delete-form').submit();
+
+        swal(
+          'Ok!',
+          'Perfil Deletado.',
+          'success'
+        )
+      }
+    })
+
+  });

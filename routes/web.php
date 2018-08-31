@@ -88,7 +88,14 @@ Route::middleware('auth')->middleware('status')->group(function() {
       Route::resource('empresas', 'EmpresasController');
       Route::resource('usuarios', 'UsersController');
       Route::resource('midias', 'MidiasController');
+      Route::resource('templates', 'TemplatesController');
+      Route::resource('modelos', 'ModelosController');
 
+      Route::post('imoveis/ajax', 'HelpersController@imoveis')->name('imoveis_ajax');
+      Route::post('imoveis/imagens/ajax', 'HelpersController@imagens')->name('imoveis_imagens_ajax');
+      Route::post('imoveis/dormitorios/ajax', 'HelpersController@dormitorios')->name('imoveis_dormitorios_ajax');
+      Route::post('imoveis/informacoes/ajax', 'HelpersController@informacoes')->name('imoveis_informacoes_ajax');
+      
       Route::get('usuarios/{id}/alterar-senha', 'UsersController@editPassword')->name('editar_senha');
       Route::post('usuarios/{id}/alterar-senha-update', 'UsersController@updatePassword')->name('editar_senha_update');
   });
