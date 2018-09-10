@@ -17,6 +17,9 @@ Route::get('/home', function () {
 
 Auth::routes();
 
+Route::get('/crm/images', 'PropagandasController@images')->name('images');
+Route::get('/crm/images/external', 'PropagandasController@externalImages')->name('external_images');
+
 Route::middleware('auth')->middleware('status')->group(function() {
   Route::get('/', 'HomeController@index')->name('home');
   Route::resource('chamados', 'ChamadosController');
@@ -79,6 +82,10 @@ Route::middleware('auth')->middleware('status')->group(function() {
   Route::get('/perfil/{id}/envio-email', 'PerfisController@envioEmail')->name('perfil_envio_email_cliente');
   Route::post('/perfil/{id}/send/email', 'PerfisController@sendEmail')->name('perfil_send_email');
 
+  Route::get('/propagandas/{id}/adicionar-cliente', 'PropagandasController@adicionarCliente')->name('propaganda_adicionar_cliente');
+  Route::get('/propagandas/{id}/envio-email', 'PropagandasController@envioEmail')->name('propaganda_envio_email_cliente');
+  Route::post('/propagandas/{id}/send/email', 'PropagandasController@sendEmail')->name('propaganda_send_email');
+
   Route::get('/perfil/cidades', 'PerfisController@cidades')->name('cidades');
 
   Route::get('/empreendimento/ajax', 'ChamadosController@getEmpreendimentoAjax')->name('empreendimento_ajax');
@@ -102,10 +109,9 @@ Route::middleware('auth')->middleware('status')->group(function() {
       Route::post('/templates/preview', 'ModelosController@setPreview')->name('template_preview');
       Route::get('/templates/preview/{id}', 'ModelosController@preview')->name('template_preview_item');
 
-      Route::get('/images', 'PropagandasController@images')->name('images');
+
       Route::get('/images/google', 'PropagandasController@googleImages')->name('google_images');
 
-      Route::get('/images/external', 'PropagandasController@externalImages')->name('external_images');
       Route::post('/images/upload', 'PropagandasController@enviarImagem')->name('upload_images');
 
       Route::post('/templates/preview/storeImages', 'PropagandasController@storeImages')->name('template_store_images');

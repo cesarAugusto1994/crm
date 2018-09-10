@@ -59,7 +59,7 @@ class ModelosController extends Controller
 
         return view('empresa.modelos.includes.' . $modelo->template->arquivo, compact('modelo', 'templates'));
 
-        return view('empresa.modelos.show', compact('modelo', 'templates'));
+        #return view('empresa.modelos.show', compact('modelo', 'templates'));
     }
 
     /**

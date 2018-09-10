@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Propaganda;
+use App\Models\Imovel;
+use App\Models\Perfil\Imoveis as PerfilImovel;
+use App\Models\{Chamados, Manifestacao, Empresa, Produtos, LogEmail, Clientes};
+use App\Models\Chamados\{Classificacao, Previsao, Status, Empreendimentos, Midias, Logs, Anotacoes, Fase};
 
 class PropagandasController extends Controller
 {
@@ -43,6 +47,7 @@ class PropagandasController extends Controller
         $id = $request->get("id");
         $nome = $request->get("nome");
         $idTemplate = $request->get("template");
+        $modelo = $request->get('modelo');
 
         $nomeTemp    =  "modelo";
 
@@ -263,161 +268,6 @@ class PropagandasController extends Controller
 
         }
 
-        #dd($data);
-
-        /*if( is_numeric( $idTemplate ) ) {
-          $this->imovel_model->deleteTemplate( $idTemplate );
-          if( $nomeTemp != '' )
-            @unlink( $this->localPropagandas . $nome . ".html" );
-        }*/
-/*
-        if( $id == 1 ) {
-          $this->imovel_model->insertModelo1( $nome, $data["text1"], $data["text2"], $data["imgUrl1"], $data["dorms"], $data["suites"], $data["vagas"], $data["metragem"], $data["edit1"], $data["edit2"], $data["edit3"], $data["edit4"], $data["img1"], $data["img2"], $data["img3"], $data["img4"], $data["linkGer"], $video, $data["local"], $data["mapa"] );
-        }else if( $id == 2 ) {
-          $this->imovel_model->insertModelo2( $nome, $data["text1"], $data["text2"], $data["dorms"], $data["suites"], $data["vagas"], $data["metragem"], $data["edit1"], $data["edit2"], $data["edit3"], $data["edit4"], $data["img1"], $data["img2"], $data["img3"], $data["img4"], $data["linkGer"], $video, $data["local"], $data["mapa"] );
-        }else if( $id == 3 ) {
-          $this->imovel_model->insertModelo3(
-            $nome,
-            $data["text1"],
-            $data["text2"],
-            $data["d1"],
-            $data["d2"],
-            $data["d3"],
-            $data["d4"],
-            $data["d5"],
-            $data["d6"],
-            $data["d7"],
-            $data["d8"],
-            $data["d9"],
-            $data["d10"],
-            $data["d11"],
-            $data["d12"],
-            $data["d13"],
-            $data["d14"],
-            $data["d15"],
-            $data["d16"],
-            $data["d17"],
-            $data["d18"],
-            $data["d19"],
-            $data["d20"],
-            $data["d21"],
-            $data["d22"],
-            $data["d23"],
-            $data["d24"],
-            $data["d25"],
-            $data["d26"],
-            $data["d27"],
-            $data["d28"],
-            $data["d29"],
-            $data["d30"],
-            $data["d31"],
-            $data["d32"],
-            $data["d33"],
-            $data["d34"],
-            $data["d35"],
-            $data["d36"],
-            $data["d37"],
-            $data["d38"],
-            $data["d39"],
-            $data["d40"],
-            $data["d41"],
-            $data["d42"],
-            $data["d43"],
-            $data["d44"],
-            $data["d45"],
-            $data["d46"],
-            $data["d47"],
-            $data["d48"]
-           );
-        }else if( $id == 4 ) {
-          $this->imovel_model->insertModelo4(
-            $nome,
-            $data["text1"],
-            $data["text2"],
-            $data["d1"],
-            $data["d2"],
-            $data["d3"],
-            $data["d4"],
-            $data["d5"],
-            $data["d6"],
-            $data["d7"],
-            $data["d8"],
-            $data["d9"],
-            $data["d10"],
-            $data["d11"],
-            $data["d12"],
-            $data["d13"],
-            $data["d14"],
-            $data["d15"],
-            $data["d16"],
-            $data["d17"],
-            $data["d18"],
-            $data["d19"],
-            $data["d20"],
-            $data["d21"],
-            $data["d22"],
-            $data["d23"],
-            $data["d24"],
-            $data["d25"],
-            $data["d26"],
-            $data["d27"],
-            $data["d28"],
-            $data["d29"],
-            $data["d30"],
-            $data["d31"],
-            $data["d32"],
-            $data["d33"],
-            $data["d34"],
-            $data["d35"],
-            $data["d36"],
-            $data["d37"],
-            $data["d38"],
-            $data["d39"],
-            $data["d40"]
-          );
-        }else {
-          $this->imovel_model->insertModelo5(
-            $nome,
-            $data["d1"],
-            $data["d2"],
-            $data["d3"],
-            $data["d4"],
-            $data["d5"],
-            $data["d6"],
-            $data["d7"],
-            $data["d8"],
-            $data["d9"],
-            $data["d10"],
-            $data["d11"],
-            $data["d12"],
-            $data["d13"],
-            $data["d14"],
-            $data["d15"]
-          );
-        }
-*/
-
-
-          /*$nome  .=   ".html";
-
-          //Start get output
-          ob_start();
-
-          //Get data template to buffer
-          echo $this->parser->parse( "t" . $id, $data, true );
-
-          //Return the contents of the output buffer
-          $data = ob_get_contents();
-
-          //Clean (erase) the output buffer and turn off output buffering
-          ob_end_clean();
-
-          // Write final string to file
-          file_put_contents( $this->localPropagandas . $nome, $data);
-          */
-
-          #dd($nome);
-
           $arquivo0 = $nome . '_top1.png';
           $arquivo1 = $nome . '_top0.png';
           $arquivo2 = $nome . '_top2.png';
@@ -433,15 +283,11 @@ class PropagandasController extends Controller
           $view = view('empresa.modelos.templates.t'.$id, $data);
           $contents = $view->render();
 
-          #dd($contents);
-
           Propaganda::create([
             'nome' => $nome,
-            'modelo_id' => $id,
+            'modelo_id' => $modelo,
             'conteudo' => $contents,
           ]);
-
-          #dd($data);
 
           $message  =  "Salvo com sucesso";
 
@@ -579,9 +425,13 @@ class PropagandasController extends Controller
       $image   = str_replace('data:image/png;base64,', '', $image);
       $decoded = base64_decode($image);
 
-      $png = (string) \Image::make($decoded)->encode('png', 80);
+      /*dd($decoded);
 
-      $path = Storage::put('propaganda/imagens/'.$name.'.png', $png);
+      $png = (string) \Image::make($decoded)->mime();
+
+      dd($png);*/
+
+      $path = Storage::put('propaganda/imagens/'.$name.'.png', $decoded);
 
       return $path;
     }
@@ -634,7 +484,23 @@ class PropagandasController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+        try {
+            $registro = Propaganda::findOrFail($id);
+            $registro->delete();
+
+            return response()->json([
+              'code' => 201,
+              'message' => 'Removido com sucesso!'
+            ]);
+
+        } catch(Exception $e) {
+            return response()->json([
+              'code' => 501,
+              'message' => $e->getMessage()
+            ]);
+        }
+
     }
 
     public function enviarImagem(Request $request)
@@ -656,5 +522,116 @@ class PropagandasController extends Controller
         }
 
         echo json_encode( $data );
+    }
+
+
+    public function envioEmail(Request $request, $id)
+    {
+        $data = $request->request->all();
+
+        if(!$request->has('cliente')) {
+          flash('Informe o cliente para enviar o e-mail.')->error()->important();
+          return back();
+        }
+
+        $propaganda = Propaganda::findOrFail($id);
+
+        if($request->has('cliente')) {
+
+          $cliente = Clientes::findOrFail($request->get('cliente'));
+
+          $chamados = Chamados::where('perfil_id', $propaganda->id)->where('id_cliente', $cliente->id)->get();
+
+          if($chamados->isNotEmpty()) {
+
+              $chamado = $chamados->first();
+
+          } else {
+
+              $chamado = new Chamados();
+              $chamado->id_usuario = \Auth::user()->id;
+              $chamado->id_empresa = \Auth::user()->empresa_id;
+              $chamado->id_cliente = $cliente->id;
+              $chamado->abertura_chamado = now();
+              $cliente = $request->get('cliente');
+
+              $chamado->save();
+
+          }
+
+          $anotacao = new Anotacoes();
+          $anotacao->descricao = 'Propaganda <a href='.route("propagandas.show", $propaganda->id).'>#' . $propaganda->id . '</a> foi enviada para o cliente.';
+          $anotacao->chamado_id = $chamado->id;
+          $anotacao->save();
+
+        }
+
+        return view('empresa.propagandas.editor', compact('mensagem', 'propaganda', 'chamado'));
+    }
+
+    public function sendEmail(Request $request, $id)
+    {
+        $data = $request->request->all();
+
+        $propaganda = Propaganda::findOrFail($id);
+        $chamado = Chamados::findOrFail($data['chamado']);
+
+        $path = "";
+
+        if(isset($data['enviar_email'])) {
+
+            $user = \Auth::user();
+
+            $empresa = Empresa::where('id', $user->empresa_id)->get();
+            $empresa = $empresa->first();
+
+            $descricao = "";
+
+            if(!$empresa->mail_username || !$empresa->mail_password || !$empresa->mail_driver || !$empresa->mail_host || !$empresa->mail_port) {
+                flash('Erro no envio: Por favor verifique as configurações de envio de email na cadastro da empresa!')->error()->important();
+                return redirect()->back();
+            } else {
+
+                \Config::set('mail.username', $empresa->mail_username);
+                \Config::set('mail.password', $empresa->mail_password);
+                \Config::set('mail.port', $empresa->mail_port);
+                \Config::set('mail.driver', $empresa->mail_driver);
+                \Config::set('mail.host', $empresa->mail_host);
+                \Config::set('mail.encryption', $empresa->mail_encription);
+                \Config::set('app.name', $empresa->nome);
+
+              }
+
+            }
+
+        if(isset($data['enviar_email'])) {
+
+            $emails = explode(', ', $data['email']);
+
+            $assunto = 'SEABRA – INFORMAÇÕES';
+
+            if($request->hasFile('arquivo')) {
+                $path = $request->file('arquivo')->store('arquivos');
+            }
+
+            foreach ($emails as $key => $email) {
+              \Mail::to([
+                $chamado->cliente->nome => $email,
+              ])->send(new \App\Mail\Propaganda($propaganda, $data['mensagem'], $assunto, $path));
+            }
+
+            flash('Email enviado com sucesso!')->success()->important();
+        }
+
+        return redirect()->back();
+
+        #flash('A descrição foi adicionada ao chamado com sucesso!')->success()->important();
+    }
+
+    public function adicionarCliente(Request $request, $id)
+    {
+        $propaganda = Propaganda::findOrFail($id);
+
+        return view('empresa.propagandas.adicionar-cliente', compact('propaganda'));
     }
 }

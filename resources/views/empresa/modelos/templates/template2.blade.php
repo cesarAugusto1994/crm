@@ -258,7 +258,7 @@
 			var baseUrl = "{url}"
 		</script>
     <input type="hidden" id="route-store-images" value="{{ route('template_store_images') }}"/>
-    <input type="hidden" id="route-modelos" value="{{ route('modelos.index') }}"/>
+    <input type="hidden" id="route-modelos" value="{{ route('propagandas.index') }}"/>
 
     <div class="nada"></div>
 

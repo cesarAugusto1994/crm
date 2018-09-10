@@ -144,6 +144,19 @@
                     </div>
                   </div>
 
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>Temperatura </label>
+                      <select class="form-control select2" style="width: 100%;" name="temperatura">
+
+                            <option value="frio" {{ 'frio' == $chamado->temperatura ? 'selected' : '' }}>Frio</option>
+                            <option value="morno" {{ 'morno' == $chamado->temperatura ? 'selected' : '' }}>Morno</option>
+                            <option value="quente" {{ 'quente' == $chamado->temperatura ? 'selected' : '' }}>Quente</option>
+
+                      </select>
+                    </div>
+                  </div>
+
                   <div class="col-md-12">
                     <div class="form-group">
                       <label>Conclusão </label>
@@ -287,8 +300,7 @@
                 <img class="direct-chat-img" src="holder.js/32x32" alt="">
                 <div class="direct-chat-text">
 
-
-                  <p>{{ $log->descricao }}</p>
+                  <p style="color:white">{!! $log->descricao !!}</p>
 
                   @if($log->logEmail)
                   <p>

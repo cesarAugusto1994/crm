@@ -412,7 +412,8 @@ class PerfisController extends Controller
           $referencia = $itemLoop->imovel->referencia;
           $imovelId = $itemLoop->imovel->seabra_id;
 
-          $emp = \App\Models\Produtos::where('referencia', $referencia)->get()->first();
+          $emp = \App\Models\Imovel::where('referencia', $referencia)->get()->first();
+
           $nomesEmpreendimentos[$emp->id] = $emp->nome;
           $empreendimento = $this->getEmpreendimento($emp->referencia);
 

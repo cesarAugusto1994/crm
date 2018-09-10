@@ -156,7 +156,7 @@ return [
             'can'         => 'manage-midias.index',
         ],
         [
-            'text'        => 'Configurações',
+            'text'        => 'Templates',
             'submenu'        => [
                 [
                     'text'        => 'Templates',

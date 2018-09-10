@@ -126,11 +126,18 @@
 
                 self.parents('tr').hide();
 
-                swal(
-                  'Ok!',
-                  'O registro fori removido com sucesso.',
-                  'success'
-                )
+                const toast = swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 3000
+                });
+
+                toast({
+                  type: 'success',
+                  title: 'Ok!, o registro foi removido com sucesso.'
+                });
+
 
               });
 

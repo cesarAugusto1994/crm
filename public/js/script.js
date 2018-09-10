@@ -327,9 +327,11 @@ function serializeTabs( isPreview, id ) {
 }
 
 var preview  =  function ( text1, text2, imgUrl1, dorms, suites, vagas, metragem, edit1, edit2, edit3, edit4, img1, img2, img3, img4, local, mapa, id, video, link ) {
-	var nameProp = $('#salvar').val();
 
-    var link = 'nameProp=' + nameProp + '&linkGeral=' + link + '&video=' + video + '&text1=' + text1 + '&text2=' + text2 + '&imgUrl1=' + imgUrl1 + '&dorms=' + dorms + '&suites=' + suites + '&vagas=' + vagas + '&metragem=' + metragem + '&edit1=' + edit1 + '&edit2=' + edit2 + '&edit3=' + edit3 + '&edit4=' + edit4 + '&img1=' + img1 + '&img2=' + img2 + '&img3=' + img3 + '&img4=' + img4 + '&local=' + local + '&mapa=' + mapa + "&id=" + id;
+    var nameProp = $('#salvar').val();
+    var modelo = $("#modelo").val();
+
+    var link = 'nameProp=' + nameProp + '&modelo=' + modelo + '&linkGeral=' + link + '&video=' + video + '&text1=' + text1 + '&text2=' + text2 + '&imgUrl1=' + imgUrl1 + '&dorms=' + dorms + '&suites=' + suites + '&vagas=' + vagas + '&metragem=' + metragem + '&edit1=' + edit1 + '&edit2=' + edit2 + '&edit3=' + edit3 + '&edit4=' + edit4 + '&img1=' + img1 + '&img2=' + img2 + '&img3=' + img3 + '&img4=' + img4 + '&local=' + local + '&mapa=' + mapa + "&id=" + id;
 
     $.ajax({
         type: 'POST',

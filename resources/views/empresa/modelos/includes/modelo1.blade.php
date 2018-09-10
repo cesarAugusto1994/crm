@@ -231,6 +231,7 @@
   <input type="hidden" id="route-imoveis-imagens" value="{{ route('imoveis_imagens_ajax') }}"/>
   <input type="hidden" id="route-imoveis-dormitorios" value="{{ route('imoveis_dormitorios_ajax') }}"/>
   <input type="hidden" id="route-imoveis-informacoes" value="{{ route('imoveis_informacoes_ajax') }}"/>
+  <input type="hidden" id="modelo" value="{{ $modelo->id }}"/>
 
 @stop
 

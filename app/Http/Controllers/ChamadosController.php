@@ -87,6 +87,7 @@ class ChamadosController extends Controller
         $chamado->tipo_manifestacao = $data['tipo_manifestacao'] ?? null;
         $chamado->classificacao = $data['classificacao'];
         $chamado->descricao = $data['descricao'];
+        $chamado->temperatura = $data['temperatura'];
         $chamado->situacao = $data['situacao'];
         $chamado->conclusao = $data['conclusao'] ?? '';
         $chamado->abertura_chamado = new \DateTime('now');
@@ -172,6 +173,7 @@ class ChamadosController extends Controller
 
         $chamado->fase_id = $data['fase_id'];
         $chamado->situacao = $data['situacao'];
+        $chamado->temperatura = $data['temperatura'];
         $chamado->conclusao = $data['conclusao'] ?? '';
         $chamado->abertura_chamado = new \DateTime('now');
         $chamado->id_usuario = \Auth::user()->id;
