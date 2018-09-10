@@ -29,20 +29,6 @@
             <td align="center">
                 <table class="content" width="100%" cellpadding="0" cellspacing="0">
 
-                  <!-- Email Body
-                    <tr>
-                        <td class="header">
-                            <a href="{{ $url }}">
-                                @if($modelo == 2)
-                                <img style="max-width:700px" src="http://seabra.com.br/admin/assets/images/banners/header2.png" alt=""/>
-                                @else
-                                <img style="max-width:700px" src="http://seabra.com.br/admin/assets/images/banners/header.jpg" alt=""/>
-                                @endif
-                            </a>
-                        </td>
-                    </tr>
-                    -->
-
                     <tr>
                         <td class="body" width="100%" cellpadding="0" cellspacing="0">
                             <table class="inner-body" align="center" width="570" cellpadding="0" cellspacing="0">

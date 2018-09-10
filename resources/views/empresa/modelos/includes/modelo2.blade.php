@@ -36,38 +36,44 @@
                       <!-- Tab panes -->
                       <div class="tab-content">
                           <div role="tabpanel" class="tab-pane active" id="header">
-                              <div class="logo">
-                                  <img src="{url}assets/images/common/logo.png" >
-                              </div>
-                              <div class="row margin-top-10">
-                                  <div style="text-align:center; width: 100%; float: left;">
-                                      <input class="form-control text1" type="text" value="{text1}" name="text1" id='text1' placeholder="Titulo">
+                            <div class="row">
+                              <div class="col-md-12 text-center">
+                                <div class="logo">
+                                    <img src="{{ asset('images/common/logo.png') }}" >
+                                </div>
+                                <div class="form-group">
+                                    <div>
+                                        <input class="form-control text1" type="text" value='' name="texto[]" id='text1' placeholder="Titulo">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                  <div>
+                                      <input class="form-control text1" type="text" value='' name="texto[]" id='text2' placeholder="Titulo 2">
                                   </div>
                               </div>
-                              <div class="row margin-top-10">
-                                  <div style="text-align:center; width: 100%; float: left;">
-                                      <input class="form-control text1" type="text" value="{text2}" name="text2" id='text2' placeholder="Titulo 2">
-                                  </div>
                               </div>
+                            </div>
                           </div>
                           <div role="tabpanel" class="tab-pane" id="infoimovel">
-                              <div class="row" style="text-align: center;">
+                            <div class="row">
+                              <div class="col-md-12" style="text-align: center;">
                                   <button class="btn btn-primary selectImovelInfo">Selecione o imóvel</button>
                               </div>
-                              <div class="row">
+                              <div class="col-md-12">
                                   <div style="float: left; width: 50%; padding: 10px; margin-top: 10px">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" value="{dorms}" class="form-control" placeholder="0 dorms" type="text" id="dorms">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" value="{suites}" class="form-control" placeholder="0 suítes" type="text" id="suites">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" value="{vagas}" class="form-control" placeholder="0 vagas" type="text" id="vagas">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" value="{metragem}" class="form-control" placeholder="0 metragem" type="text" id="metragem">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" value="" class="form-control" placeholder="0 dorms" type="text" id="dorms">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" value="" class="form-control" placeholder="0 suítes" type="text" id="suites">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" value="" class="form-control" placeholder="0 vagas" type="text" id="vagas">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" value="" class="form-control" placeholder="0 metragem" type="text" id="metragem">
                                   </div>
                                   <div style="float: left; width: 50%; padding: 10px; margin-top: 10px">
-                                      <input style="float: left; margin-top: 4px;" class="form-control" value="{edit1}" placeholder="Linha editável 1" type="text" id="editavel1">
-                                      <input style="float: left; margin-top: 4px;" class="form-control" value="{edit2}" placeholder="Linha editável 2" type="text" id="editavel2">
-                                      <input style="float: left; margin-top: 4px;" class="form-control" value="{edit3}" placeholder="Linha editável 3" type="text" id="editavel3">
-                                      <input style="float: left; margin-top: 4px;" class="form-control" value="{edit4}" placeholder="Linha editável 4" type="text" id="editavel4">
+                                      <input style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="Linha editável 1" type="text" id="editavel1">
+                                      <input style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="Linha editável 2" type="text" id="editavel2">
+                                      <input style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="Linha editável 3" type="text" id="editavel3">
+                                      <input style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="Linha editável 4" type="text" id="editavel4">
                                   </div>
                               </div>
+                            </div>
                           </div>
                           <div role="tabpanel" class="tab-pane" id="maisimagens">
                               <img src="" class=".selected-img" style="display: none;">
@@ -105,36 +111,37 @@
                               <div style="float: left; width: 50%; text-align: center; padding: 10px">
                                   <button class="btn btn-primary btn-localidade">Obter localidade</button>
                                   <div style="float: left; width: 100%; text-align: center; padding: 10px">
-                                      <input class="form-control" value="{local}" type="text" id="localidade" placeholder="Localidade indisponível">
+                                      <input class="form-control" value="" type="text" id="localidade" placeholder="Localidade indisponível">
                                   </div>
 
                                   <div style="float: left; width: 100%; text-align: center; padding: 10px">
-                                      <input class="form-control" type="text" value="{video}" id="video" placeholder="Insira a URL do vídeo">
+                                      <input class="form-control" type="text" value="" id="video" placeholder="Insira a URL do vídeo">
                                   </div>
 
                                   <div style="float: left; width: 100%; text-align: center; padding: 10px">
-                                      <input class="form-control" type="text" value="{linkGer}" id="linkGeral" placeholder="Insira o LINK da localidade">
+                                      <input class="form-control" type="text" value="" id="linkGeral" placeholder="Insira o LINK da localidade">
                                   </div>
 
                               </div>
                               <div style="float: left; width: 50%; text-align: center; padding: 10px">
-                                  <form class="formMapaGoogle" method="post" action="{url}imoveis/enviarImagem" enctype="multipart/form-data">
-                                      <button class="btn btn-success btn-enviar" type="submit">Enviar imagem do mapa</button>
-                                      <div style="float: left; width: 100%; text-align: center; padding: 10px">
-                                          <input type="file" name="arquivo" class="campoArquivo">
-                                      </div>
-                                      <div style="float: left; width: 100%; text-align: center; padding: 10px">
-                                          <p class="textoImgGoogle">Imagem selecionada: nenhuma</p>
-                                          <img src="{mapa}" width="300" height="100" style="display: none;" class="imageGoogle">
-                                      </div>
-                                  </form>
+                                <form class="formMapaGoogle" method="post" action="{{ route('upload_images') }}" enctype="multipart/form-data">
+                                  {{csrf_field()}}
+                                    <button class="btn btn-success btn-enviar" type="submit">Enviar imagem do mapa</button>
+                                    <div style="float: left; width: 100%; text-align: center; padding: 10px">
+                                        <input type="file" name="arquivo" class="campoArquivo">
+                                    </div>
+                                    <div style="float: left; width: 100%; text-align: center; padding: 10px">
+                                        <p class="textoImgGoogle">Imagem selecionada:</p>
+                                        <img src="{mapa}" width="300" height="100" style="display: none;" class="imageGoogle">
+                                    </div>
+                                </form>
                               </div>
                           </div>
                           </div>
                           <div role="tabpanel" class="tab-pane" id="teste">
                               <div class="row">
                                   <div style="float: left; width: 100%; text-align: center; padding: 10px">
-                                      <input class="form-control" style="width: 50%; display: inline-block;" type="text" value="{name}" name="nomepropaganda" id='salvar' placeholder="Nome da propaganda">
+                                      <input class="form-control" style="width: 50%; display: inline-block;" type="text" value="" name="nomepropaganda" id='salvar' placeholder="Nome da propaganda">
                                       <!-- <button class="btn btn-success salvar">Salvar propaganda</button> -->
                                       <button class="btn btn-primary preview" data-id="2">Preview</button>
                                   </div>
@@ -145,10 +152,6 @@
               </div>
 
             </div>
-          </div>
-          <div class="box-footer clearfix">
-              <a href="{{ route('modelos.index') }}" class="btn btn-danger btn-flat pull-left">Cancelar</a>
-              <a href="javascript:void(0)" class="btn btn-success btn-flat pull-right">Salvar</a>
           </div>
       </div>
     </div>
@@ -206,10 +209,16 @@
     </div>
   </div>
 
+  <input type="hidden" id="route-imoveis" value="{{ route('imoveis_ajax') }}"/>
+  <input type="hidden" id="route-imoveis-imagens" value="{{ route('imoveis_imagens_ajax') }}"/>
+  <input type="hidden" id="route-imoveis-dormitorios" value="{{ route('imoveis_dormitorios_ajax') }}"/>
+  <input type="hidden" id="route-imoveis-informacoes" value="{{ route('imoveis_informacoes_ajax') }}"/>
+
 @stop
 
 @section('js')
     <script src="{{ asset('js/custom.js') }}"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script>
     <script src="{{ asset('js/bootstrap-filestyle.min.js') }}"></script>
     <script src="{{ asset('js/script.js') }}"></script>
 @stop

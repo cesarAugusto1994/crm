@@ -528,7 +528,9 @@ class ChamadosController extends Controller
 
         $user = \Auth::user();
 
-        $manifestacoes = \App\Models\Manifestacao\Grupo::where('id_manifestacao', $id)->get();
+        //$manifestacoes = \App\Models\Manifestacao\Grupo::where('id_manifestacao', $id)->get();
+
+        $manifestacoes = \App\Models\Manifestacao\Grupo::all();
 
         $itens = $manifestacoes->map(function($item) {
             return ['id' => $item->id, 'nome' => $item->descricao];
@@ -544,8 +546,10 @@ class ChamadosController extends Controller
         $id = $data['id'];
 
         $user = \Auth::user();
-
+/*
         $manifestacoes = \App\Models\Manifestacao\Grupo\Tipo::where('id_grupo', $id)->get();
+*/
+        $manifestacoes = \App\Models\Manifestacao\Grupo\Tipo::all();
 
         $itens = $manifestacoes->map(function($item) {
             return ['id' => $item->id, 'nome' => $item->descricao];
@@ -1297,5 +1301,20 @@ class ChamadosController extends Controller
         $result['quadradoAluguel'] = '( R$ '.$areaAluguel.'  por m<sup>2</sup> )';
 
         return $result;
+    }
+
+    public function fases(Request $request)
+    {
+        $data = $request->request->all();
+
+        $id = $data['id'];
+
+        $fase = Fase::where('status_id', $id)->get();
+
+        $resultado = $fase->map(function($item) {
+            return ['id' => $item->id, 'nome' => $item->nome];
+        });
+
+        return json_encode($resultado);
     }
 }

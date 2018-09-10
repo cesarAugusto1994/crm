@@ -22,7 +22,6 @@
           <div class="box-body">
             <div class="row">
               <div class="col-md-12">
-                  <h2>Cadastrar modelo 3</h2>
                   <!-- Nav tabs -->
                   <div class="card">
                       <ul class="nav nav-tabs" role="tablist">
@@ -38,19 +37,23 @@
                       <!-- Tab panes -->
                       <div class="tab-content">
                           <div role="tabpanel" class="tab-pane active" id="header">
-                              <div class="logo">
-                                  <img src="{url}assets/images/common/logo.png" >
-                              </div>
-                              <div class="row margin-top-10">
-                                  <div style="text-align:center; width: 100%; float: left;">
-                                      <input class="form-control text1" type="text" value="{text1}" name="text1" id='text1' placeholder="Titulo">
+                            <div class="row">
+                              <div class="col-md-12 text-center">
+                                <div class="logo">
+                                    <img src="{{ asset('images/common/logo.png') }}" >
+                                </div>
+                                <div class="form-group">
+                                    <div>
+                                        <input class="form-control text1" type="text" value='' name="texto[]" id='text1' placeholder="Titulo">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                  <div>
+                                      <input class="form-control text1" type="text" value='' name="texto[]" id='text2' placeholder="Titulo 2">
                                   </div>
                               </div>
-                              <div class="row margin-top-10">
-                                  <div style="text-align:center; width: 100%; float: left;">
-                                      <input class="form-control text1" type="text" value="{text2}" name="text2" id='text2' placeholder="Titulo 2">
-                                  </div>
                               </div>
+                            </div>
                           </div>
                           <div role="tabpanel" class="tab-pane" id="imovel1">
                               <div class="row">
@@ -60,13 +63,13 @@
                               </div>
                               <div class="row">
                                   <div style="float: left; width: 50%; padding: 10px; margin-top: 10px">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d1}" placeholder="0 dorms" type="text" id="dorms1">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d2}" placeholder="0 suítes" type="text" id="suites1">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d3}" placeholder="0 vagas" type="text" id="vagas1">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d4}" placeholder="0 metragem" type="text" id="metragem1">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d6}" placeholder="Bairro: nenhum" type="text" id="bairro1">
-                                      <input style="float: left; margin-top: 4px;" class="form-control" value="{d37}" placeholder="Link: nenhum" type="text" id="link1">
-                                      <input style="float: left; margin-top: 4px;" class="form-control" value="{d43}" placeholder="Publicidade: nenhuma" type="text" id="publicidade1">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="0 dorms" type="text" id="dorms1">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="0 suítes" type="text" id="suites1">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="0 vagas" type="text" id="vagas1">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="0 metragem" type="text" id="metragem1">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="Bairro: nenhum" type="text" id="bairro1">
+                                      <input style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="Link: nenhum" type="text" id="link1">
+                                      <input style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="Publicidade: nenhuma" type="text" id="publicidade1">
                                   </div>
                                   <div style="float: left; width: 50%; padding: 10px; margin-top: 10px">
                                       <p class="messImagem1">Imagem selecionada: nenhuma</p>
@@ -82,13 +85,13 @@
                               </div>
                               <div class="row">
                                   <div style="float: left; width: 50%; padding: 10px; margin-top: 10px">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d7}" placeholder="0 dorms" type="text" id="dorms2">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d8}" placeholder="0 suítes" type="text" id="suites2">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d9}" placeholder="0 vagas" type="text" id="vagas2">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d10}" placeholder="0 metragem" type="text" id="metragem2">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d12}" placeholder="Bairro: nenhum" type="text" id="bairro2">
-                                      <input style="float: left; margin-top: 4px;" class="form-control" value="{d38}" placeholder="Link: nenhum" type="text" id="link2">
-                                      <input style="float: left; margin-top: 4px;" class="form-control" value="{d44}" placeholder="Publicidade: nenhuma" type="text" id="publicidade2">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="0 dorms" type="text" id="dorms2">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="0 suítes" type="text" id="suites2">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="0 vagas" type="text" id="vagas2">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="0 metragem" type="text" id="metragem2">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="Bairro: nenhum" type="text" id="bairro2">
+                                      <input style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="Link: nenhum" type="text" id="link2">
+                                      <input style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="Publicidade: nenhuma" type="text" id="publicidade2">
                                   </div>
                                   <div style="float: left; width: 50%; padding: 10px; margin-top: 10px">
                                       <p class="messImagem2">Imagem selecionada: nenhuma</p>
@@ -104,17 +107,17 @@
                               </div>
                               <div class="row">
                                   <div style="float: left; width: 50%; padding: 10px; margin-top: 10px">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d13}" placeholder="0 dorms" type="text" id="dorms3">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d14}" placeholder="0 suítes" type="text" id="suites3">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d15}" placeholder="0 vagas" type="text" id="vagas3">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d16}" placeholder="0 metragem" type="text" id="metragem3">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d18}" placeholder="Bairro: nenhum" type="text" id="bairro3">
-                                      <input style="float: left; margin-top: 4px;" class="form-control" value="{d39}" placeholder="Link: nenhum" type="text" id="link3">
-                                      <input style="float: left; margin-top: 4px;" class="form-control" value="{d45}" placeholder="Publicidade: nenhuma" type="text" id="publicidade3">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="0 dorms" type="text" id="dorms3">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="0 suítes" type="text" id="suites3">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="0 vagas" type="text" id="vagas3">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="0 metragem" type="text" id="metragem3">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="Bairro: nenhum" type="text" id="bairro3">
+                                      <input style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="Link: nenhum" type="text" id="link3">
+                                      <input style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="Publicidade: nenhuma" type="text" id="publicidade3">
                                   </div>
                                   <div style="float: left; width: 50%; padding: 10px; margin-top: 10px">
                                       <p class="messImagem3">Imagem selecionada: nenhuma</p>
-                                      <img src="{d17}" class="imgimovel3" style="display: none;" width="160px" height="160px">
+                                      <img src="" class="imgimovel3" style="display: none;" width="160px" height="160px">
                                   </div>
                               </div>
                           </div>
@@ -126,17 +129,17 @@
                               </div>
                               <div class="row">
                                   <div style="float: left; width: 50%; padding: 10px; margin-top: 10px">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d19}" placeholder="0 dorms" type="text" id="dorms4">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d20}" placeholder="0 suítes" type="text" id="suites4">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d21}" placeholder="0 vagas" type="text" id="vagas4">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d22}" placeholder="0 metragem" type="text" id="metragem4">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d24}" placeholder="Bairro: nenhum" type="text" id="bairro4">
-                                      <input style="float: left; margin-top: 4px;" class="form-control" value="{d40}" placeholder="Link: nenhum" type="text" id="link4">
-                                      <input style="float: left; margin-top: 4px;" class="form-control" value="{d46}" placeholder="Publicidade: nenhuma" type="text" id="publicidade4">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="0 dorms" type="text" id="dorms4">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="0 suítes" type="text" id="suites4">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="0 vagas" type="text" id="vagas4">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="0 metragem" type="text" id="metragem4">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="Bairro: nenhum" type="text" id="bairro4">
+                                      <input style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="Link: nenhum" type="text" id="link4">
+                                      <input style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="Publicidade: nenhuma" type="text" id="publicidade4">
                                   </div>
                                   <div style="float: left; width: 50%; padding: 10px; margin-top: 10px">
                                       <p class="messImagem4">Imagem selecionada: nenhuma</p>
-                                      <img src="{d23}" class="imgimovel4" style="display: none;" width="160px" height="160px">
+                                      <img src="" class="imgimovel4" style="display: none;" width="160px" height="160px">
                                   </div>
                               </div>
                           </div>
@@ -148,17 +151,17 @@
                               </div>
                               <div class="row">
                                   <div style="float: left; width: 50%; padding: 10px; margin-top: 10px">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d25}" placeholder="0 dorms" type="text" id="dorms5">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d26}" placeholder="0 suítes" type="text" id="suites5">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d27}" placeholder="0 vagas" type="text" id="vagas5">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d28}" placeholder="0 metragem" type="text" id="metragem5">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d30}" placeholder="Bairro: nenhum" type="text" id="bairro5">
-                                      <input style="float: left; margin-top: 4px;" class="form-control" value="{d41}" placeholder="Link: nenhum" type="text" id="link5">
-                                      <input style="float: left; margin-top: 4px;" class="form-control" value="{d47}" placeholder="Publicidade: nenhuma" type="text" id="publicidade5">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="0 dorms" type="text" id="dorms5">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="0 suítes" type="text" id="suites5">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="0 vagas" type="text" id="vagas5">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="0 metragem" type="text" id="metragem5">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="Bairro: nenhum" type="text" id="bairro5">
+                                      <input style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="Link: nenhum" type="text" id="link5">
+                                      <input style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="Publicidade: nenhuma" type="text" id="publicidade5">
                                   </div>
                                   <div style="float: left; width: 50%; padding: 10px; margin-top: 10px">
                                       <p class="messImagem5">Imagem selecionada: nenhuma</p>
-                                      <img src="{d29}" class="imgimovel5" style="display: none;" width="160px" height="160px">
+                                      <img src="" class="imgimovel5" style="display: none;" width="160px" height="160px">
                                   </div>
                               </div>
                           </div>
@@ -170,17 +173,17 @@
                               </div>
                               <div class="row">
                                   <div style="float: left; width: 50%; padding: 10px; margin-top: 10px">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d31}" placeholder="0 dorms" type="text" id="dorms6">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d32}" placeholder="0 suítes" type="text" id="suites6">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d33}" placeholder="0 vagas" type="text" id="vagas6">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d34}" placeholder="0 metragem" type="text" id="metragem6">
-                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="{d36}" placeholder="Bairro: nenhum" type="text" id="bairro6">
-                                      <input style="float: left; margin-top: 4px;" class="form-control" value="{d42}" placeholder="Link: nenhum" type="text" id="link6">
-                                      <input style="float: left; margin-top: 4px;" class="form-control" value="{d48}" placeholder="Publicidade: nenhuma" type="text" id="publicidade6">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="0 dorms" type="text" id="dorms6">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="0 suítes" type="text" id="suites6">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="0 vagas" type="text" id="vagas6">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="0 metragem" type="text" id="metragem6">
+                                      <input readonly="true" style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="Bairro: nenhum" type="text" id="bairro6">
+                                      <input style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="Link: nenhum" type="text" id="link6">
+                                      <input style="float: left; margin-top: 4px;" class="form-control" value="" placeholder="Publicidade: nenhuma" type="text" id="publicidade6">
                                   </div>
                                   <div style="float: left; width: 50%; padding: 10px; margin-top: 10px">
                                       <p class="messImagem6">Imagem selecionada: nenhuma</p>
-                                      <img src="{d35}" class="imgimovel6" style="display: none;" width="160px" height="160px">
+                                      <img src="" class="imgimovel6" style="display: none;" width="160px" height="160px">
                                   </div>
                               </div>
                           </div>
@@ -197,10 +200,6 @@
                   </div>
               </div>
             </div>
-          </div>
-          <div class="box-footer clearfix">
-              <a href="{{ route('modelos.index') }}" class="btn btn-danger btn-flat pull-left">Cancelar</a>
-              <a href="javascript:void(0)" class="btn btn-success btn-flat pull-right">Salvar</a>
           </div>
       </div>
     </div>
@@ -258,10 +257,17 @@
     </div>
   </div>
 
+  <input type="hidden" id="route-imoveis" value="{{ route('imoveis_ajax') }}"/>
+  <input type="hidden" id="route-imoveis-imagens" value="{{ route('imoveis_imagens_ajax') }}"/>
+  <input type="hidden" id="route-imoveis-dormitorios" value="{{ route('imoveis_dormitorios_ajax') }}"/>
+  <input type="hidden" id="route-imoveis-informacoes" value="{{ route('imoveis_informacoes_ajax') }}"/>
+
 @stop
 
 @section('js')
-    <script src="{{ asset('js/custom.js') }}"></script>
-    <script src="{{ asset('js/bootstrap-filestyle.min.js') }}"></script>
-    <script src="{{ asset('js/script.js') }}"></script>
+<script src="{{ asset('js/custom.js') }}"></script>
+<script src="http://malsup.github.com/jquery.form.js"></script>
+<script src="{{ asset('js/pagination.js') }}"></script>
+<script src="{{ asset('js/functions.js') }}"></script>
+<script src="{{ asset('js/modelo3.js') }}"></script>
 @stop

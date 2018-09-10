@@ -31,15 +31,6 @@ class FasesTableSeeder extends Seeder
           'OUTRAS SITUAÇOES'
         ];
 
-        foreach ($itens as $key => $item) {
-
-          $fase = Fase::create([
-            'nome' => $item,
-            'empresa_id' => 8,
-          ]);
-
-        }
-
         $itensStatus = [
           'Em Aberto',
           'Em Andamento',
@@ -47,14 +38,197 @@ class FasesTableSeeder extends Seeder
         ];
 
         foreach ($itensStatus as $key => $item) {
-
+/*
           $status = Status::create([
             'descricao' => $item,
             'id_empresa' => 8,
           ]);
-
+*/
         }
 
+        $itens=[
+          [
+            'nome'=>'CLIENTE SEM ATENDIMENTO',
+            'status_id'=>1,
+          ],
+          [
+            'nome'=>'CLIENTE EM CARTEIRA',
+            'status_id'=>1,
+          ],
+          [
+            'nome'=>'ATENDIMENTO INICIAL',
+            'status_id'=>2,
+          ],
+
+          [
+            'nome'=>'EM FASE DE ATENDIMENTO',
+            'status_id'=>2,
+          ],
+          [
+            'nome'=>'EM VISITAÇÃO',
+            'status_id'=>2,
+          ],
+          [
+            'nome'=>'EM NEGOCIAÇÃO',
+            'status_id'=>2,
+          ],
+          [
+            'nome'=>'EM FASE DE PROPOSTA',
+            'status_id'=>2,
+          ],
+          [
+            'nome'=>'PESQUISANDO PREÇO',
+            'status_id'=>2,
+          ],
+          [
+            'nome'=>'PESQUISANDO MAIS OPÇÕES',
+            'status_id'=>2,
+          ],
+          [
+            'nome'=>'QUER INDICAÇÃO NOVOS IMOVEIS',
+            'status_id'=>2,
+          ],
+          [
+            'nome'=>'AGUARDANDO ENTRADA RECURSOS',
+            'status_id'=>2,
+          ],
+          [
+            'nome'=>'AGUARDANDO ANALISE CREDITO',
+            'status_id'=>2,
+          ],
+          [
+            'nome'=>'AGUARDANDO VENDA DE IMOVEL',
+            'status_id'=>2,
+          ],
+          [
+            'nome'=>'EM FASE DE PROSPECÇÃO',
+            'status_id'=>2,
+          ],
+          [
+            'nome'=>'EM FASE DE OFERTA',
+            'status_id'=>2,
+          ],
+          [
+            'nome'=>'EM FASE DE REATIVAÇÃO DO LEAD',
+            'status_id'=>2,
+          ],
+          [
+            'nome'=>'CURIOSIDADE / SEM INTERESSE',
+            'status_id'=>2,
+          ],
+          [
+            'nome'=>'PESQUISANDO PARA LOCAÇÃO',
+            'status_id'=>2,
+          ],
+
+          ///////////////////////////////////////
+          ///////////////////////////////////////
+
+          [
+            'nome'=>'PERDEU O INTERESSE',
+            'status_id'=>3,
+          ],
+          [
+            'nome'=>'DESISTIU DA COMPRA',
+            'status_id'=>3,
+          ],
+          [
+            'nome'=>'ADIOU A DECISÃO DE COMPRA',
+            'status_id'=>3,
+          ],
+          [
+            'nome'=>'JÁ COMPROU OUTRO IMOVEL',
+            'status_id'=>3,
+          ],
+          [
+            'nome'=>'DEPENDE DA VENDA OUTRO IMOVEL',
+            'status_id'=>3,
+          ],
+          [
+            'nome'=>'SEM RECURSO FINANCEIROS',
+            'status_id'=>3,
+          ],
+          [
+            'nome'=>'ACHOU ACIMA DA CONDIÇÃO FINANCEIRA',
+            'status_id'=>3,
+          ],
+          [
+            'nome'=>'PRAZO DE ENTREGA NÃO ATENDE',
+            'status_id'=>3,
+          ],
+          [
+            'nome'=>'NÃO GOSTOU DO IMOVEL',
+            'status_id'=>3,
+          ],
+          [
+            'nome'=>'NÃO GOSTOU DO LOCAL /BAIRRO/REGIÃO',
+            'status_id'=>3,
+          ],
+          [
+            'nome'=>'NÃO TEM O VALOR DA ENTRADA DISPONIVEL',
+            'status_id'=>3,
+          ],
+          [
+            'nome'=>'NÃO TEM RENDA PARA O FINANCIAMENTO',
+            'status_id'=>3,
+          ],
+
+          [
+            'nome'=>'VOLTARA A PROCURAR FUTURAMENTE',
+            'status_id'=>3,
+          ],
+          [
+            'nome'=>'CONTRATO ASSINADO',
+            'status_id'=>3,
+          ],
+          [
+            'nome'=>'PROPOSTA DE COMPRA RECUSADA',
+            'status_id'=>3,
+          ],
+          [
+            'nome'=>'NÃO PASSOU PELA ANALISE CREDITO',
+            'status_id'=>3,
+          ],
+          [
+            'nome'=>'PROBLEMAS CADASTRAIS / SERASA',
+            'status_id'=>3,
+          ],
+          [
+            'nome'=>'CANCELAMENTO / DISTRATO',
+            'status_id'=>3,
+          ],
+          [
+            'nome'=>'CLIENTE EM CARTEIRA',
+            'status_id'=>3,
+          ],
+          [
+            'nome'=>'CURIOSIDADE / SEM INTERESSE',
+            'status_id'=>3,
+          ],
+          [
+            'nome'=>'NÃO É CLIENTE',
+            'status_id'=>3,
+          ],
+          [
+            'nome'=>'NÃO QUER COMPRAR/ INTESSE EM LOCAÇÃO',
+            'status_id'=>3,
+          ],
+          [
+            'nome'=>'OUTRAS SITUAÇOES',
+            'status_id'=>3,
+          ],
+
+        ];
+
+        foreach ($itens as $key => $item) {
+
+          $fase = Fase::create([
+            'nome' => $item['nome'],
+            'empresa_id' => 8,
+            'status_id' => $item['status_id']
+          ]);
+
+        }
 
     }
 }

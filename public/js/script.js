@@ -6,6 +6,8 @@ var optAgenda = {
 
 };
 
+$( '.formMapaGoogle' ).ajaxForm( optAgenda );
+
 $(":file").filestyle();
 
 $( '.nodata' ).show();
@@ -326,13 +328,19 @@ function serializeTabs( isPreview, id ) {
 
 var preview  =  function ( text1, text2, imgUrl1, dorms, suites, vagas, metragem, edit1, edit2, edit3, edit4, img1, img2, img3, img4, local, mapa, id, video, link ) {
 	var nameProp = $('#salvar').val();
+
+    var link = 'nameProp=' + nameProp + '&linkGeral=' + link + '&video=' + video + '&text1=' + text1 + '&text2=' + text2 + '&imgUrl1=' + imgUrl1 + '&dorms=' + dorms + '&suites=' + suites + '&vagas=' + vagas + '&metragem=' + metragem + '&edit1=' + edit1 + '&edit2=' + edit2 + '&edit3=' + edit3 + '&edit4=' + edit4 + '&img1=' + img1 + '&img2=' + img2 + '&img3=' + img3 + '&img4=' + img4 + '&local=' + local + '&mapa=' + mapa + "&id=" + id;
+
     $.ajax({
         type: 'POST',
-        url: 'templates/setPreview',
-        data: 'nameProp=' + nameProp + '&linkGeral=' + link + '&video=' + video + '&text1=' + text1 + '&text2=' + text2 + '&imgUrl1=' + imgUrl1 + '&dorms=' + dorms + '&suites=' + suites + '&vagas=' + vagas + '&metragem=' + metragem + '&edit1=' + edit1 + '&edit2=' + edit2 + '&edit3=' + edit3 + '&edit4=' + edit4 + '&img1=' + img1 + '&img2=' + img2 + '&img3=' + img3 + '&img4=' + img4 + '&local=' + local + '&mapa=' + mapa + "&id=" + id,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        url: $("#route-preview").val(),
+        data: link,
         dataType: 'json',
         success: function (data) {
-        	var newtab = window.open( String( data["url"] ), '_blank' );
+        	var newtab = window.open( String( data["url"] + '?' + link ), '_blank' );
         },error: function(request, status, error){
             alert(request.responseText);
         }
@@ -395,18 +403,24 @@ var salvarModelo5  =  function ( name, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, 
 
 var previewModelo5  =  function ( d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, idModelo ) {
 	var nameProp = $('#salvar').val();
+
+  var link='nameProp=' + nameProp + '&id=' + idModelo + '&d1=' + d1 + '&d2=' + d2 + '&d3=' + d3 + '&d4=' + d4 + '&d5=' + d5 + '&d6=' + d6 + '&d7=' + d7 + '&d8=' + d8 + '&d9=' + d9 + '&d10=' + d10 + '&d11=' + d11 + '&d12=' + d12 + '&d13=' + d13 + '&d14=' + d14 + '&d15=' + d15;
     $.ajax({
 
         type: 'POST',
 
-        url: 'templates/setPreview',
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
 
-        data: 'nameProp=' + nameProp + '&id=' + idModelo + '&d1=' + d1 + '&d2=' + d2 + '&d3=' + d3 + '&d4=' + d4 + '&d5=' + d5 + '&d6=' + d6 + '&d7=' + d7 + '&d8=' + d8 + '&d9=' + d9 + '&d10=' + d10 + '&d11=' + d11 + '&d12=' + d12 + '&d13=' + d13 + '&d14=' + d14 + '&d15=' + d15,
+        url: $("#route-preview").val(),
+
+        data: link,
 
         dataType: 'json',
 
         success: function (data) {
-        	var newtab = window.open( String( data["url"] ), '_blank' );
+        	var newtab = window.open( String( data["url"]  + '?' + link ), '_blank' );
         },error: function(request, status, error){
             alert(request.responseText);
         }
@@ -449,7 +463,7 @@ var consultaImoveis  =  function ( offset, search ) {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
 
-        url: '/admin/imoveis/ajax',
+        url: $("#route-imoveis").val(),
 
         data: 'offset=' + offset + '&search=' + search,
 
@@ -538,7 +552,7 @@ var getImagesImoveis  =  function ( offset, id ) {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
 
-        url: '/admin/imoveis/imagens/ajax',
+        url: $("#route-imoveis-imagens").val(),
 
         data: 'offset=' + offset + '&id=' + id,
 
@@ -597,7 +611,7 @@ var getInfoDormsImovel  =  function ( id ) {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
 
-        url: '/admin/imoveis/dormitorios/ajax',
+        url: $("#route-imoveis-dormitorios").val(),
 
         data: 'id=' + id,
 
@@ -627,7 +641,7 @@ var getInfoGeral  =  function ( id ) {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
 
-        url: '/admin/imoveis/informacoes/ajax',
+        url: $("#route-imoveis-informacoes").val(),
 
         data: 'id=' + id,
 

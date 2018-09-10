@@ -36,6 +36,8 @@ Route::middleware('auth')->middleware('status')->group(function() {
   Route::get('/chamado/midias', 'ChamadosController@midias')->name('midias');
   Route::get('/chamado/clientes', 'ChamadosController@clientes')->name('clientes');
 
+  Route::get('/chamado/fases', 'ChamadosController@fases')->name('fases');
+
   Route::get('/chamado/grupos', 'ChamadosController@grupos')->name('grupos');
   Route::get('/chamado/tipos', 'ChamadosController@tipos')->name('tipos');
 
@@ -90,12 +92,24 @@ Route::middleware('auth')->middleware('status')->group(function() {
       Route::resource('midias', 'MidiasController');
       Route::resource('templates', 'TemplatesController');
       Route::resource('modelos', 'ModelosController');
+      Route::resource('propagandas', 'PropagandasController');
 
       Route::post('imoveis/ajax', 'HelpersController@imoveis')->name('imoveis_ajax');
       Route::post('imoveis/imagens/ajax', 'HelpersController@imagens')->name('imoveis_imagens_ajax');
       Route::post('imoveis/dormitorios/ajax', 'HelpersController@dormitorios')->name('imoveis_dormitorios_ajax');
       Route::post('imoveis/informacoes/ajax', 'HelpersController@informacoes')->name('imoveis_informacoes_ajax');
-      
+
+      Route::post('/templates/preview', 'ModelosController@setPreview')->name('template_preview');
+      Route::get('/templates/preview/{id}', 'ModelosController@preview')->name('template_preview_item');
+
+      Route::get('/images', 'PropagandasController@images')->name('images');
+      Route::get('/images/google', 'PropagandasController@googleImages')->name('google_images');
+
+      Route::get('/images/external', 'PropagandasController@externalImages')->name('external_images');
+      Route::post('/images/upload', 'PropagandasController@enviarImagem')->name('upload_images');
+
+      Route::post('/templates/preview/storeImages', 'PropagandasController@storeImages')->name('template_store_images');
+
       Route::get('usuarios/{id}/alterar-senha', 'UsersController@editPassword')->name('editar_senha');
       Route::post('usuarios/{id}/alterar-senha-update', 'UsersController@updatePassword')->name('editar_senha_update');
   });

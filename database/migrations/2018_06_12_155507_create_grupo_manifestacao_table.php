@@ -16,7 +16,7 @@ class CreateGrupoManifestacaoTable extends Migration {
 		{
 			$table->integer('id', true);
 			$table->string('descricao', 40);
-			$table->integer('id_manifestacao')->index('id_manifestacao');
+			$table->integer('id_manifestacao')->nullable();
 			$table->timestamps();
 		});
 	}

@@ -219,7 +219,7 @@
                   <div class="col-md-3">
                     <div class="form-group">
                       <label>Status do chamado </label>
-                      <select class="form-control select2" style="width: 100%;" name="situacao">
+                      <select class="form-control select2  select-ajax" data-target="#fase" data-url="{{ route('fases') }}" style="width: 100%;" name="situacao">
                         @foreach($status as $item)
                             <option value="{{ $item->id }}">{{ $item->descricao }}</option>
                         @endforeach

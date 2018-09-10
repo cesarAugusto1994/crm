@@ -1,7 +1,7 @@
 <div class="row">
 
   <div class="col-md-12" style="margin-bottom:20px;border-radius:4px">
-    @if($modelo == 2)
+    @if(isset($modelo) && $modelo == 2)
     <img style="width:100%" src="http://seabra.com.br/admin/assets/images/banners/header2.png" alt=""/>
     @else
     <img style="width:100%" src="http://seabra.com.br/admin/assets/images/banners/header.jpg" alt=""/>

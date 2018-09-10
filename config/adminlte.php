@@ -168,6 +168,11 @@ return [
                     'url'         => '/admin/modelos',
                     'icon'        => 'newspaper-o',
                 ],
+                [
+                    'text'        => 'Propagandas',
+                    'url'         => '/admin/propagandas',
+                    'icon'        => 'newspaper-o',
+                ],
             ],
         ],
 

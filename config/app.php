@@ -183,6 +183,7 @@ return [
         Canducci\Cep\Providers\CepServiceProvider::class,
         jeremykenedy\LaravelRoles\RolesServiceProvider::class,
         Emadadly\LaravelUuid\LaravelUuidServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class
     ],
 
     /*
@@ -234,6 +235,7 @@ return [
         #'Curl' => Ixudra\Curl\Facades\Curl::class,
         'Cep'        => Canducci\Cep\Facades\Cep::class,
         'Endereco'   => Canducci\Cep\Facades\Endereco::class,
+        'Image' => Intervention\Image\Facades\Image::class
 
     ],
 
