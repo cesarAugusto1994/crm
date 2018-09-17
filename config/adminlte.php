@@ -110,10 +110,6 @@ return [
     'menu' => [
         'Navegação',
         [
-            'text' => 'Painel Principal',
-            'url'  => '/',
-        ],
-        [
             'text'        => 'Chamados',
             'url'         => '/chamados',
             'icon'        => 'bell-o',
@@ -131,12 +127,7 @@ return [
             'icon'        => 'building',
             'can'         => 'manage-empreendimentos.index',
         ],
-        [
-            'text'        => 'Perfils',
-            'url'         => '/perfis',
-            'icon'        => 'address-card',
-            'can'         => 'manage-perfis.index',
-        ],
+
         [
             'text'        => 'Empresas',
             'url'         => '/admin/empresas',
@@ -144,17 +135,35 @@ return [
             'can'         => 'manage-empresas.index',
         ],
         [
-            'text'        => 'Usuários',
-            'url'         => '/admin/usuarios',
-            'icon'        => 'users',
-            'can'         => 'manage-users.index',
+            'text'        => 'Cadastros',
+            'submenu'     => [
+              [
+                  'text'        => 'Perfils',
+                  'url'         => '/perfis',
+                  'icon'        => 'address-card',
+                  'can'         => 'manage-perfis.index',
+              ],
+              [
+                  'text'        => 'Usuários',
+                  'url'         => '/admin/usuarios',
+                  'icon'        => 'users',
+                  'can'         => 'manage-users.index',
+              ],
+              [
+                  'text'        => 'Midias',
+                  'url'         => '/admin/midias',
+                  'icon'        => 'newspaper-o',
+                  'can'         => 'manage-midias.index',
+              ],
+              [
+                  'text'        => 'Áreas',
+                  'url'         => '/admin/areas',
+                  'icon'        => 'file',
+                  'can'         => 'manage-areas.index',
+              ],
+            ],
         ],
-        [
-            'text'        => 'Midias',
-            'url'         => '/admin/midias',
-            'icon'        => 'newspaper-o',
-            'can'         => 'manage-midias.index',
-        ],
+
         [
             'text'        => 'Templates',
             'submenu'        => [

@@ -54,5 +54,8 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::resource('manage-perfis', 'App\Policies\PerfisPolicy');
         Gate::define('manage-perfis.index', 'App\Policies\PerfisPolicy@index');
+
+        Gate::resource('manage-areas', 'App\Policies\AreasPolicy');
+        Gate::define('manage-areas.index', 'App\Policies\AreasPolicy@index');
     }
 }

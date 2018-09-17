@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\{Chamados, Manifestacao, Empresa, Produtos, LogEmail, Clientes};
 use App\Models\Chamados\{Classificacao, Previsao, Status, Empreendimentos, Midias, Logs, Anotacoes, Fase};
 use App\Models\Empresa\Departamentos;
+use App\User;
 #use Ixudra\Curl\Facades\Curl;
 
 class ChamadosController extends Controller
@@ -17,12 +18,84 @@ class ChamadosController extends Controller
      */
     public function index(Request $request)
     {
+        $data = $request->request->all();
+
         $user = \Auth::user();
 
         $this->authorize('manage-chamados.index', Chamados::class);
 
-        $chamados = Chamados::where('id_empresa', $user->empresa_id)->orderByDesc('id')->paginate();
-        return view('empresa.chamados.index', compact('chamados'));
+        $classificacao = Classificacao::where('id_empresa', $user->empresa->id)->get();
+        $departamentos = Departamentos::where('id_empresa', $user->empresa->id)->get();
+        $status = Status::where('id_empresa', $user->empresa->id)->get();
+        $fases = Fase::where('empresa_id', $user->empresa->id)->get();
+        $responsaveis = User::where('empresa_id', $user->empresa->id)->get();
+
+        $chamados = Chamados::where('id_empresa', $user->empresa_id);
+
+        if(!empty($data['id'])) {
+            $chamados->where('id', $data['id']);
+        }
+
+        if(!empty($data['cliente'])) {
+            $chamados->where('id_cliente', $data['cliente']);
+        }
+
+        if(!empty($data['pessoa_responsavel'])) {
+            $chamados->where('pessoa_responsavel', $data['pessoa_responsavel']);
+        }
+
+        if(!empty($data['empreendimento'])) {
+            $chamados->whereHas('empreendimentos', function ($query) use ($data) {
+                $query->where('produto_id', $data['empreendimento']);
+            });
+        }
+
+        if(!empty($data['midia'])) {
+            $chamados->whereHas('midias', function ($query) use ($data) {
+                $query->where('midia_id', $data['midia']);
+            });
+        }
+
+        if(!empty($data['situacao'])) {
+            $chamados->where('situacao', $data['situacao']);
+        }
+
+        if(!empty($data['fase_id'])) {
+            $chamados->where('fase_id', $data['fase_id']);
+        }
+
+        if(!empty($data['classificacao'])) {
+            $chamados->where('classificacao', $data['classificacao']);
+        }
+
+        if(!empty($data['temperatura'])) {
+            $chamados->where('temperatura', $data['temperatura']);
+        }
+
+        if(!empty($data['abertura_chamado'])) {
+
+            $date = \DateTime::createFromFormat('d/m/Y', $data['abertura_chamado']);
+
+            $chamados->where('abertura_chamado', $date->format('Y-m-d'));
+        }
+
+        if(!empty($data['atendimento_chamado'])) {
+
+            $date = \DateTime::createFromFormat('d/m/Y', $data['atendimento_chamado']);
+
+            $chamados->where('atendimento_chamado', $date->format('Y-m-d'));
+        }
+
+        if(!empty($data['conclusao_chamado'])) {
+
+            $date = \DateTime::createFromFormat('d/m/Y', $data['conclusao_chamado']);
+
+            $chamados->where('conclusao_chamado', $date->format('Y-m-d'));
+        }
+
+        $chamados = $chamados->orderByDesc('id')->paginate();
+
+        return view('empresa.chamados.index', compact('chamados', 'status','classificacao','departamentos','fases','responsaveis'));
     }
 
     /**
@@ -178,21 +251,20 @@ class ChamadosController extends Controller
         $chamado->abertura_chamado = new \DateTime('now');
         $chamado->id_usuario = \Auth::user()->id;
         $chamado->id_empresa = \Auth::user()->empresa_id;
-        $chamado->pessoa_responsavel = $data['pessoa_responsavel'] ? $data['pessoa_responsavel'] : null;
+        $chamado->pessoa_responsavel = $data['pessoa_responsavel'];
         $chamado->atendimento_chamado = $data['atendimento_chamado'] ? (\DateTime::createFromFormat('d/m/Y', $data['atendimento_chamado'])) : null;
         $chamado->conclusao_chamado = $data['conclusao_chamado'] ? (\DateTime::createFromFormat('d/m/Y', $data['conclusao_chamado'])) : null;
         $chamado->previsao_conclusao = $data['previsao_conclusao'] instanceof \Datetime ? (\DateTime::createFromFormat('d/m/Y', $data['previsao_conclusao'])) : null;
-
-        $previsao = null;
 
         if($data['previsao_conclusao']) {
             $date = new \DateTime('now');
             $previsao = Previsao::findOrFail($data['previsao_conclusao']);
             $date->modify('+'. $previsao->descricao . ' days');
             $previsao = $date;
+
+            $chamado->previsao_conclusao = $previsao;
         }
 
-        $chamado->previsao_conclusao = $previsao;
         $chamado->save();
 
         if(isset($data['descricao'])) {
@@ -335,6 +407,8 @@ class ChamadosController extends Controller
     {
         $data = $request->request->all();
 
+        dd($data);
+
         $chamado = Chamados::findOrFail($data['chamado']);
 
         $path = "";
@@ -446,7 +520,9 @@ class ChamadosController extends Controller
 
                     $texto = $data['descricao-'.$item];
 
-                    $assunto = 'SEABRA – '.$data['empreendimento'][$key].' – INFORMAÇÕES';
+                    //$assunto="";
+
+                    $assunto = 'SEABRA – '.$data['empreendimentos'][$key].' – INFORMAÇÕES';
 
                     if($data['modelo'] == 3) {
                       $assunto = 'SEABRA – IMÓVEIS SELECIONADOS CONFORME PERFIL DESEJADO';
@@ -589,7 +665,8 @@ class ChamadosController extends Controller
         foreach ($empreendimentos as $key => $itemLoop) {
 
           $emp = Produtos::findOrFail($itemLoop);
-          $nomesEmpreendimentos[$emp->id] = $emp->nome;
+
+          $nomesEmpreendimentos[$emp->referencia] = $emp->nome;
           $empreendimento = $this->getEmpreendimento($emp->referencia);
 
           $tipologias = $this->getTipolias($empreendimento['imovel'], $empreendimento['tipo']);

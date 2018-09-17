@@ -31,7 +31,7 @@
     <div class="col-md-12">
         <div class="box box-solid">
           <div class="box-header with-border">
-            <h3 class="box-title">Cliente</h3>
+            <h3 class="box-title">Selecionar Cliente</h3>
             <div class="box-tools pull-right">
               <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
               </button>
@@ -43,6 +43,10 @@
 
               <form method="get" action="{{ route('propaganda_envio_email_cliente', $propaganda->id) }}">
 
+                @if(\Request::has('chamado'))
+                  <input type="hidden" name="chamado" value="{{\Request::get('chamado')}}"/>
+                @endif
+
               <div class="col-md-5">
                 <div class="form-group">
                   <label>Cliente</label>
@@ -52,7 +56,7 @@
 
               <div class="col-md-12">
 
-              <button class="btn"><i class="fa fa-envelope"></i> Enviar Email</button>
+              <button class="btn btn-success"><i class="fa fa-envelope"></i> Enviar Email</button>
 
               </div>
 

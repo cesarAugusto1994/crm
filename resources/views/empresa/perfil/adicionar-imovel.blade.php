@@ -18,10 +18,6 @@
       <div class="box box-solid">
         <div class="box-header with-border">
           <h3 class="box-title">Perfil</h3>
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-            </button>
-          </div>
         </div>
         <div class="box-body">
           <p class="lead">{{ $perfil->nome }}</p>
@@ -37,10 +33,6 @@
 
           <div class="box-header with-border">
             <h3 class="box-title">Filtros</h3>
-            <div class="box-tools pull-right">
-              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-              </button>
-            </div>
           </div>
 
           <form action="{{ route('adicionar_imoveis', $perfil->id) }}">
@@ -48,42 +40,43 @@
               <div class="box-body">
                 <div class="row">
 
-                  <div class="col-md-1">
+                  <div class="col-md-2">
                     <div class="form-group">
                       <label for="codigo">Codigo</label>
                       <input type="text" class="form-control" id="codigo" name="codigo" placeholder="">
                     </div>
                   </div>
 
-                  <div class="col-md-2">
+                  <div class="col-md-3">
                     <div class="form-group">
                       <label for="nome">Nome</label>
                       <input type="text" class="form-control" id="nome" name="nome" placeholder="">
                     </div>
                   </div>
 
-                  <div class="col-md-2">
+                  <div class="col-md-4">
                     <div class="form-group">
                       <label for="select-empreendimento">Empreendimento</label>
                       <select style="width:150px" id="select-empreendimento" name="empreendimento" data-url="{{ route('empreendimentos') }}" class="select2"></select>
                     </div>
                   </div>
 
-                  <div class="col-md-2">
+                  <div class="col-md-3">
                     <div class="form-group">
-                      <label for="select-midias">Zona</label>
-                      <select id="select-zonas" name="zona" class="form-control">
+                      <label for="select-midias">Estágio</label>
+                      <select name="estagio" class="form-control">
                         <option value=""></option>
-                        <option value="1">Centro</option>
-                        <option value="2">Leste</option>
-                        <option value="3">Norte</option>
-                        <option value="4">Oeste</option>
-                        <option value="5">Sul</option>
+                        <option value="3">Lancamento</option>
+                        <option value="2">Em construção</option>
+                        <option value="1">Pronto para morar</option>
                       </select>
                     </div>
                   </div>
 
-                  <div class="col-md-1">
+                </div>
+                <div class="row">
+
+                  <div class="col-md-2">
                     <div class="form-group">
                       <label for="select-midias">Tipo Imóvel</label>
                       <select id="select-zonas" name="zona" class="form-control">
@@ -105,36 +98,42 @@
                     </div>
                   </div>
 
-                  <div class="col-md-2">
+                  <div class="col-md-3">
                     <div class="form-group">
                       <label for="select-midias">Cidade</label>
                       <select style="width:150px" id="select-cidade" name="cidade" data-url="{{ route('cidades') }}" class="form-control"></select>
                     </div>
                   </div>
 
-                  <div class="col-md-2">
+                  <div class="col-md-4">
                     <div class="form-group">
                       <label for="select-midias">Bairro</label>
                       <select style="width:150px" id="select-bairros" name="bairros" data-url="{{ route('bairros') }}" class="form-control"></select>
                     </div>
                   </div>
 
-
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="select-midias">Zona</label>
+                      <select id="select-zonas" name="zona" class="form-control">
+                        <option value=""></option>
+                        <option value="1">Centro</option>
+                        <option value="2">Leste</option>
+                        <option value="3">Norte</option>
+                        <option value="4">Oeste</option>
+                        <option value="5">Sul</option>
+                      </select>
+                    </div>
+                  </div>
 
                 </div>
+
 
                 <div class="row">
 
                   <div class="col-md-2">
                     <div class="form-group">
-                      <label for="select-midias">Áreas</label>
-                      <select style="width:150px" multiple id="select-areas-privativas" name="areas[]" data-url="{{ route('areas_privativas') }}" class="form-control"></select>
-                    </div>
-                  </div>
-
-                  <div class="col-md-1">
-                    <div class="form-group">
-                      <label for="select-midias">Dormitórios</label>
+                      <label for="select-midias">Dorms</label>
                       <input type="checkbox" id="habilitar_dormitorios" class="enabler" name="habilitar_dormitorios" value="1">
                       <select name="dormitorios_min" class="form-control disabled" data-target-element="habilitar_dormitorios">
                         <option value=""></option>
@@ -152,7 +151,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-1">
+                  <div class="col-md-2">
                     <div class="form-group">
                       <label for="select-midias">Suites</label>
                       <input type="checkbox" id="habilitar_suites" class="enabler" name="habilitar_suites" value="1">
@@ -172,7 +171,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-1">
+                  <div class="col-md-2">
                     <div class="form-group">
                       <label for="select-midias">Vagas</label>
                       <input type="checkbox" id="habilitar_vagas" class="enabler" name="habilitar_vagas" value="1">
@@ -192,7 +191,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-1">
+                  <div class="col-md-2">
                     <div class="form-group">
                       <label for="select-midias">Área</label>
                       <input type="checkbox" id="habilitar_areas" class="enabler" name="habilitar_areas" value="1"/>
@@ -201,7 +200,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-1">
+                  <div class="col-md-2">
                     <div class="form-group">
                       <label for="select-midias">Entrega</label>
                       <input type="checkbox" id="habilitar_entrega" class="enabler" name="habilitar_entrega" value="1"/>
@@ -210,7 +209,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-3">
+                  <div class="col-md-2">
                     <div class="form-group">
                       <label for="select-midias">Incorporadora</label>
                       <input type="text" class="form-control" id="incorporadora" name="incorporadora"/>
@@ -232,10 +231,6 @@
       <div class="box box-solid">
         <div class="box-header with-border">
           <h3 class="box-title">Lista Imóveis</h3>
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-            </button>
-          </div>
         </div>
         <div class="box-body table-responsive">
           <form action="{{ route('adicionar_imoveis', $perfil->id) }}">

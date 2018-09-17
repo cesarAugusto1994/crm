@@ -27,6 +27,7 @@ Route::middleware('auth')->middleware('status')->group(function() {
   Route::resource('empreendimentos', 'EmpreendimentosController');
   Route::resource('agenda', 'AgendaController');
   Route::resource('perfis', 'PerfisController');
+  Route::resource('areas', 'AreasController');
   Route::resource('imoveis', 'PerfilImoveisController');
 
   Route::get('perfis/{id}/imoveis', 'PerfisController@adicionarImovel')->name('adicionar_imoveis');
@@ -97,6 +98,7 @@ Route::middleware('auth')->middleware('status')->group(function() {
       Route::resource('empresas', 'EmpresasController');
       Route::resource('usuarios', 'UsersController');
       Route::resource('midias', 'MidiasController');
+      Route::resource('areas', 'AreasController');
       Route::resource('templates', 'TemplatesController');
       Route::resource('modelos', 'ModelosController');
       Route::resource('propagandas', 'PropagandasController');

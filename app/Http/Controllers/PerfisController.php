@@ -160,6 +160,10 @@ class PerfisController extends Controller
                 $sql .= " AND imovel.imv_id = " . (int)$request->get('codigo');
             }
 
+            if($request->has('estagio') && !empty($request->get('estagio'))) {
+                $sql .= " AND emp.emp_fases_obra = " . (int)$request->get('estagio');
+            }
+
             if($request->has('zona') && !empty($request->get('zona'))) {
                 $sql .= " AND local.zn_id = " . (int)$request->get('zona');
             }
@@ -568,6 +572,13 @@ class PerfisController extends Controller
 
         $perfil = Perfil::findOrFail($id);
 
+        $nome = $perfil->nome;
+
+        if($request->has('cliente')) {
+          $cliente=Clientes::find($request->get('cliente'));
+          $nome=$cliente->nome;
+        }
+
         $path = "";
 
         if(isset($data['enviar_email'])) {
@@ -608,7 +619,7 @@ class PerfisController extends Controller
 
                     $texto = $data['descricao-'.$item];
 
-                    $assunto = 'SEABRA – '.$data['empreendimento'][$key].' – INFORMAÇÕES';
+                    $assunto = 'SEABRA – '.$data['empreendimentos'][$key].' – INFORMAÇÕES';
 
                     if($data['modelo'] == 3) {
                       $assunto = 'SEABRA – IMÓVEIS SELECIONADOS CONFORME PERFIL DESEJADO';
@@ -618,7 +629,7 @@ class PerfisController extends Controller
 
                     foreach ($emails as $key => $email) {
                       \Mail::to([
-                        $perfil->cliente->nome => $email,
+                        $nome => $email,
                       ])->send(new \App\Mail\Perfil($perfil, $empresa, $texto, $path, $assunto, $data['modelo']));
                     }
 
@@ -629,7 +640,7 @@ class PerfisController extends Controller
 
               foreach ($emails as $key => $email) {
                 \Mail::to([
-                  $perfil->cliente->nome => $email,
+                  $nome => $email,
                 ])->send(new \App\Mail\Resposta($log, $perfil, $empresa, $data['descricao'], $path, $assunto, $data['modelo']));
               }
 

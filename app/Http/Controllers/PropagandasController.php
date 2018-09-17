@@ -283,11 +283,18 @@ class PropagandasController extends Controller
           $view = view('empresa.modelos.templates.t'.$id, $data);
           $contents = $view->render();
 
-          Propaganda::create([
+          $propaganda = Propaganda::create([
             'nome' => $nome,
             'modelo_id' => $modelo,
             'conteudo' => $contents,
           ]);
+
+          if(\Request::has('chamado')) {
+            $anotacao = new Anotacoes();
+            $anotacao->descricao = 'Propaganda <a href='.route("propagandas.show", $propaganda->id).'>#' . $propaganda->id . '</a> foi gerada para o cliente.';
+            $anotacao->chamado_id = \Request::has('chamado');
+            $anotacao->save();
+          }
 
           $message  =  "Salvo com sucesso";
 
@@ -540,29 +547,42 @@ class PropagandasController extends Controller
 
           $cliente = Clientes::findOrFail($request->get('cliente'));
 
-          $chamados = Chamados::where('perfil_id', $propaganda->id)->where('id_cliente', $cliente->id)->get();
+          if(\Request::has('chamado')) {
 
-          if($chamados->isNotEmpty()) {
+            $chamado = Chamados::findOrFail(\Request::get('chamado'));
 
-              $chamado = $chamados->first();
+            $anotacao = new Anotacoes();
+            $anotacao->descricao = 'Propaganda <a href='.route("propagandas.show", $propaganda->id).'>#' . $propaganda->id . '</a> foi enviada para o cliente.';
+            $anotacao->chamado_id = \Request::get('chamado');
+            $anotacao->save();
 
           } else {
 
-              $chamado = new Chamados();
-              $chamado->id_usuario = \Auth::user()->id;
-              $chamado->id_empresa = \Auth::user()->empresa_id;
-              $chamado->id_cliente = $cliente->id;
-              $chamado->abertura_chamado = now();
-              $cliente = $request->get('cliente');
+              $chamados = Chamados::where('id_cliente', $cliente->id)->get();
 
-              $chamado->save();
+              if($chamados->isNotEmpty()) {
+
+                  $chamado = $chamados->last();
+
+              } else {
+
+                  $chamado = new Chamados();
+                  $chamado->id_usuario = \Auth::user()->id;
+                  $chamado->id_empresa = \Auth::user()->empresa_id;
+                  $chamado->id_cliente = $cliente->id;
+                  $chamado->abertura_chamado = now();
+                  $cliente = $request->get('cliente');
+
+                  $chamado->save();
+
+              }
+
+              $anotacao = new Anotacoes();
+              $anotacao->descricao = 'Propaganda <a href='.route("propagandas.show", $propaganda->id).'>#' . $propaganda->id . '</a> foi enviada para o cliente.';
+              $anotacao->chamado_id = $chamado->id;
+              $anotacao->save();
 
           }
-
-          $anotacao = new Anotacoes();
-          $anotacao->descricao = 'Propaganda <a href='.route("propagandas.show", $propaganda->id).'>#' . $propaganda->id . '</a> foi enviada para o cliente.';
-          $anotacao->chamado_id = $chamado->id;
-          $anotacao->save();
 
         }
 

@@ -96,7 +96,11 @@
                       <label>Area
                         <select class="form-control" name="area_id">
                           @foreach($departamentos as $departamento)
-                              <option value="{{ $departamento->id }}">{{ $departamento->descricao }} - {{ $departamento->empresa->nome }}</option>
+                              @if(\Auth::user()->isAdmin())
+                                  <option value="{{ $departamento->id }}">{{ $departamento->descricao }} - {{ $departamento->empresa->nome }}</option>
+                              @elseif($departamento->id_empresa == \Auth::user()->empresa_id)
+                                  <option value="{{ $departamento->id }}">{{ $departamento->descricao }} - {{ $departamento->empresa->nome }}</option>
+                              @endif
                           @endforeach
                         </select>
                         @if ($errors->has('area_id'))

@@ -25,7 +25,7 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $chamados = Chamados::where('id_empresa', \Auth::user()->id)->get();
+        $chamados = Chamados::where('id_empresa', \Auth::user()->empresa_id)->get();
 
         $total = $chamados->count();
 
@@ -47,7 +47,7 @@ class HomeController extends Controller
           $porcentagemTarefas = 0;
         }
 
-        $areas = Departamentos::where('id_empresa', \Auth::user()->id)->get();
+        $areas = Departamentos::where('id_empresa', \Auth::user()->empresa_id)->get();
 
         $empresas = \App\Models\Empresa::paginate();
         $users = \App\User::paginate();

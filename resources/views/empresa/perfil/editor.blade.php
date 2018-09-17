@@ -38,6 +38,7 @@
                 <input id="enviar_email" name="enviar_email" type="hidden" value="1">
                 <input id="modelo" name="modelo" type="hidden" value="{{ $modelo }}">
                 <input id="perfil" name="perfil" type="hidden" value="{{ $perfil->id }}">
+                <input id="cliente" name="cliente" type="hidden" value="{{ \Request::get('cliente') }}">
 
                 <button type="submit" class="btn btn-success btn-flat">Enviar</button>
 

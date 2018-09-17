@@ -14,7 +14,7 @@
     <div class="col-lg-3 col-xs-6">
       <div class="small-box bg-aqua">
         <div class="inner">
-          <h3>{{ \App\Models\Chamados::where('id_empresa', \Auth::user()->id)->count() }}</h3>
+          <h3>{{ \App\Models\Chamados::where('id_empresa', \Auth::user()->empresa_id)->count() }}</h3>
           <p>Chamados</p>
         </div>
         <div class="icon">
@@ -40,7 +40,7 @@
     <div class="col-lg-3 col-xs-6">
       <div class="small-box bg-yellow">
         <div class="inner">
-          <h3>{{ \App\Models\Clientes::where('id_empresa', \Auth::user()->id)->count() }}</h3>
+          <h3>{{ \App\Models\Clientes::where('id_empresa', \Auth::user()->empresa_id)->count() }}</h3>
           <p>Clientes</p>
         </div>
         <div class="icon">

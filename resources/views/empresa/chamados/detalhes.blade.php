@@ -297,7 +297,7 @@
                   </span>
                   <span class="direct-chat-timestamp {{ $log->origem == 'usuario' ? 'pull-left' : 'pull-right' }}">{{ $log->created_at ? $log->created_at->format('d/m/Y H:i') : '-' }}</span>
                 </div>
-                <img class="direct-chat-img" src="holder.js/32x32" alt="">
+                <img class="direct-chat-img" src="https://holder.js/32x32" alt="">
                 <div class="direct-chat-text">
 
                   <p style="color:white">{!! $log->descricao !!}</p>
@@ -330,6 +330,8 @@
                     <li><a href="#" class="btnRespostaEmail" data-id="1" data-toggle="modal" data-target="#modal-modelo-2">Modelo Resposta #1</a></li>
                     <li><a href="#" class="btnRespostaEmail" data-id="2" data-toggle="modal" data-target="#modal-modelo-2">Modelo Resposta #2</a></li>
                     <li><a href="#" class="btnRespostaEmail" data-id="3" data-toggle="modal" data-target="#modal-modelo-2">Modelo Resposta #3</a></li>
+                    <li><a href="{{ route('modelos.index', ['chamado'=>$chamado->id]) }}" >Resposta por Novo Template</a></li>
+                    <li><a href="{{ route('propagandas.index', ['chamado'=>$chamado->id]) }}">Resposta por Template Existente</a></li>
                     <li role="separator" class="divider"></li>
                     <li><a href="{{ route('email_create', ['id' => $chamado->id]) }}">Email em branco</a></li>
                   </ul>
@@ -345,7 +347,6 @@
           </div>
         </div>
       </div>
-
   </div>
 
   <div class="modal fade" id="modal-modelo-2" style="display: none;">

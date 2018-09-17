@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Midias;
+use App\Models\Area;
 use App\Models\Empresa;
 
-class MidiasController extends Controller
+
+class AreasController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,19 +16,19 @@ class MidiasController extends Controller
      */
     public function index()
     {
-        $this->authorize('manage-midias.index', Midias::class);
+      $this->authorize('manage-areas.index', Area::class);
 
-        $midias = Midias::orderBy('empresa_id');
+      $areas = Area::orderBy('id_empresa');
 
-        $user = \Auth::user();
+      $user = \Auth::user();
 
-        if($user->isSuperuser()) {
-            $midias->where('empresa_id', $user->empresa_id);
-        }
+      if($user->isSuperuser()) {
+          $areas->where('id_empresa', $user->empresa_id);
+      }
 
-        $midias = $midias->paginate();
+      $areas = $areas->paginate();
 
-        return view('admin.midias.index', compact('midias'));
+      return view('admin.areas.index', compact('areas'));
     }
 
     /**
@@ -37,10 +38,10 @@ class MidiasController extends Controller
      */
     public function create()
     {
-        $this->authorize('manage-midias.create');
+        $this->authorize('manage-areas.create');
 
         $empresas = Empresa::where('status', true)->get();
-        return view('admin.midias.create', compact('empresas'));
+        return view('admin.areas.create', compact('empresas'));
     }
 
     /**
@@ -53,13 +54,11 @@ class MidiasController extends Controller
     {
         $data = $request->request->all();
 
-        dd($data);
+        $area = Area::create($data);
 
-        $midia = Midias::create($data);
+        flash('A área foi adicionada com sucesso!')->success()->important();
 
-        flash('A midia foi adicionada com sucesso!')->success()->important();
-
-        return redirect()->back();
+        return redirect()->route('areas.index');
     }
 
     /**
@@ -81,11 +80,11 @@ class MidiasController extends Controller
      */
     public function edit($id)
     {
-        $midia = Midias::findOrFail($id);
+        $area = Area::findOrFail($id);
 
-        $this->authorize('manage-midias.view', $midia);
+        $this->authorize('manage-areas.view', $area);
 
-        return view('admin.midias.edit', compact('midia'));
+        return view('admin.areas.edit', compact('area'));
     }
 
     /**
@@ -100,21 +99,20 @@ class MidiasController extends Controller
         $data = $request->request->all();
 
         $validate = \Illuminate\Support\Facades\Validator::make($data, [
-            'nome' => 'required|string|max:255',
-            'ativo' => 'required',
+            'descricao' => 'required|string|max:255',
         ]);
 
         if($validate->fails()) {
           return redirect()->back()->withErrors($validate)->withInput();
         }
 
-        $midias = Midias::findOrFail($id);
+        $area = Area::findOrFail($id);
 
-        $midias->update($data);
+        $area->update($data);
 
         flash('Os dados foram alterados com sucesso!')->success()->important();
 
-        return redirect()->back();
+        return redirect()->route('areas.index');
     }
 
     /**
@@ -126,7 +124,7 @@ class MidiasController extends Controller
     public function destroy($id)
     {
         try {
-            $registro = Midias::findOrFail($id);
+            $registro = Area::findOrFail($id);
             $registro->delete();
 
             return response()->json([

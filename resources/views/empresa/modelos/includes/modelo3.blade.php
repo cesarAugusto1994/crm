@@ -263,6 +263,10 @@
   <input type="hidden" id="route-imoveis-informacoes" value="{{ route('imoveis_informacoes_ajax') }}"/>
   <input type="hidden" id="modelo" value="{{ $modelo->id }}"/>
 
+  @if(\Request::has('chamado'))
+      <input type="hidden" id="chamado" value="{{ \Request::get('chamado') }}"/>
+  @endif
+
 @stop
 
 @section('js')

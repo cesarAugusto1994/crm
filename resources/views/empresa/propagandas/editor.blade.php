@@ -45,6 +45,15 @@
                   </div>
                 </div>
 
+                @if(\Request::has('chamado'))
+                    <div class="form-group">
+                      <label class="col-sm-2 control-label">Chamado</label>
+                      <div class="col-sm-10">
+                        <p class="lead">#{{ \Request::get('chamado') }}</p>
+                      </div>
+                    </div>
+                @endif
+
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Email</label>
                   <div class="col-sm-10">

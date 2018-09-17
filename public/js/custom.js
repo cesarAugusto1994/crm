@@ -60,7 +60,7 @@ function carregarResponsvel() {
 
     $.each(data, function(i, item) {
 
-        if(defaultValue == item.id) {
+        if(defaultValue === item.id) {
           selected = "selected='selected'";
         }
 

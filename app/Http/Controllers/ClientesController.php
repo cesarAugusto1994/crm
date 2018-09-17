@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Clientes;
 use App\Models\Clientes\{Produtos, Midias, Emails, Telefones, Enderecos, Tipo as TipoCliente, Tratamento};
+use App\Models\Chamados\{Status};
 use App\Models\Clientes\Telefones\Tipo;
 use App\Models\Clientes\Enderecos\Tipo as TipoEndereco;
 use App\Models\Estados;
@@ -30,13 +31,17 @@ class ClientesController extends Controller
             $clientes->where('id', $data['id']);
         }
 
-        if(!empty($data['nome'])) {
-            $clientes->where('nome', 'like', "%".$data['nome']."%");
+        if(!empty($data['cliente'])) {
+            $clientes->where('id', $data['cliente']);
+        }
+
+        if(!empty($data['empresa'])) {
+            $clientes->where('empresa', 'LIKE', "%".$data['empresa']."%");
         }
 
         if(!empty($data['email'])) {
             $clientes->whereHas('emails', function ($query) use ($data) {
-                $query->where('email', 'like', "%".$data['email']."%");
+                $query->where('email', 'LIKE', "%".$data['email']."%");
             });
         }
 
@@ -52,6 +57,18 @@ class ClientesController extends Controller
             });
         }
 
+        if(!empty($data['chamado'])) {
+            $clientes->whereHas('chamados', function ($query) use ($data) {
+                $query->where('id', $data['chamado']);
+            });
+        }
+
+        if(!empty($data['situacao'])) {
+            $clientes->whereHas('chamados', function ($query) use ($data) {
+                $query->where('situacao', $data['situacao']);
+            });
+        }
+
         $clientes = $clientes->paginate();
 
         foreach ($data as $key => $value) {
@@ -60,15 +77,9 @@ class ClientesController extends Controller
 
         }
 
-        /*$paginate = 10;
-        $page = $request->get('page', 1) ?? 1;
-        $offSet = ($page * $paginate) - $paginate;
-        $itemsForCurrentPage = array_slice($clientes->toArray(), $offSet, $paginate, true);
+        $status = Status::where('id_empresa', $user->empresa->id)->get();
 
-        $clientes = new \Illuminate\Pagination\LengthAwarePaginator($clientes->toArray(), count($clientes), $paginate, $page, ['path'=>url('?' . $request->getQueryString())]);
-*/
-
-        return view('empresa.clientes.index', compact('clientes'));
+        return view('empresa.clientes.index', compact('clientes','status'));
     }
 
     /**
