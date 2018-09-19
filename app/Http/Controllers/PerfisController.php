@@ -168,6 +168,10 @@ class PerfisController extends Controller
                 $sql .= " AND local.zn_id = " . (int)$request->get('zona');
             }
 
+            if($request->has('tipo') && !empty($request->get('tipo'))) {
+                $sql .= " AND imovel.imv_tipo = " . (int)$request->get('tipo');
+            }
+
             if($request->has('cidade') && !empty($request->get('cidade'))) {
                 $sql .= " AND local.cid_id = " . (int)$request->get('cidade');
             }
@@ -317,9 +321,9 @@ class PerfisController extends Controller
         $offSet = ($page * $paginate) - $paginate;
         $itemsForCurrentPage = array_slice($empreendimentos, $offSet, $paginate, true);
 
-        $empreendimentos = new \Illuminate\Pagination\LengthAwarePaginator($itemsForCurrentPage, count($empreendimentos), $paginate, $page, ['path'=>url('/perfis/'.$request->get('perfil_id').'/imoveis?' . $request->getQueryString())]);
+        $empreendimentos = new \Illuminate\Pagination\LengthAwarePaginator($itemsForCurrentPage, count($empreendimentos), $paginate, $page, ['path'=>url('/perfis/'.$request->get('perfil').'/imoveis?' . $request->getQueryString())]);
 
-        return view('empresa.perfil.adicionar-imovel', compact('perfil', 'empreendimentos'));
+        return view('empresa.perfil.adicionar-imovel', compact('perfil', 'empreendimentos', 'perfil'));
     }
 
     /**

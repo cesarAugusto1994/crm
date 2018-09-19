@@ -24,11 +24,11 @@ class ChamadosController extends Controller
 
         $this->authorize('manage-chamados.index', Chamados::class);
 
-        $classificacao = Classificacao::where('id_empresa', $user->empresa->id)->get();
-        $departamentos = Departamentos::where('id_empresa', $user->empresa->id)->get();
-        $status = Status::where('id_empresa', $user->empresa->id)->get();
-        $fases = Fase::where('empresa_id', $user->empresa->id)->get();
-        $responsaveis = User::where('empresa_id', $user->empresa->id)->get();
+        $classificacao = Classificacao::where('id_empresa', $user->empresa->id)->orderBy('descricao')->get();
+        $departamentos = Departamentos::where('id_empresa', $user->empresa->id)->orderBy('descricao')->get();
+        $status = Status::where('id_empresa', $user->empresa->id)->orderBy('descricao')->get();
+        $fases = Fase::where('empresa_id', $user->empresa->id)->orderBy('nome')->get();
+        $responsaveis = User::where('empresa_id', $user->empresa->id)->orderBy('name')->get();
 
         $chamados = Chamados::where('id_empresa', $user->empresa_id);
 
@@ -107,11 +107,14 @@ class ChamadosController extends Controller
     {
         $user = \Auth::user();
 
-        $classificacao = Classificacao::where('id_empresa', $user->empresa->id)->get();
-        $departamentos = Departamentos::where('id_empresa', $user->empresa->id)->get();
-        $status = Status::where('id_empresa', $user->empresa->id)->get();
-        $manifestacoes = Manifestacao::all();
-        $fases = Fase::where('empresa_id', $user->empresa->id)->get();
+        $classificacao = Classificacao::where('id_empresa', $user->empresa->id)->orderBy('descricao')->get();
+        $departamentos = Departamentos::where('id_empresa', $user->empresa->id)->orderBy('descricao')->get();
+        $status = Status::where('id_empresa', $user->empresa->id)->orderBy('descricao')->get();
+        $manifestacoes = Manifestacao::orderBy('descricao')->get();
+        $fases = Fase::where('empresa_id', $user->empresa->id)->orderBy('nome')->get();
+
+        $grupos = \App\Models\Manifestacao\Grupo::orderBy('descricao')->get();
+        $tipos = \App\Models\Manifestacao\Grupo\Tipo::orderBy('descricao')->get();
 
         $ultimoChamado = Chamados::orderByDesc('id')->get();
 
@@ -138,7 +141,7 @@ class ChamadosController extends Controller
             $cliente = Clientes::findOrFail($cliente);
         }
 
-        return view('empresa.chamados.create', compact('chamado', 'classificacao', 'departamentos', 'status', 'manifestacoes', 'cliente', 'fases'));
+        return view('empresa.chamados.create', compact('chamado', 'classificacao', 'departamentos', 'status', 'manifestacoes', 'cliente', 'fases', 'grupos', 'tipos'));
     }
 
     /**
@@ -407,8 +410,6 @@ class ChamadosController extends Controller
     {
         $data = $request->request->all();
 
-        dd($data);
-
         $chamado = Chamados::findOrFail($data['chamado']);
 
         $path = "";
@@ -512,7 +513,7 @@ class ChamadosController extends Controller
 
         if(isset($data['enviar_email']) && isset($data['empreendimentos']) || isset($data['email_em_branco'])) {
 
-            $emails = explode(', ', $data['email']);
+            $emails = explode(',', $data['email']);
 
             if(isset($data['empreendimentos'])) {
 
@@ -606,9 +607,7 @@ class ChamadosController extends Controller
 
         $user = \Auth::user();
 
-        //$manifestacoes = \App\Models\Manifestacao\Grupo::where('id_manifestacao', $id)->get();
-
-        $manifestacoes = \App\Models\Manifestacao\Grupo::all();
+        $manifestacoes = \App\Models\Manifestacao\Grupo::orderBy('descricao')->get();
 
         $itens = $manifestacoes->map(function($item) {
             return ['id' => $item->id, 'nome' => $item->descricao];
@@ -621,13 +620,9 @@ class ChamadosController extends Controller
     {
         $data = $request->request->all();
 
-        $id = $data['id'];
-
         $user = \Auth::user();
-/*
-        $manifestacoes = \App\Models\Manifestacao\Grupo\Tipo::where('id_grupo', $id)->get();
-*/
-        $manifestacoes = \App\Models\Manifestacao\Grupo\Tipo::all();
+
+        $manifestacoes = \App\Models\Manifestacao\Grupo\Tipo::orderBy('descricao')->get();
 
         $itens = $manifestacoes->map(function($item) {
             return ['id' => $item->id, 'nome' => $item->descricao];
@@ -752,7 +747,7 @@ class ChamadosController extends Controller
             return $email->email;
         })->toArray();
 
-        $emailList = implode(', ', $emails);
+        $emailList = implode(',', $emails);
 
         $mensagem = [];
 

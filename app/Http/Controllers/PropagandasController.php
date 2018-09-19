@@ -44,7 +44,7 @@ class PropagandasController extends Controller
     {
         $data   =   array();
 
-        $id = $request->get("id");
+        $id = $request->get("modelo");
         $nome = $request->get("nome");
         $idTemplate = $request->get("template");
         $modelo = $request->get('modelo');
@@ -55,7 +55,7 @@ class PropagandasController extends Controller
 
         $base = config('APP_URL');
 
-          if( $id == 1 || $id == 2 ) {
+        if( $id == 1 || $id == 2 ) {
           $data["url0"]  =  $base;
           $data["nameProp0"]  =  $nome;
           $data["url1"]  =  $base;
@@ -117,7 +117,7 @@ class PropagandasController extends Controller
                         ";
           }
 
-        }else if( $id == 3 ) {
+        } else if( $id == 3 ) {
           $data["url1"]  =  $base;
           $data["nameProp1"]  =  $nome;
           $data["url2"]  =  $base;
@@ -179,92 +179,92 @@ class PropagandasController extends Controller
           $data["d48"]    =  $request->get( "d48" );
 
         }else if( $id == 4 ) {
-          $data["url1"]  =  $base;
-          $data["nameProp1"]  =  $nome;
+            $data["url1"]  =  $base;
+            $data["nameProp1"]  =  $nome;
 
-          $data["text1"]  =  $request->get( "text1" );
-          $data["text2"]  =  $request->get( "text2" );
-          $data["d1"]     =  $request->get( "d1" );
-          $data["d2"]     =  $request->get( "d2" );
-          $data["d3"]     =  $request->get( "d3" );
-          $data["d4"]     =  $request->get( "d4" );
-          $data["d5"]     =  $request->get( "d5" );
-          $data["d6"]     =  $request->get( "d6" );
-          $data["d7"]     =  $request->get( "d7" );
-          $data["d8"]     =  $request->get( "d8" );
-          $data["d9"]     =  $request->get( "d9" );
-          $data["d10"]    =  $request->get( "d10" );
-          $data["d11"]    =  $request->get( "d11" );
-          $data["d12"]    =  $request->get( "d12" );
-          $data["d13"]    =  $request->get( "d13" );
-          $data["d14"]    =  $request->get( "d14" );
-          $data["d15"]    =  $request->get( "d15" );
-          $data["d16"]    =  $request->get( "d16" );
-          $data["d17"]    =  $request->get( "d17" );
-          $data["d18"]    =  $request->get( "d18" );
-          $data["d19"]    =  $request->get( "d19" );
-          $data["d20"]    =  $request->get( "d20" );
-          $data["d21"]    =  $request->get( "d21" );
-          $data["d22"]    =  $request->get( "d22" );
-          $data["d23"]    =  $request->get( "d23" );
-          $data["d24"]    =  $request->get( "d24" );
-          $data["d25"]    =  $request->get( "d25" );
-          $data["d26"]    =  $request->get( "d26" );
-          $data["d27"]    =  $request->get( "d27" );
-          $data["d28"]    =  $request->get( "d28" );
-          $data["d29"]    =  $request->get( "d29" );
-          $data["d30"]    =  $request->get( "d30" );
-          $data["d31"]    =  $request->get( "d31" );
-          $data["d32"]    =  $request->get( "d32" );
+            $data["text1"]  =  $request->get( "text1" );
+            $data["text2"]  =  $request->get( "text2" );
+            $data["d1"]     =  $request->get( "d1" );
+            $data["d2"]     =  $request->get( "d2" );
+            $data["d3"]     =  $request->get( "d3" );
+            $data["d4"]     =  $request->get( "d4" );
+            $data["d5"]     =  $request->get( "d5" );
+            $data["d6"]     =  $request->get( "d6" );
+            $data["d7"]     =  $request->get( "d7" );
+            $data["d8"]     =  $request->get( "d8" );
+            $data["d9"]     =  $request->get( "d9" );
+            $data["d10"]    =  $request->get( "d10" );
+            $data["d11"]    =  $request->get( "d11" );
+            $data["d12"]    =  $request->get( "d12" );
+            $data["d13"]    =  $request->get( "d13" );
+            $data["d14"]    =  $request->get( "d14" );
+            $data["d15"]    =  $request->get( "d15" );
+            $data["d16"]    =  $request->get( "d16" );
+            $data["d17"]    =  $request->get( "d17" );
+            $data["d18"]    =  $request->get( "d18" );
+            $data["d19"]    =  $request->get( "d19" );
+            $data["d20"]    =  $request->get( "d20" );
+            $data["d21"]    =  $request->get( "d21" );
+            $data["d22"]    =  $request->get( "d22" );
+            $data["d23"]    =  $request->get( "d23" );
+            $data["d24"]    =  $request->get( "d24" );
+            $data["d25"]    =  $request->get( "d25" );
+            $data["d26"]    =  $request->get( "d26" );
+            $data["d27"]    =  $request->get( "d27" );
+            $data["d28"]    =  $request->get( "d28" );
+            $data["d29"]    =  $request->get( "d29" );
+            $data["d30"]    =  $request->get( "d30" );
+            $data["d31"]    =  $request->get( "d31" );
+            $data["d32"]    =  $request->get( "d32" );
 
-          $data["d33"]    =  $request->get( "d33" );
-          $data["d34"]    =  $request->get( "d34" );
-          $data["d35"]    =  $request->get( "d35" );
-          $data["d36"]    =  $request->get( "d36" );
+            $data["d33"]    =  $request->get( "d33" );
+            $data["d34"]    =  $request->get( "d34" );
+            $data["d35"]    =  $request->get( "d35" );
+            $data["d36"]    =  $request->get( "d36" );
 
-          $data["d37"]    =  $request->get( "d37" );
-          $data["d38"]    =  $request->get( "d38" );
-          $data["d39"]    =  $request->get( "d39" );
-          $data["d40"]    =  $request->get( "d40" );
+            $data["d37"]    =  $request->get( "d37" );
+            $data["d38"]    =  $request->get( "d38" );
+            $data["d39"]    =  $request->get( "d39" );
+            $data["d40"]    =  $request->get( "d40" );
         }else if( $id == 5 ) {
-          $data["url1"]  =  $base;
-          $data["nameProp1"]  =  $nome;
+            $data["url1"]  =  $base;
+            $data["nameProp1"]  =  $nome;
 
-          $data["d1"]     =  $request->get( "d1" );
-          $data["d2"]     =  $request->get( "d2" );
-          $data["d3"]     =  $request->get( "d3" );
-          $data["d4"]     =  $request->get( "d4" );
-          $data["d5"]     =  $request->get( "d5" );
-          $data["d6"]     =  $request->get( "d6" );
-          $data["d7"]     =  $request->get( "d7" );
-          $data["d8"]     =  $request->get( "d8" );
-          $data["d9"]     =  $request->get( "d9" );
-          $data["d10"]    =  $request->get( "d10" );
-          $data["d11"]    =  $request->get( "d11" );
-          $data["d12"]    =  $request->get( "d12" );
-          $data["d13"]    =  $request->get( "d13" );
-          $data["d14"]    =  $request->get( "d14" );
-          $data["d15"]    =  $request->get( "d15" );
-          $data["video"]  =  "";
-          $video          =  $data["d14"];
+            $data["d1"]     =  $request->get( "d1" );
+            $data["d2"]     =  $request->get( "d2" );
+            $data["d3"]     =  $request->get( "d3" );
+            $data["d4"]     =  $request->get( "d4" );
+            $data["d5"]     =  $request->get( "d5" );
+            $data["d6"]     =  $request->get( "d6" );
+            $data["d7"]     =  $request->get( "d7" );
+            $data["d8"]     =  $request->get( "d8" );
+            $data["d9"]     =  $request->get( "d9" );
+            $data["d10"]    =  $request->get( "d10" );
+            $data["d11"]    =  $request->get( "d11" );
+            $data["d12"]    =  $request->get( "d12" );
+            $data["d13"]    =  $request->get( "d13" );
+            $data["d14"]    =  $request->get( "d14" );
+            $data["d15"]    =  $request->get( "d15" );
+            $data["video"]  =  "";
+            $video          =  $data["d14"];
 
-          $width = 44;
+            $width = 44;
 
-          if( $video != '' ) {
+            if( $video != '' ) {
 
-            $routeVideo=route('images',['link'=>$nome . "_top2.png"]);
+              $routeVideo=route('images',['link'=>$nome . "_top2.png"]);
 
-            $data["video"]  = "	<table width='902' height='" . $width . "' align='center' bgcolor='#FFFFFF' cellpadding='0' cellspacing='0'>
-                        <tr>
-                          <td>
-                            <a href='$video'>
-                              <img style='display:block' src='".$routeVideo."' width='900' height='" . $width . "' />
-                            </a>
-                          </td>
-                        </tr>
-                      </table>
-                            ";
-          }
+              $data["video"]  = "	<table width='902' height='" . $width . "' align='center' bgcolor='#FFFFFF' cellpadding='0' cellspacing='0'>
+                          <tr>
+                            <td>
+                              <a href='$video'>
+                                <img style='display:block' src='".$routeVideo."' width='900' height='" . $width . "' />
+                              </a>
+                            </td>
+                          </tr>
+                        </table>
+                              ";
+            }
 
         }
 
@@ -273,14 +273,20 @@ class PropagandasController extends Controller
           $arquivo2 = $nome . '_top2.png';
           $arquivo3 = $nome . '_top3.png';
           $arquivo4 = $nome . '_top4.png';
+          $arquivo5 = $nome . '_top5.png';
+          $arquivo6 = $nome . '_top6.png';
+          $arquivo7 = $nome . '_top7.png';
 
           $data['nameProp0'] = Storage::exists('propaganda/imagens/'.$arquivo0) ? $arquivo0 : '';
           $data['nameProp1'] = Storage::exists('propaganda/imagens/'.$arquivo1) ? $arquivo1 : '';
           $data['nameProp2'] = Storage::exists('propaganda/imagens/'.$arquivo2) ? $arquivo2: '';
           $data['nameProp3'] = Storage::exists('propaganda/imagens/'.$arquivo3) ? $arquivo3 : '';
           $data['nameProp4'] = Storage::exists('propaganda/imagens/'.$arquivo4) ? $arquivo4 : '';
+          $data['nameProp5'] = Storage::exists('propaganda/imagens/'.$arquivo5) ? $arquivo5 : '';
+          $data['nameProp6'] = Storage::exists('propaganda/imagens/'.$arquivo6) ? $arquivo6 : '';
+          $data['nameProp7'] = Storage::exists('propaganda/imagens/'.$arquivo7) ? $arquivo7 : '';
 
-          $view = view('empresa.modelos.templates.t'.$id, $data);
+          $view = view('empresa.modelos.templates.t'.$idTemplate, $data);
           $contents = $view->render();
 
           $propaganda = Propaganda::create([
@@ -314,14 +320,6 @@ class PropagandasController extends Controller
 
         $image = file_get_contents($link);
 
-        //$image = Storage::exists($link) ? Storage::get($link) : false;
-
-        //dd($link);
-/*
-        if(!$image) {
-          return null;
-        }
-*/
         return response($image, 200)->header('Content-Type', 'image/png');
     }
 
@@ -361,6 +359,7 @@ class PropagandasController extends Controller
     		$item     = $data['item'];
     		$nomeProp = $data['nomeProp'];
         $idTemplate = $data['template_id'];
+        $modelo = $data['modelo'];
 
     		switch( $item ) {
     			case 0: {
@@ -381,18 +380,31 @@ class PropagandasController extends Controller
     			case 3: {
     				$name = $nomeProp . '_top3';
 
-            if($idTemplate==5){
-
-              $id = 5;
-
+            if($idTemplate==2){
+              $id = 2;
               $request->request->set('nome', $nomeProp);
               $request->request->set('nomePropaganda', $name);
               $request->request->set('id', $id);
               $request->request->set('template', $idTemplate);
+              $request->request->set('modelo', $modelo);
+            }
 
+            if($idTemplate==5){
+              $id = 5;
+              $request->request->set('nome', $nomeProp);
+              $request->request->set('nomePropaganda', $name);
+              $request->request->set('id', $id);
+              $request->request->set('template', $idTemplate);
+              $request->request->set('modelo', $modelo);
             }
 
     				$this->storeFile( $name, $image );
+
+            if($idTemplate==2){
+              $response = $this->store($request);
+      				echo json_encode( $response );
+              exit;
+            }
 
             if($idTemplate==5){
               $response = $this->store($request);
@@ -403,19 +415,74 @@ class PropagandasController extends Controller
     				break;
     			}
     			case 4: {
-    				$name = $nomeProp . '_top4';
 
-    				$id = 1;
+            $name = $nomeProp . '_top4';
 
-            //$post = new Request();
+            if($idTemplate==1){
+
+              $request->request->set('nome', $nomeProp);
+              $request->request->set('nomePropaganda', $name);
+              $request->request->set('id', $item);
+              $request->request->set('template', $idTemplate);
+              $request->request->set('modelo', $modelo);
+
+              $this->storeFile( $name, $image );
+
+      				$response = $this->store($request);
+      				echo json_encode( $response );
+              exit;
+
+            }
+
+
+    				$this->storeFile( $name, $image );
+
+    				break;
+    			}
+          case 5: {
+    				$name = $nomeProp . '_top5';
+
+            if($idTemplate==4){
+
+              $id=4;
+
+              $request->request->set('nome', $nomeProp);
+              $request->request->set('nomePropaganda', $name);
+              $request->request->set('id', $id);
+              $request->request->set('template', $idTemplate);
+              $request->request->set('modelo', $modelo);
+
+              $this->storeFile( $name, $image );
+
+              $response = $this->store($request);
+              echo json_encode( $response );
+              exit;
+
+            } else {
+              $this->storeFile( $name, $image );
+            }
+
+    				break;
+    			}
+          case 6: {
+    				$name = $nomeProp . '_top6';
+            $this->storeFile( $name, $image );
+            break;
+    			}
+          case 7: {
+    				$name = $nomeProp . '_top7';
+
+            $id = 3;
+
             $request->request->set('nome', $nomeProp);
             $request->request->set('nomePropaganda', $name);
             $request->request->set('id', $id);
             $request->request->set('template', $idTemplate);
+            $request->request->set('modelo', $modelo);
 
-            $this->storeFile( $name, $image );
+    				$this->storeFile( $name, $image );
 
-    				$response = $this->store($request);
+            $response = $this->store($request);
     				echo json_encode( $response );
             exit;
 
@@ -431,12 +498,6 @@ class PropagandasController extends Controller
     {
       $image   = str_replace('data:image/png;base64,', '', $image);
       $decoded = base64_decode($image);
-
-      /*dd($decoded);
-
-      $png = (string) \Image::make($decoded)->mime();
-
-      dd($png);*/
 
       $path = Storage::put('propaganda/imagens/'.$name.'.png', $decoded);
 
@@ -626,7 +687,7 @@ class PropagandasController extends Controller
 
         if(isset($data['enviar_email'])) {
 
-            $emails = explode(', ', $data['email']);
+            $emails = explode(',', $data['email']);
 
             $assunto = 'SEABRA – INFORMAÇÕES';
 

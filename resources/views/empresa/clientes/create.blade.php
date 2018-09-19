@@ -103,7 +103,7 @@
                   style="width: 100%;"
                   name="sexo"  >
                     <option value="1">Masculino</option>
-                    <option value="2">Feminino</option>
+                    <option value="0">Feminino</option>
                   </select>
                 </div>
               </div>

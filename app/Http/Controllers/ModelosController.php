@@ -223,6 +223,8 @@ class ModelosController extends Controller
 
         $data["name"] = $request->get('name');
 
+        $data["modelo"] = $id;
+
           if( $id == 1 || $id == 2 ) {
 
           $data["text1"]      =   $request->get( "text1" );

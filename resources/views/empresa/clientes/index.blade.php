@@ -24,14 +24,21 @@
               <div class="box-body">
                 <div class="row">
 
-                  <div class="col-md-1">
+                  <div class="col-md-2">
                     <div class="form-group">
                       <label for="codigo">Codigo</label>
                       <input type="text" class="form-control" id="codigo" name="id">
                     </div>
                   </div>
 
-                  <div class="col-md-3">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="codigo">Nome</label>
+                      <input type="text" class="form-control" id="nome" name="nome">
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
                     <div class="form-group">
                       <label>Cliente</label>
                       <select style="width:150px" id="select-cliente" name="cliente" data-url="{{ route('clientes') }}" class="form-control"></select>
@@ -44,6 +51,12 @@
                       <input type="text" class="form-control" id="email" name="email">
                     </div>
                   </div>
+
+
+
+                </div>
+
+                <div class="row">
 
                   <div class="col-md-3">
                     <div class="form-group">
@@ -59,10 +72,6 @@
                     </div>
                   </div>
 
-                </div>
-
-                <div class="row">
-
                   <div class="col-md-2">
                     <div class="form-group">
                       <label for="codigo">Chamado</label>
@@ -77,7 +86,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-3">
+                  <div class="col-md-2">
                     <div class="form-group">
                       <label>Status do chamado </label>
                       <select class="form-control select2" style="width: 100%;" name="situacao">

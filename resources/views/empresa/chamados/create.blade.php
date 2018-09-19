@@ -21,9 +21,6 @@
         <div class="box box-solid">
           <div class="box-header with-border">
             <h3 class="box-title">Informações do Cliente</h3>
-            <div class="box-tools pull-right">
-              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-            </div>
           </div>
           <div class="box-body">
             <div class="row">
@@ -60,14 +57,79 @@
     </div>
   </div>
 
+  @if($cliente)
+
+  <div class="row">
+
+    <div class="col-md-8">
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">Empreendimentos</h3>
+          <div class="box-body">
+
+            <div class="box-group" id="accordion">
+              @forelse($cliente->empreendimentos->sortByDesc('id') as $item)
+                @if(!$item->empreendimento)
+                  @continue
+                @endif
+                <div class="panel box box-solid">
+                <div class="box-header with-border">
+                  <h4 class="box-title">
+                    <a data-toggle="collapse" data-referencia="{{ $item->empreendimento->referencia }}" data-parent="#accordion" href="#collapseOne-{{ $loop->index }}" aria-expanded="false" class="collapsed collapse-emprrendimentos">
+                      #{{ $item->empreendimento->id }} - {{ $item->empreendimento->nome }}
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseOne-{{ $loop->index }}" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                  <div class="box-body"></div>
+                  <div class="box-footer">
+                      <span class="">Adicionado em: {{ $item->created_at ? $item->created_at->format('d/m/Y H:i') : '-' }}</span>
+                  </div>
+                </div>
+              </div>
+              @empty
+
+              @endforelse
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">Midias</h3>
+          <div class="box-body">
+
+              <ul class="products-list product-list-in-box">
+                @forelse($cliente->midias->sortByDesc('id') as $item)
+                  <li class="item">
+                    <div class="product-info" style="margin-left:0">
+                      <a class="product-title lead" class="lead">{{ $item->midia->nome }}</a>
+                      <small class="product-description">Adicionado em: {{ $item->created_at ? $item->created_at->format('d/m/Y H:i') : '-' }}</small>
+                    </div>
+                  </li>
+                @empty
+
+                @endforelse
+              </ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  @endif
+
   <div class="row">
     <div class="col-md-12">
       <div class="box box-solid">
         <div class="box-header with-border">
           <h3 class="box-title">Ocorrência / Grupo / Tipo</h3>
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-          </div>
         </div>
         <div class="box-body">
           <div class="row">
@@ -75,7 +137,7 @@
             <div class="col-md-3">
               <div class="form-group">
                 <label>Ocorrência</label>
-                <select id="manifestacao" name="manifestacao" required data-target="#grupo_manifestacao" data-url="{{ route('grupos') }}" class="form-control select2 select-ajax" style="width: 100%;">
+                <select id="manifestacao" name="manifestacao" required class="form-control" style="width: 100%;">
                   <option value="">Selecione</option>
                   @foreach($manifestacoes as $item)
                       <option value="{{ $item->id }}">{{ $item->descricao }}</option>
@@ -86,16 +148,22 @@
             <div class="col-md-3">
               <div class="form-group">
                 <label>Grupo </label>
-                <select id="grupo_manifestacao" required data-target="#tipo_manifestacao" data-url="{{ route('tipos') }}" class="form-control select2 select-ajax" style="width: 100%;" name="grupo_manifestacao">
+                <select id="grupo_manifestacao" required class="form-control" style="width: 100%;" name="grupo_manifestacao">
                   <option value="">Selecione</option>
+                  @foreach($grupos as $item)
+                      <option value="{{ $item->id }}">{{ $item->descricao }}</option>
+                  @endforeach
                 </select>
               </div>
             </div>
             <div class="col-md-3">
               <div class="form-group">
                 <label>Tipo </label>
-                <select class="form-control select2" required id="tipo_manifestacao" style="width: 100%;" name="tipo_manifestacao">
+                <select class="form-control" required id="tipo_manifestacao" style="width: 100%;" name="tipo_manifestacao">
                   <option value="">Selecione</option>
+                  @foreach($tipos as $item)
+                      <option value="{{ $item->id }}">{{ $item->descricao }}</option>
+                  @endforeach
                 </select>
               </div>
             </div>
@@ -111,9 +179,7 @@
       <div class="box box-solid">
         <div class="box-header with-border">
           <h3 class="box-title">Descricão e anotações</h3>
-          <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-          </div>
+
         </div>
         <div class="box-body">
           <div class="row">
@@ -134,9 +200,7 @@
         <div class="box box-solid">
           <div class="box-header with-border">
             <h3 class="box-title">Informações do chamado</h3>
-            <div class="box-tools pull-right">
-              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-            </div>
+
           </div>
           <div class="box-body">
             <div class="row">
@@ -155,8 +219,9 @@
                   <div class="col-md-2">
                     <div class="form-group">
                       <label>Fase </label>
-                      <select id="fase" class="form-control select2" style="width: 100%;"
+                      <select id="" class="form-control" style="width: 100%;"
                       name="fase_id">
+                      <option value="">Selecione</option>
                         @foreach($fases as $item)
                             <option value="{{ $item->id }}">{{ $item->nome }}</option>
                         @endforeach

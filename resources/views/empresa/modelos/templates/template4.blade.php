@@ -1,88 +1,87 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>E-mail</title>
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>E-mails</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-		<script type="text/javascript" src="{url}assets/js/jquery.min.js"></script>
-		<script type="text/javascript" src="{url}assets/js/html2canvas.min.js"></script>
-		<script type="text/javascript" src="{url}assets/js/promise.min.js"></script>
-        <style type="text/css">
-        body {margin: 0; padding: 0; min-width: 100%!important;}
-        .content {width: 100%; max-width: 600px;}
-        .font-title { font-family: 'Roboto', sans-serif; font-size: 30px; color: #0330B5;}
-        .font-roboto { font-family: 'Roboto', sans-serif; font-size: 30px; color: #000000;}
-        .font {font-family: 'Open Sans', sans-serif; font-size: 20px; color: #000000;}
-		.center {text-align: center;}
+    <script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/html2canvas.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/promise.min.js') }}"></script>
+    <style type="text/css">
+      body {margin: 0; padding: 0; min-width: 100%!important;}
+      .content {width: 100%; max-width: 600px;}
+      .font-title { font-family: 'Roboto', sans-serif; font-size: 30px; color: #0330B5;}
+      .font-roboto { font-family: 'Roboto', sans-serif; font-size: 30px; color: #000000;}
+      .font {font-family: 'Open Sans', sans-serif; font-size: 20px; color: #000000;}
+  		.center {text-align: center;}
 
-		.release-label {
-			font-family: Helvetica, Arial;
-			padding: 8px 8px;
-			font-size: 14px;
-			font-weight: 600;
-			color: #6a737d;
-			background-color: #fff;
-			border: 1px solid #6a737d;
-			border-top-color: rgb(106, 115, 125);
-			border-right-color: rgb(106, 115, 125);
-			border-bottom-color: rgb(106, 115, 125);
-			border-left-color: rgb(106, 115, 125);
-			border-radius: 3px;
-		}
-		.release-label.prerelease {
-			color: #f66a0a;
-			background-color: #fff;
-			border-color: #f66a0a;
-			cursor: pointer;
-		}
+  		.release-label {
+  			font-family: Helvetica, Arial;
+  			padding: 8px 8px;
+  			font-size: 14px;
+  			font-weight: 600;
+  			color: #6a737d;
+  			background-color: #fff;
+  			border: 1px solid #6a737d;
+  			border-top-color: rgb(106, 115, 125);
+  			border-right-color: rgb(106, 115, 125);
+  			border-bottom-color: rgb(106, 115, 125);
+  			border-left-color: rgb(106, 115, 125);
+  			border-radius: 3px;
+  		}
+  		.release-label.prerelease {
+  			color: #f66a0a;
+  			background-color: #fff;
+  			border-color: #f66a0a;
+  			cursor: pointer;
+  		}
 
-		.align-div {
-			padding: 10px 10px;
-			float: left;
-			width: 100%;
-			text-align: center;
-		}
+  		.align-div {
+  			padding: 10px 10px;
+  			float: left;
+  			width: 100%;
+  			text-align: center;
+  		}
 
-		.container-all {
-			width: 100%;
-			float: left;
-			position: relative;
-			margin-top: 10px;
-		}
+  		.container-all {
+  			width: 100%;
+  			float: left;
+  			position: relative;
+  			margin-top: 10px;
+  		}
 
-		.container {
-			margin: 0 auto;
-			background-color: #000;
-			width: 900px;
-			height: auto;
-		}
+  		.container {
+  			margin: 0 auto;
+  			background-color: #000;
+  			width: 900px;
+  			height: auto;
+  		}
 
-		.div-title {
-			width: 100%;
-			height: 200px;
-		}
+  		.div-title {
+  			width: 100%;
+  			height: 200px;
+  		}
 
-			.alert-maxxxx {
-				min-width: 100%;
-				min-height: 100%;
-				width: 100%;
-				height: 100%;
-				background-color: rgba(0, 0, 0, .9);
-				position: absolute;
-				z-index: 9999999;
-			}
+  			.alert-maxxxx {
+  				min-width: 100%;
+  				min-height: 100%;
+  				width: 100%;
+  				height: 100%;
+  				background-color: rgba(0, 0, 0, .9);
+  				position: absolute;
+  				z-index: 9999999;
+  			}
 
-			.paragrafo {
-				font-size: 20px;
-				width: 100%;
-				float: left;
-				margin-top: 200px;
-				text-align: center;
-				color: #FFF;
-			}
-        </style>
+  			.paragrafo {
+  				font-size: 20px;
+  				width: 100%;
+  				float: left;
+  				margin-top: 200px;
+  				text-align: center;
+  				color: #FFF;
+  			}
+      </style>
     </head>
     <body yahoo bgcolor="#FFFFFF">
 		<div class="alert-maxxxx" style='display: none;'>
@@ -121,7 +120,7 @@
 						<table id='top1' bgcolor="#FFFFFF" width="900" cellpadding="0" cellspacing="0" border="0">
 							<tr>
 								<td width="450" style="border-right: 1px solid #0138b9;">
-									<img src="{{$d5}}" width="450" height="250" />
+									<img src="{{ route('external_images', ['link'=> $d5]) }}" width="450" height="250" />
 								</td>
 								<td width="450">
 									<table cellpadding="0" cellspacing="0" border="0" class="font" style="padding-left: 40px; padding-top: 5px; font-family: 'Roboto', sans-serif; font-size: 14px;">
@@ -184,7 +183,7 @@
 									<p class="font" style="padding-left: 40px; font-family: 'Roboto', sans-serif; font-size: 14px;">{{$d14}}</p>
 								</td>
 								<td width="449">
-									<img src="{{$d12}}" width="449" height="250" />
+									<img src="{{ route('external_images', ['link'=> $d12]) }}" width="449" height="250" />
 								</td>
 							</tr>
 						</table>
@@ -195,7 +194,7 @@
 						<table id='top3' bgcolor="#FFFFFF" width="900" cellpadding="0" cellspacing="0" border="0">
 							<tr>
 								<td width="450" style="border-right: 1px solid #0138b9;">
-									<img src="{{$d19}}" width="450" height="250" />
+									<img src="{{ route('external_images', ['link'=> $d19]) }}" width="450" height="250" />
 								</td>
 								<td width="449">
 									<table cellpadding="0" cellspacing="0" border="0" class="font" style="padding-left: 40px; padding-top: 5px; font-family: 'Roboto', sans-serif; font-size: 14px;">
@@ -261,7 +260,7 @@
 									<p class="font" style="padding-left: 40px; font-family: 'Roboto', sans-serif; font-size: 14px;">{{$d28}}</p>
 								</td>
 								<td width="449">
-									<img src="{{$d26}}" width="449" height="250" />
+									<img src="{{ route('external_images', ['link'=> $d26]) }}" width="449" height="250" />
 								</td>
 							</tr>
 						</table>
@@ -274,17 +273,13 @@
 	            </tr>
 	        </table>
 		</table>
-		<script type="text/javascript">
-			var baseUrl = "{url}"
-		</script>
+
     <input type="hidden" id="route-store-images" value="{{ route('template_store_images') }}"/>
     <input type="hidden" id="route-modelos" value="{{ route('propagandas.index') }}"/>
+    <input type="hidden" id="modelo" value="{{ $modelo }}"/>
 
     <div class="nada"></div>
 
-    <script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/html2canvas.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/promise.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/render.js') }}"></script>
     </body>
 </html>

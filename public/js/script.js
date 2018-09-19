@@ -390,7 +390,7 @@ var salvarModelo5  =  function ( name, d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, 
 
         url: 'templates/salvar',
 
-        data: 'idTemplate=' + idTemplate + '&name=' + name + '&id=' + idModelo + '&d1=' + d1 + '&d2=' + d2 + '&d3=' + d3 + '&d4=' + d4 + '&d5=' + d5 + '&d6=' + d6 + '&d7=' + d7 + '&d8=' + d8 + '&d9=' + d9 + '&d10=' + d10 + '&d11=' + d11 + '&d12=' + d12 + '&d13=' + d13 + '&d14=' + d14 + '&d15=' + d15,
+        data: 'idTemplate=' + idTemplate + '&name=' + name + '&id=' + idModelo + '&modelo=' + idModelo + '&d1=' + d1 + '&d2=' + d2 + '&d3=' + d3 + '&d4=' + d4 + '&d5=' + d5 + '&d6=' + d6 + '&d7=' + d7 + '&d8=' + d8 + '&d9=' + d9 + '&d10=' + d10 + '&d11=' + d11 + '&d12=' + d12 + '&d13=' + d13 + '&d14=' + d14 + '&d15=' + d15,
 
         dataType: 'json',
 

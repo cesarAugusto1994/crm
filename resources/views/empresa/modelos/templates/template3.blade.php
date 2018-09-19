@@ -3,12 +3,12 @@
   <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 				<meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>E-mail</title>
+        <title>E-mails</title>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-		<script type="text/javascript" src="{url}assets/js/jquery.min.js"></script>
-		<script type="text/javascript" src="{url}assets/js/html2canvas.min.js"></script>
-		<script type="text/javascript" src="{url}assets/js/promise.min.js"></script>
+		<script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/html2canvas.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/promise.min.js') }}"></script>
         <style type="text/css">
         body {margin: 0; padding: 0; min-width: 100%!important;}
         .content {width: 100%; max-width: 600px;}
@@ -142,7 +142,7 @@
 					</div>
 					<div id='top1' class="metade" style='border-right: 1px solid #0138b9;'>
 						<div class='img'>
-							<img style="display:block" src="{{$d5}}" width="449" height="250" />
+							<img style="display:block" src="{{ route('external_images', ['link'=> $d5]) }}" width="449" height="250" />
 						</div>
 						<div class='info'>
 							<p class="font" style="text-align: center;height: 10px;">{{$d6}}</p>
@@ -183,7 +183,7 @@
 					</div>
 					<div id='top2' class="metade">
 						<div class='img'>
-							<img style="display:block" src="{{$d11}}" width="449" height="250" />
+							<img style="display:block" src="{{ route('external_images', ['link'=> $d11]) }}" width="449" height="250" />
 						</div>
 						<div class='info'>
 							<p class="font" style="text-align: center;height: 10px;">{{$d12}}</p>
@@ -224,7 +224,7 @@
 					</div>
 					<div id='top3' class="metade" style='border-right: 1px solid #0138b9;'>
 						<div class='img'>
-							<img style="display:block" src="{{$d17}}" width="449" height="250" />
+							<img style="display:block" src="{{ route('external_images', ['link'=> $d17]) }}" width="449" height="250" />
 						</div>
 						<div class='info'>
 							<p class="font" style="text-align: center;height: 10px;">{{$d18}}</p>
@@ -265,7 +265,7 @@
 					</div>
 					<div id='top4' class="metade">
 						<div class='img'>
-							<img style="display:block" src="{{$d23}}" width="449" height="250" />
+							<img style="display:block" src="{{ route('external_images', ['link'=> $d23]) }}" width="449" height="250" />
 						</div>
 						<div class='info'>
 							<p class="font" style="text-align: center;height: 10px;">{{$d24}}</p>
@@ -306,7 +306,7 @@
 					</div>
 					<div id='top5' class="metade" style='border-right: 1px solid #0138b9;'>
 						<div class='img'>
-							<img style="display:block" src="{{$d29}}" width="449" height="250" />
+							<img style="display:block" src="{{ route('external_images', ['link'=> $d29]) }}" width="449" height="250" />
 						</div>
 						<div class='info'>
 							<p class="font" style="text-align: center;height: 10px;">{{$d30}}</p>
@@ -347,7 +347,7 @@
 					</div>
 					<div id='top6' class="metade">
 						<div class='img'>
-							<img style="display:block" src="{{$d35}}" width="449" height="250" />
+							<img style="display:block" src="{{ route('external_images', ['link'=> $d35]) }}" width="449" height="250" />
 						</div>
 						<div class='info'>
 							<p class="font" style="text-align: center;height: 10px;">{{$d36}}</p>
@@ -395,12 +395,10 @@
 
 		<input type="hidden" id="route-store-images" value="{{ route('template_store_images') }}"/>
 		<input type="hidden" id="route-modelos" value="{{ route('propagandas.index') }}"/>
+		<input type="hidden" id="modelo" value="{{ $modelo }}"/>
 
 		<div class="nada"></div>
 
-		<script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.min.js') }}"></script>
-		<script type="text/javascript" src="{{ asset('js/html2canvas.min.js') }}"></script>
-		<script type="text/javascript" src="{{ asset('js/promise.min.js') }}"></script>
 		<script type="text/javascript" src="{{ asset('js/render.js') }}"></script>
     </body>
 </html>

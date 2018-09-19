@@ -6,11 +6,13 @@ $(document).ready(function() {
         html2canvas(demo, {
             allowTaint: false,
             useCORS: true,
+            logging: false,
             onrendered: function(canvas) {
                 try {
-                    var img = canvas.toDataURL("image/png");
+                    var modelo = $("#modelo").val();
+                    var img = canvas.toDataURL();
                     var output = encodeURIComponent(img);
-                    var param = window.location.search + "&image=" + output + '&item=' + item + '&nomeProp=' + nameProp + '&template_id=' + template;
+                    var param = window.location.search + "&image=" + output + "&modelo=" + modelo + '&item=' + item + '&nomeProp=' + nameProp + '&template_id=' + template;
                     var route = $("#route-store-images").val();
                     var modelosRoute = $("#route-modelos").val();
                     $.ajax({

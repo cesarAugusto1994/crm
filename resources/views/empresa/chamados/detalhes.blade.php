@@ -44,9 +44,6 @@
           <div class="box-header with-border">
             <h3 class="box-title">Informações do chamado</h3>
 
-            <div class="box-tools pull-right">
-              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-            </div>
           </div>
 
           <form method="post" action="{{ route('chamados.update', ['id' => $chamado->id]) }}">
@@ -181,9 +178,7 @@
         <div class="box box-solid">
           <div class="box-header with-border">
             <h3 class="box-title">Empreendimentos</h3>
-            <div class="box-tools pull-right">
-              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-            </div>
+
             <div class="box-body">
 
               <form name="form-emails" action="{{ route('chamados_empreendimento_store', ['id' => $chamado->id]) }}" method="post">
@@ -197,7 +192,7 @@
               <br/>
 
               <div class="box-group" id="accordion">
-                @forelse($chamado->empreendimentos as $item)
+                @forelse($chamado->cliente->empreendimentos as $item)
                   @if(!$item->empreendimento)
                     @continue
                   @endif
@@ -232,9 +227,7 @@
         <div class="box box-solid">
           <div class="box-header with-border">
             <h3 class="box-title">Midias</h3>
-            <div class="box-tools pull-right">
-              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-            </div>
+
             <div class="box-body">
 
                 <form name="form-emails" action="{{ route('chamados_midia_store', ['id' => $chamado->id]) }}" method="post">
@@ -250,7 +243,7 @@
                 <div class="direct-chat-messages">
 
                 <ul class="products-list product-list-in-box">
-                  @forelse($chamado->midias->sortByDesc('id') as $item)
+                  @forelse($chamado->cliente->midias->sortByDesc('id') as $item)
                     <li class="item">
                       <div class="product-info" style="margin-left:0">
                         <a class="product-title lead" class="lead">{{ $item->midia->nome }}</a>
@@ -276,8 +269,6 @@
 
             <div class="box-tools pull-right">
               <span data-toggle="tooltip" title="" class="badge bg-green" data-original-title="{{ $chamado->logs->count() }} novas mensagens">{{ $chamado->logs->count() }}</span>
-              <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-              </button>
             </div>
           </div>
           <div class="box-body">
@@ -366,7 +357,7 @@
 
           <div class="btn-group" data-toggle="buttons">
 
-            @foreach($chamado->empreendimentos as $item)
+            @foreach($chamado->cliente->empreendimentos as $item)
               @if(!$item->empreendimento)
                 @continue
               @endif

@@ -188,7 +188,7 @@ var getImagesImoveis  =  function ( offset, id ) {
 						'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 				},
 
-				url: '/admin/imoveis/imagens/ajax',
+				url: $("#route-imoveis-imagens").val(),
 
         data: 'offset=' + offset + '&id=' + id,
 

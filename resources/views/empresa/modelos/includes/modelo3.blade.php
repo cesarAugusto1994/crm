@@ -190,7 +190,7 @@
                           <div role="tabpanel" class="tab-pane" id="teste">
                               <div class="row">
                                   <div style="float: left; width: 100%; text-align: center; padding: 10px">
-                                      <input class="form-control" style="width: 50%; display: inline-block;" type="text" value="{name}" name="nomepropaganda" id='salvar' placeholder="Nome da propaganda">
+                                      <input class="form-control" style="width: 50%; display: inline-block;" type="text" value="" name="nomepropaganda" id='salvar' placeholder="Nome da propaganda">
                                       <!-- <button class="btn btn-success salvar">Salvar propaganda</button> -->
                                       <button class="btn btn-primary preview" data-id="3">Preview</button>
                                   </div>
@@ -270,8 +270,6 @@
 @stop
 
 @section('js')
-<script src="{{ asset('js/custom.js') }}"></script>
-<script src="http://malsup.github.com/jquery.form.js"></script>
 <script src="{{ asset('js/pagination.js') }}"></script>
 <script src="{{ asset('js/functions.js') }}"></script>
 <script src="{{ asset('js/modelo3.js') }}"></script>

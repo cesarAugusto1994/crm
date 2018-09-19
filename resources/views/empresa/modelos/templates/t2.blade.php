@@ -13,8 +13,8 @@
             <table width="902" height="200" align="center" bgcolor="#FFFFFF" cellpadding="0" cellspacing="0">
                 <tr>
                     <td>
-                        <a href='{linkGer1}'>
-                            <img style="display:block" src='{url1}assets/images/propagandas/{nameProp1}_top0.png' width='900' height='200' />
+                        <a href='{{$linkGer1}}'>
+                            <img style="display:block" src='{{ route("images", ["link" => $nameProp1]) }}' width='900' height='200' />
                         </a>
                     </td>
                 </tr>
@@ -22,18 +22,18 @@
             <table width="902" height="123" align="center" bgcolor="#FFFFFF" cellpadding="0" cellspacing="0">
                 <tr>
                     <td>
-                        <a href='{linkGer2}'>
-                            <img style="display:block" src='{url2}assets/images/propagandas/{nameProp2}_top1.png' width='900' height='123' />
+                        <a href='{{$linkGer2}}'>
+                            <img style="display:block" src='{{ route("images", ["link" => $nameProp2]) }}' width='900' height='123' />
                         </a>
                     </td>
                 </tr>
             </table>
-            {video}
+            {!!$video!!}
             <table width="902" height="1501" align="center" bgcolor="#FFFFFF" cellpadding="0" cellspacing="0">
                 <tr>
                     <td>
-                        <a href='{linkGer3}'>
-                            <img style="display:block" src='{url3}assets/images/propagandas/{nameProp3}_top3.png' width='900' height='1501' />
+                        <a href='{{$linkGer3}}'>
+                            <img style="display:block" src='{{ route("images", ["link" => $nameProp3]) }}' width='900' height='1501' />
                         </a>
                     </td>
                 </tr>

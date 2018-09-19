@@ -11,14 +11,9 @@
     <div class="col-md-12">
       <div class="well">
       <h3>Prezado(a) {{ $chamado->cliente->nome }}.</h3>
-      <p><b>Em relação ao Empreendimento {{ $emp->nome }} gostaria de mais algum esclarecimento?</b></p>
-      <p><b>O meu nome é {{ \Auth::user()->name }}, trabalho na Seabra Consultoria de Imóveis ltda.</b></p>
-      <p><b>Caso esse imóvel não seja exatamente o que esteja procurando ou caso o mesmo esteja fora da
-        faixa de preço desejada, gostaria muito de ter a oportunidade de continuar lhe atendendo pois tenho
-        várias outras opções de imóveis no próprio bairro ou em bairros vizinhos. A SEABRA Consultoria é uma
-        imobiliária altamente especializada em imóveis novos ou em fase de entrega de obra e temos em nossa
-        carteira imóveis das principais Incorporadoras do mercado paulistano.</b></p>
-      <p><b>Veja abaixo algumas opções que selecionei com o perfil que está buscando:</b></p>
+      <p><b>Meu nome é {{ ucfirst(\Auth::user()->name ?? '') }}, e vou te ajudar a encontrar o imóvel que procura.</b></p>
+      <p><b>Veja abaixo as opções que selecionei no perfil que está buscando:</b></p>
+      <p><b>Peço que dê uma analisada e me conte quais lhe interessam.</b></p>
     </div>
     </div>
 
@@ -108,6 +103,10 @@
             <h4><b style="color:black">No Creci {{ \Auth::user()->creci }}</b></h4>
             <h4><b style="color:black">Celular/WhatsApp {{ \Auth::user()->celular }}</b></h4>
         </div>
+    </div>
+
+    <div class="col-md-12" style="margin-bottom:20px;border-radius:4px">
+        <img style="width:100%" src="http://seabra.com.br/admin/assets/images/banners/footer.jpg" alt=""/>
     </div>
 
 </div>

@@ -6,9 +6,9 @@
         <title>E-mail</title>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-		<script type="text/javascript" src="{url}assets/js/jquery.min.js"></script>
-		<script type="text/javascript" src="{url}assets/js/html2canvas.min.js"></script>
-		<script type="text/javascript" src="{url}assets/js/promise.min.js"></script>
+    <script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/html2canvas.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/promise.min.js') }}"></script>
         <style type="text/css">
         body {margin: 0; padding: 0; min-width: 100%!important;}
         .content {width: 100%; max-width: 600px;}
@@ -174,7 +174,7 @@
 						<table class="content" align="center" cellpadding="0" cellspacing="0" border="0">
 							<tr>
 								<td class="font center">
-									<img src="{{$d13}}" width="900" height="450">
+									<img src="{{ route('external_images', ['link'=> $d13]) }}" width="900" height="450">
 								</td>
 							</tr>
 						</table>
@@ -193,12 +193,10 @@
 		</script>
     <input type="hidden" id="route-store-images" value="{{ route('template_store_images') }}"/>
     <input type="hidden" id="route-modelos" value="{{ route('propagandas.index') }}"/>
+    <input type="hidden" id="modelo" value="{{ $modelo }}"/>
 
     <div class="nada"></div>
 
-    <script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/html2canvas.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/promise.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/render.js') }}"></script>
     </body>
 </html>

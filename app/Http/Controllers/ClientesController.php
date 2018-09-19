@@ -35,6 +35,10 @@ class ClientesController extends Controller
             $clientes->where('id', $data['cliente']);
         }
 
+        if(!empty($data['nome'])) {
+            $clientes->where('nome', 'LIKE', "%".$data['nome']."%");
+        }
+
         if(!empty($data['empresa'])) {
             $clientes->where('empresa', 'LIKE', "%".$data['empresa']."%");
         }
@@ -69,7 +73,7 @@ class ClientesController extends Controller
             });
         }
 
-        $clientes = $clientes->paginate();
+        $clientes = $clientes->orderByDesc('created_at')->paginate();
 
         foreach ($data as $key => $value) {
 

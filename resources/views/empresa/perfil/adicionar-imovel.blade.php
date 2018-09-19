@@ -40,6 +40,8 @@
               <div class="box-body">
                 <div class="row">
 
+                  <input type="hidden" class="form-control" name="perfil" value="{{$perfil->id}}">
+
                   <div class="col-md-2">
                     <div class="form-group">
                       <label for="codigo">Codigo</label>
@@ -79,7 +81,7 @@
                   <div class="col-md-2">
                     <div class="form-group">
                       <label for="select-midias">Tipo Imóvel</label>
-                      <select id="select-zonas" name="zona" class="form-control">
+                      <select id="select-zonas" name="tipo" class="form-control">
                         <option value=""></option>
                         <option value="1">Apartamento</option>
                         <option value="2">Casa</option>
