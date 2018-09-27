@@ -28,7 +28,7 @@ class CreateImoveisTable extends Migration
             $table->integer('dormitorios')->nullable();
             $table->integer('suites')->nullable();
             $table->integer('vagas')->nullable();
-            $table->integer('areas')->nullable();
+            $table->string('areas')->nullable();
             $table->string('estacoes_proximas')->nullable();
             $table->date('previsao_entrega')->nullable();
             $table->float('faixa_preco_ini', 12,2)->nullable();

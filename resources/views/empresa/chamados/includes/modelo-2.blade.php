@@ -30,11 +30,11 @@
 
         <div class="row" style="min-height:500px;max-height:500px">
 
-        <div class="col-md-6 col-xs-12">
+        <div class="col-md-6 col-xs-6">
             <img class="img" style="width:100%;min-height:470px;max-height:470px" src="{{ $imovel['imagens'][0] }}" alt="..." />
         </div>
 
-        <div class="col-md-6 col-xs-12">
+        <div class="col-md-6 col-xs-6">
             <h2>{{ $imovel['empreendimento'] }}</h2>
             <p>Referência {{ $imovel['referencia'] }}</p>
             <p>{{ $imovel['extras'][0]['bairro'] }} / {{ $imovel['extras'][0]['cidade'] }}</p>
@@ -55,7 +55,7 @@
 
         <div class="row" style="min-height:500px;max-height:500px">
 
-        <div class="col-md-6 col-xs-12">
+        <div class="col-md-6 col-xs-6">
 
             <h2>{{ $imovel['empreendimento'] }}</h2>
             <p>Referência {{ $imovel['referencia'] }}</p>
@@ -76,7 +76,7 @@
 
         </div>
 
-        <div class="col-md-6 col-xs-12">
+        <div class="col-md-6 col-xs-6">
             <img class="img" style="width:100%;min-height:470px;max-height:470px" src="{{ $imovel['imagens'][0] }}" alt="..." />
         </div>
 

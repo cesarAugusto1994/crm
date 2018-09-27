@@ -390,6 +390,8 @@ class ModelosController extends Controller
           }
         }
 
+        #dd($data);
+
         $data["url"]  =  config('APP_URL');
 
         return view('empresa.modelos.templates.template'.$id, $data);

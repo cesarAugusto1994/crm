@@ -174,7 +174,7 @@
 						<table class="content" align="center" cellpadding="0" cellspacing="0" border="0">
 							<tr>
 								<td class="font center">
-									<img src="{{ route('external_images', ['link'=> $d13]) }}" width="900" height="450">
+									<img src="{{ $d13 }}" width="900" height="450">
 								</td>
 							</tr>
 						</table>
@@ -197,6 +197,6 @@
 
     <div class="nada"></div>
 
-    <script type="text/javascript" src="{{ asset('js/render.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/render.js?v1.1') }}"></script>
     </body>
 </html>

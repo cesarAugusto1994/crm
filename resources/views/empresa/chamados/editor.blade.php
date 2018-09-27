@@ -32,9 +32,9 @@
               <div class="box-body">
 
                 {{csrf_field()}}
-                <input id="local" type="hidden" value="{{ $imovel[0]->imv_localidade }}">
-                <input id="oferta" type="hidden" value="{{ $imovel[0]->imv_oferta }}">
-                <input id="portifolio" type="hidden" value="{{ $imovel[0]->imv_portifolio }}">
+                <input id="local" type="hidden" value="{{ $imovel[0]->imv_localidade ?? '' }}">
+                <input id="oferta" type="hidden" value="{{ $imovel[0]->imv_oferta ?? '' }}">
+                <input id="portifolio" type="hidden" value="{{ $imovel[0]->imv_portifolio ?? '' }}">
                 <input id="enviar_email" name="enviar_email" type="hidden" value="1">
                 <input id="modelo" name="modelo" type="hidden" value="{{ $modelo }}">
                 <input id="chamado" name="chamado" type="hidden" value="{{ $chamado->id }}">

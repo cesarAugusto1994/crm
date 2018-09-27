@@ -213,6 +213,15 @@
 
                   <div class="col-md-2">
                     <div class="form-group">
+                      <label for="select-midias">Faixa Preço</label>
+                      <input type="checkbox" id="habilitar_faixa_preco" class="enabler" name="habilitar_faixa_preco" value="1"/>
+                      <input type="text" class="form-control money disabled" data-target-element="habilitar_faixa_preco" id="preco_min" name="preco_min"/>
+                      <input type="text" class="form-control money disabled" id="preco_max" data-target-element="habilitar_faixa_preco" name="preco_max"/>
+                    </div>
+                  </div>
+
+                  <div class="col-md-2">
+                    <div class="form-group">
                       <label for="select-midias">Incorporadora</label>
                       <input type="text" class="form-control" id="incorporadora" name="incorporadora"/>
                     </div>
@@ -260,7 +269,12 @@
                     @php
                       $query = http_build_query($empreendimento);
                     @endphp
-                    <td><a href="?adicionar_imovel=1&perfil_id={{ $perfil->id }}&imovel_id={{ $empreendimento['id'] }}&{{ request()->getQueryString() }}&{{ $query }}" class="btn btn-success btn-xs">Adicionar</a></td>
+                    @if($empreendimento['adicionado'])
+                        <td><p class="lead">Adicionado</p></td>
+                    @else
+                        <td><a href="?adicionar_imovel=1&perfil_id={{ $perfil->id }}&imovel_id={{ $empreendimento['id'] }}&{{ request()->getQueryString() }}&{{ $query }}" class="btn btn-success"><i class="fa fa-plus"></i> </a></td>
+                    @endif
+
                     <td>{{ $empreendimento['titulo'] }}</td>
                     <td>{{ $empreendimento['id'] }}</td>
                     <td>{{ $empreendimento['referencia'] }}</td>

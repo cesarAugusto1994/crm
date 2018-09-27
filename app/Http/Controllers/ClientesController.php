@@ -50,9 +50,31 @@ class ClientesController extends Controller
         }
 
         if(!empty($data['empreendimento'])) {
-            $clientes->whereHas('empreendimentos', function ($query) use ($data) {
-                $query->where('produto_id', $data['empreendimento']);
-            });
+
+            $sql2 = "select * from imoveis where imv_id = " . (int)$request->get('empreendimento');
+            $imovel = \DB::connection('mysql_seabra')->select($sql2);
+
+            $produto = $imovelId = null;
+
+            if(!empty($imovel[0])) {
+              $imovelId = $imovel[0]->imv_referencia;
+              $nome = $imovel[0]->imv_titulo;
+              if(!empty($imovelId)) {
+                $produto = \App\Models\Produtos::where('referencia', $imovelId)->where('nome', $nome)->get();
+
+                if($produto->isEmpty()) {
+                  flash('O Empreendimento não foi encontrado na base de dados.')->error()->important();
+                  return back();
+                }
+
+                $produto = $produto->first();
+
+                $clientes->whereHas('empreendimentos', function ($query) use ($data, $produto) {
+                    $query->where('produto_id', $produto->id);
+                });
+              }
+            }
+
         }
 
         if(!empty($data['midia'])) {
@@ -207,22 +229,40 @@ class ClientesController extends Controller
         $data = $request->request->all();
         $cliente = Clientes::findOrFail($id);
 
-        $hasRegistro = Produtos::where('cliente_id', $cliente->id)->where('produto_id', $data['empreendimento'])->get();
+        $sql2 = "select * from imoveis where imv_id = " . (int)$request->get('empreendimento');
+        $imovel = \DB::connection('mysql_seabra')->select($sql2);
 
-        if($hasRegistro->isNotEmpty()) {
-          flash('O empreendimento já foi adicionado ao cliente!')->error()->important();
-          return redirect()->back();
+        $referencia = null;
+
+        if(!empty($imovel[0])) {
+          $referencia = $imovel[0]->imv_referencia;
+          $titulo = $imovel[0]->imv_titulo;
+          if(!empty($referencia)) {
+
+            $produtos = \App\Models\Produtos::where('referencia', $referencia)->where('nome', $titulo)->get();
+
+            $produto = $produtos->first();
+
+            $hasRegistro = Produtos::where('cliente_id', $cliente->id)->where('produto_id', $produto->id)->get();
+
+            if($hasRegistro->isNotEmpty()) {
+              flash('O empreendimento já foi adicionado ao cliente!')->error()->important();
+              return redirect()->back();
+            }
+
+            $empreendimento = new Produtos();
+            $empreendimento->cliente_id = $cliente->id;
+            $empreendimento->chamado_id = null;
+            $empreendimento->produto_id = $produto->id;
+            $empreendimento->save();
+
+            flash('O empreendimento foi adicionado ao cliente com sucesso!')->success()->important();
+
+            return redirect()->back();
+
+          }
+
         }
-
-        $empreendimento = new Produtos();
-        $empreendimento->cliente_id = $cliente->id;
-        $empreendimento->chamado_id = null;
-        $empreendimento->produto_id = $data['empreendimento'];
-        $empreendimento->save();
-
-        flash('O empreendimento foi adicionado ao cliente com sucesso!')->success()->important();
-
-        return redirect()->back();
     }
 
     public function midiaStore(Request $request, $id)

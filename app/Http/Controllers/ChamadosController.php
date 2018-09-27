@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Clientes\Produtos as ClienteProduto;
 use App\Models\{Chamados, Manifestacao, Empresa, Produtos, LogEmail, Clientes};
 use App\Models\Chamados\{Classificacao, Previsao, Status, Empreendimentos, Midias, Logs, Anotacoes, Fase};
 use App\Models\Empresa\Departamentos;
@@ -45,11 +46,40 @@ class ChamadosController extends Controller
         }
 
         if(!empty($data['empreendimento'])) {
+
+            $sql2 = "select * from imoveis where imv_id = " . (int)$request->get('empreendimento');
+            $imovel = \DB::connection('mysql_seabra')->select($sql2);
+
+            $produto = $imovelId = null;
+
+            if(!empty($imovel[0])) {
+              $imovelId = $imovel[0]->imv_referencia;
+              $nome = $imovel[0]->imv_titulo;
+              if(!empty($imovelId)) {
+
+                $produto = \App\Models\Produtos::where('referencia', $imovelId)->where('nome', $nome)->get();
+
+                if($produto->isEmpty()) {
+                  flash('O Empreendimento não foi encontrado na base de dados.')->error()->important();
+                  return back();
+                }
+
+                $produto = $produto->first();
+
+                $chamados->whereHas('empreendimentos', function ($query) use ($data, $produto) {
+                    $query->where('produto_id', $produto->id);
+                });
+              }
+            }
+
+        }
+/*
+        if(!empty($data['empreendimento'])) {
             $chamados->whereHas('empreendimentos', function ($query) use ($data) {
                 $query->where('produto_id', $data['empreendimento']);
             });
         }
-
+*/
         if(!empty($data['midia'])) {
             $chamados->whereHas('midias', function ($query) use ($data) {
                 $query->where('midia_id', $data['midia']);
@@ -359,7 +389,7 @@ class ChamadosController extends Controller
 
         return json_encode($usuarios);
     }
-
+/*
     public function empreendimentoStore(Request $request, $id)
     {
         $data = $request->request->all();
@@ -381,6 +411,48 @@ class ChamadosController extends Controller
         flash('O empreendimento foi adicionado ao chamado com sucesso!')->success()->important();
 
         return redirect()->back();
+    }
+*/
+    public function empreendimentoStore(Request $request, $id)
+    {
+        $data = $request->request->all();
+        $chamado = Chamados::findOrFail($id);
+        $cliente = Clientes::findOrFail($chamado->cliente->id);
+
+        $sql2 = "select * from imoveis where imv_id = " . (int)$request->get('empreendimento');
+        $imovel = \DB::connection('mysql_seabra')->select($sql2);
+
+        $referencia = null;
+
+        if(!empty($imovel[0])) {
+          $referencia = $imovel[0]->imv_referencia;
+          $titulo = $imovel[0]->imv_titulo;
+          if(!empty($referencia)) {
+
+            $produtos = \App\Models\Produtos::where('referencia', $referencia)->where('nome', $titulo)->get();
+
+            $produto = $produtos->first();
+
+            $hasRegistro = ClienteProduto::where('cliente_id', $cliente->id)->where('produto_id', $produto->id)->get();
+
+            if($hasRegistro->isNotEmpty()) {
+              flash('O empreendimento já foi adicionado ao cliente!')->error()->important();
+              return redirect()->back();
+            }
+
+            $empreendimento = new ClienteProduto();
+            $empreendimento->cliente_id = $cliente->id;
+            $empreendimento->chamado_id = $chamado->id;
+            $empreendimento->produto_id = $produto->id;
+            $empreendimento->save();
+
+            flash('O empreendimento foi adicionado ao cliente com sucesso!')->success()->important();
+
+            return redirect()->back();
+
+          }
+        }
+
     }
 
     public function midiaStore(Request $request, $id)
@@ -564,9 +636,29 @@ class ChamadosController extends Controller
 
         $search = $data['search'];
 
+        $result = [];
+
         $user = \Auth::user();
 
-        $empreendimentos = \App\Models\Produtos::where('nome', 'like', "%$search%")->where('id_empresa', $user->empresa_id)->get();
+        $sql2 = "select * from imoveis where imv_titulo LIKE '%". $search ."%' OR imv_referencia LIKE '%" . $search . "%'";
+
+        $imoveis = \DB::connection('mysql_seabra')->select($sql2);
+
+        foreach ($imoveis as $key => $imovel) {
+            $result[] = [
+              'id' => $imovel->imv_id,
+              'nome' => $imovel->imv_titulo,
+              'id_empresa' => 8,
+              'referencia' => $imovel->imv_referencia,
+              'midia' => "",
+            ];
+        }
+
+        #$empreendimentos = \App\Models\Produtos::where('nome', 'like', "%$search%")->get();
+
+        #dd($empreendimentos->toJson());
+
+        return json_encode($result);
 
         return $empreendimentos->toJson();
     }
@@ -647,7 +739,7 @@ class ChamadosController extends Controller
         $modelo = $data['modelo'] ?? 1;
 
         if(!isset($data['empreendimentos'])) {
-          $data['empreendimentos'] = array_column($chamado->empreendimentos->map(function($empreendimento) {
+          $data['empreendimentos'] = array_column($chamado->cliente->empreendimentos->map(function($empreendimento) {
               return $empreendimento->empreendimento->toArray();
           })->toarray(), 'id') ?? [];
         }
@@ -661,7 +753,7 @@ class ChamadosController extends Controller
 
           $emp = Produtos::findOrFail($itemLoop);
 
-          $nomesEmpreendimentos[$emp->referencia] = $emp->nome;
+          $nomesEmpreendimentos[$emp->id] = $emp->nome;
           $empreendimento = $this->getEmpreendimento($emp->referencia);
 
           $tipologias = $this->getTipolias($empreendimento['imovel'], $empreendimento['tipo']);

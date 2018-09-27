@@ -183,7 +183,7 @@
                 <th>Status</th>
                 <th>Abertura</th>
                 <th>Previsão</th>
-                <th>Opções</th>
+                <th style="width: 110px">Opções</th>
               </tr>
 
             </thead>
@@ -195,14 +195,18 @@
                     <td>{{ $chamado->id }}</td>
                     <td>{{ $chamado->cliente->nome ?? '-' }}</td>
                     <td>
-                      @foreach($chamado->empreendimentos as $empreendimento)
-                          <p>{{ $empreendimento->empreendimento->nome ?? '-' }}</p>
-                      @endforeach
+                      @if($chamado->cliente)
+                        @foreach($chamado->cliente->empreendimentos as $empreendimento)
+                            <p>{{ $empreendimento->empreendimento->nome ?? '-' }}</p>
+                        @endforeach
+                      @endif
                     </td>
                     <td>
-                      @foreach($chamado->midias as $midia)
-                          {{ $midia->midia->nome ?? '-' }} <br/>
-                      @endforeach
+                      @if($chamado->cliente)
+                        @foreach($chamado->cliente->midias as $midia)
+                            {{ $midia->midia->nome ?? '-' }} <br/>
+                        @endforeach
+                      @endif
                     </td>
                     <td>
                       {{ $chamado->status->descricao ?? '' }}
@@ -214,7 +218,7 @@
                       {{ $chamado->previsao_conclusao ? $chamado->previsao_conclusao->format('d/m/Y') : '-' }}
                     </td>
                     <td>
-                      <a href="{{ route('chamados.show', $chamado->id) }}" class="btn btn-sm btn-success"><i class="icon fa fa-eye"></i> </a>
+                      <a href="{{ route('chamados.show', $chamado->id) }}" class="btn btn-sm btn-primary"><i class="icon fa fa-edit"></i> </a>
                       <a data-route="{{ route('chamados.destroy', $chamado->id) }}" class="btn btn-sm btn-danger btnRemoveItem"><i class="icon fa fa-trash"></i> </a>
                     </td>
                   </tr>

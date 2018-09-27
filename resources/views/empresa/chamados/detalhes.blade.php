@@ -263,7 +263,7 @@
       </div>
 
       <div class="col-md-12">
-        <div class="box box-solid direct-chat direct-chat-primary">
+        <div class="box box-solid direct-chat direct-chat-danger">
           <div class="box-header with-border">
             <h3 class="box-title">Descrição</h3>
 

@@ -84,15 +84,13 @@ class PerfisController extends Controller
 
             $PerfilImovel = PerfilImovel::where('imovel_id', $request->get('imovel_id'))->get();
 
-            $imovel = Imovel::where('seabra_id', $data['imovel_id'])
-            ->where('unidades', (int)$request->get('unidades'))
-            ->where('areas', (int)$request->get('areas'))->get();
+            $imovel = Imovel::where('seabra_id', $data['imovel_id'])->get();
 
             if($imovel->isEmpty()) {
 
               $data['faixa_preco_ini'] = (float)$data['faixa_preco_ini'];
               $data['faixa_preco_fim'] = (float)$data['faixa_preco_fim'];
-              $data['seabra_id'] = $data['id'];
+              $data['seabra_id'] = $request->get('imovel_id');
 
               $imovel = Imovel::create($data);
             } else {
@@ -140,11 +138,17 @@ class PerfisController extends Controller
             ";
 
             if($request->has('empreendimento') && !empty((int)$request->get('empreendimento'))) {
-                $produto = \App\Models\Produtos::findOrFail((int)$request->get('empreendimento'));
+                //$produto = \App\Models\Produtos::findOrFail((int)$request->get('empreendimento'));
 
-                $sql2 = "select * from imoveis where imv_referencia = '" . $produto->referencia . "'";
+                #dd($produto);
+
+                $sql .= " AND imovel.imv_id = " . (int)$request->get('empreendimento');
+
+                /*
+                $sql2 = "select * from imoveis where imv_id = '" . (int)$request->get('empreendimento');
 
                 $imovel = \DB::connection('mysql_seabra')->select($sql2);
+                #dd($imovel);
                 $imovelId = null;
 
                 if(!empty($imovel[0])) {
@@ -153,6 +157,7 @@ class PerfisController extends Controller
                     $sql .= " AND imovel.imv_id = " . $imovelId;
                   }
                 }
+                */
 
             }
 
@@ -161,7 +166,7 @@ class PerfisController extends Controller
             }
 
             if($request->has('estagio') && !empty($request->get('estagio'))) {
-                $sql .= " AND emp.emp_fases_obra = " . (int)$request->get('estagio');
+                $sql .= " AND imovel.imv_publicidade = " . (int)$request->get('estagio');
             }
 
             if($request->has('zona') && !empty($request->get('zona'))) {
@@ -269,30 +274,46 @@ class PerfisController extends Controller
 
             }
 
+            if($request->has('habilitar_faixa_preco')) {
+
+              $valorInicio = floatval(str_replace(['.',','],['','.'],$request->get('preco_min')));
+              $valorInicio = number_format($valorInicio,2,'.','');
+
+              $valorFim= floatval(str_replace(['.',','],['','.'],$request->get('preco_max')));
+              $valorFim = number_format($valorFim,2,'.','');
+
+              if($request->has('preco_min')) {
+                  $sql .= " AND emp.emp_faixa_preco_ini >= " . $valorInicio;
+              }
+              if($request->has('preco_max')) {
+                  $sql .= " AND emp.emp_faixa_preco_fim <= " . $valorFim;
+              }
+
+            }
+
             $registros = \DB::connection('mysql_seabra')->select($sql);
 
             foreach ($registros as $key => $empreendimento) {
 
-                $slug = (int)$empreendimento->imv_id.":".(int)$empreendimento->emp_qtd_unidades.":".(int)$empreendimento->tip_area;
+                $adicionado = false;
 
-                $i = '0:0:0';
+                $imoveis = Imovel::where('seabra_id', $empreendimento->imv_id)->get();
 
-                $imovel = Imovel::where('seabra_id', $empreendimento->imv_id)
-                ->where('unidades', (int)$empreendimento->emp_qtd_unidades)
-                ->where('areas', (int)$empreendimento->tip_area)->get();
+                if($imoveis->isNotEmpty()) {
 
-                if($imovel->isNotEmpty()) {
-                  $imovel = $imovel->first();
-                  $i = (int)$imovel->seabra_id.':'.(int)$imovel->unidades.':'.(int)$imovel->areas;
+                  $imovel = $imoveis->first();
+
+                  $perfilImovel = \App\Models\Perfil\Imoveis::where('perfil_id', $perfil->id)->where('imovel_id', $imovel->id)->get();
+
+                  if($perfilImovel->isNotEmpty()) {
+                    $adicionado = true;
+                  }
+
                 }
 
-                if($i == $slug) {
-                  continue;
-                }
-
-                $empreendimentos[] = [
+                $empreendimentos[$empreendimento->imv_id] = [
                     'id' => $empreendimento->imv_id,
-                    'slug' => $slug,
+                    'slug' => $empreendimento->imv_id,
                     'localidade' => $empreendimento->imv_localidade,
                     'titulo' => $empreendimento->imv_titulo,
                     'referencia' => $empreendimento->imv_referencia,
@@ -305,15 +326,17 @@ class PerfisController extends Controller
                     'dormitorios' => (int)$empreendimento->tip_dorms,
                     'suites' => (int)$empreendimento->tip_suite,
                     'vagas' => (int)$empreendimento->tip_vagas,
-                    'areas' => (int)$empreendimento->tip_area,
+                    'areas' => $this->getArea($empreendimento->imv_id),
                     'estacoes_proximas' => $empreendimento->emp_estacoes_proximas,
                     'previsao_entrega' => $empreendimento->emp_previsao_entrega,
                     'faixa_preco_ini' => $empreendimento->emp_faixa_preco_ini,
                     'faixa_preco_fim' => $empreendimento->emp_faixa_preco_fim,
                     'fases_obra' => (int)$empreendimento->emp_fases_obra,
                     'areas_comuns' => $empreendimento->areas,
+                    'adicionado' => $adicionado
                 ];
             }
+
         }
 
         $paginate = 10;
@@ -324,6 +347,30 @@ class PerfisController extends Controller
         $empreendimentos = new \Illuminate\Pagination\LengthAwarePaginator($itemsForCurrentPage, count($empreendimentos), $paginate, $page, ['path'=>url('/perfis/'.$request->get('perfil').'/imoveis?' . $request->getQueryString())]);
 
         return view('empresa.perfil.adicionar-imovel', compact('perfil', 'empreendimentos', 'perfil'));
+    }
+
+    public function getArea($id)
+    {
+        $sql = " select tip_area from tipologias where imv_id = ? ";
+
+        $area = \DB::connection('mysql_seabra')->select($sql, [$id]);
+
+        $arrayArea = [];
+
+        foreach ($area as $key => $item) {
+          $arrayArea[] = $item->tip_area;
+        }
+
+        $minArea = min($arrayArea);
+        $maxArea = max($arrayArea);
+
+        if ($maxArea > $minArea) {
+            $resultado= $minArea.' a '.$maxArea.' m área privativa';
+        } else {
+            $resultado= $minArea.' m área privativa';
+        }
+
+        return $resultado;
     }
 
     /**

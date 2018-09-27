@@ -12,11 +12,11 @@ class Helper
 
         $offset          =   $data['offset'];
 
-        $offset          =   ceil( $offset ) ? $offset : 20;
+        $offset          =   ceil( $offset ) ? $offset : 10;
 
         $search          =   $data['search'];
 
-        $resultado            =   self::getImoveis( 10, $offset, $search  );
+        $resultado            =   self::getImoveis( 0, $offset, $search  );
 
         $resultado["count"]   =   count($resultado);
 
@@ -274,9 +274,9 @@ class Helper
         $data = self::tipologias($id, 'tip_area');
 
     		if( $data[0]->min == $data[0]->max )
-    			$response["area"]   =  $data[0]->min . " m<sup>2</sup>";
+    			$response["area"]   =  $data[0]->min . " m2";
     		else
-    			$response["area"]   =  $data[0]->min . " a " . $data[0]->max . " m<sup>2</sup>";
+    			$response["area"]   =  $data[0]->min . " a " . $data[0]->max . " m2";
 
         $data = self::tipologias($id, 'tip_vagas');
 

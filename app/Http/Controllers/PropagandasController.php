@@ -355,6 +355,8 @@ class PropagandasController extends Controller
     {
         $data = $request->request->all();
 
+        sleep(5);
+
     		$image    = $data['image'];
     		$item     = $data['item'];
     		$nomeProp = $data['nomeProp'];

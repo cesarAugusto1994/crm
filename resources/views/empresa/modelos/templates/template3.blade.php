@@ -399,6 +399,6 @@
 
 		<div class="nada"></div>
 
-		<script type="text/javascript" src="{{ asset('js/render.js') }}"></script>
+		<script type="text/javascript" src="{{ asset('js/render.js?v1.1') }}"></script>
     </body>
 </html>

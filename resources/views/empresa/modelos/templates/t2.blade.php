@@ -23,7 +23,7 @@
                 <tr>
                     <td>
                         <a href='{{$linkGer2}}'>
-                            <img style="display:block" src='{{ route("images", ["link" => $nameProp2]) }}' width='900' height='123' />
+                            <img style="display:block" src='{{ route("images", ["link" => $nameProp0]) }}' data-here="1" width='900' height='123' />
                         </a>
                     </td>
                 </tr>

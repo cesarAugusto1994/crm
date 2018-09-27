@@ -108,14 +108,39 @@ $(document).ready(function() {
         var page = "save_modelo3";
         var template = 3;
         $('.alert-maxxxx').show();
-        salvarModelos('#top0', 0, nameProp, page, template);
-        salvarModelos('#top1', 1, nameProp, page, template);
-        salvarModelos('#top2', 2, nameProp, page, template);
-        salvarModelos('#top3', 3, nameProp, page, template);
-        salvarModelos('#top4', 4, nameProp, page, template);
-        salvarModelos('#top5', 5, nameProp, page, template);
-        salvarModelos('#top6', 6, nameProp, page, template);
-        salvarModelos('#top7', 7, nameProp, page, template);
+
+        setTimeout(function() {
+            salvarModelos('#top0', 0, nameProp, page, template);
+        }, 5000);
+
+        setTimeout(function() {
+          salvarModelos('#top1', 1, nameProp, page, template);
+        }, 10000);
+
+        setTimeout(function() {
+          salvarModelos('#top2', 2, nameProp, page, template);
+        }, 15000);
+
+        setTimeout(function() {
+          salvarModelos('#top3', 3, nameProp, page, template);
+        }, 20000);
+
+        setTimeout(function() {
+          salvarModelos('#top4', 4, nameProp, page, template);
+        }, 25000);
+
+        setTimeout(function() {
+          salvarModelos('#top5', 5, nameProp, page, template);
+        }, 30000);
+
+        setTimeout(function() {
+          salvarModelos('#top6', 6, nameProp, page, template);
+        }, 35000);
+
+        setTimeout(function() {
+          salvarModelos('#top7', 7, nameProp, page, template);
+        }, 45000);
+
     });
 
     $('.salvar-mod4').click(function(e) {
@@ -123,12 +148,30 @@ $(document).ready(function() {
         var page = "save_modelo4";
         var template = 4;
         $('.alert-maxxxx').show();
-        salvarModelos('#top0', 0, nameProp, page, template);
-        salvarModelos('#top1', 1, nameProp, page, template);
-        salvarModelos('#top2', 2, nameProp, page, template);
-        salvarModelos('#top3', 3, nameProp, page, template);
-        salvarModelos('#top4', 4, nameProp, page, template);
-        salvarModelos('#top5', 5, nameProp, page, template);
+
+        setTimeout(function() {
+            salvarModelos('#top0', 0, nameProp, page, template);
+        }, 5000);
+
+        setTimeout(function() {
+          salvarModelos('#top1', 1, nameProp, page, template);
+        }, 10000);
+
+        setTimeout(function() {
+          salvarModelos('#top2', 2, nameProp, page, template);
+        }, 15000);
+
+        setTimeout(function() {
+          salvarModelos('#top3', 3, nameProp, page, template);
+        }, 20000);
+
+        setTimeout(function() {
+          salvarModelos('#top4', 4, nameProp, page, template);
+        }, 25000);
+
+        setTimeout(function() {
+          salvarModelos('#top5', 5, nameProp, page, template);
+        }, 30000);
     });
 
     $('.salvar-mod5').click(function(e) {
@@ -136,9 +179,22 @@ $(document).ready(function() {
         var page = "save_modelo5";
         var template = 5;
         $('.alert-maxxxx').show();
-        salvarModelos('#top0', 0, nameProp, page, template);
-        salvarModelos('#top1', 1, nameProp, page, template);
-        salvarModelos('#top2', 2, nameProp, page, template);
-        salvarModelos('#top3', 3, nameProp, page, template);
+
+        setTimeout(function() {
+          salvarModelos('#top0', 0, nameProp, page, template);
+        }, 5000);
+
+        setTimeout(function() {
+          salvarModelos('#top1', 1, nameProp, page, template);
+        }, 10000);
+
+        setTimeout(function() {
+          salvarModelos('#top2', 2, nameProp, page, template);
+        }, 15000);
+
+        setTimeout(function() {
+          salvarModelos('#top3', 3, nameProp, page, template);
+        }, 20000);
+
     });
 });

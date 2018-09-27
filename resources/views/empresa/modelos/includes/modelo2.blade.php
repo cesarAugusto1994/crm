@@ -132,7 +132,7 @@
                                     </div>
                                     <div style="float: left; width: 100%; text-align: center; padding: 10px">
                                         <p class="textoImgGoogle">Imagem selecionada:</p>
-                                        <img src="{mapa}" width="300" height="100" style="display: none;" class="imageGoogle">
+                                        <img src="" width="300" height="100" style="display: none;" class="imageGoogle">
                                     </div>
                                 </form>
                               </div>

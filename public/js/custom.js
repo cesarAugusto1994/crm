@@ -100,7 +100,8 @@ $( document ).ready(function(){
                       }
                   })
               };
-          }
+          },
+
         },
         placeholder: 'Selecione um Empreendimento',
         minimumInputLength: 1,
