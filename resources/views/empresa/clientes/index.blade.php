@@ -31,7 +31,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-4">
+                  <div class="col-md-3">
                     <div class="form-group">
                       <label for="codigo">Nome</label>
                       <input type="text" class="form-control" id="nome" name="nome">
@@ -45,7 +45,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-2">
+                  <div class="col-md-3">
                     <div class="form-group">
                       <label for="email">Email</label>
                       <input type="text" class="form-control" id="email" name="email">
@@ -72,7 +72,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md-2">
+                  <div class="col-md-3">
                     <div class="form-group">
                       <label for="codigo">Chamado</label>
                       <input type="text" class="form-control" id="chamado" name="chamado"/>
@@ -86,13 +86,52 @@
                     </div>
                   </div>
 
-                  <div class="col-md-2">
+                  <div class="col-md-3">
                     <div class="form-group">
                       <label>Status do chamado </label>
                       <select class="form-control select2" style="width: 100%;" name="situacao">
                             <option value=""></option>
                         @foreach($status as $item)
                             <option value="{{ $item->id }}">{{ $item->descricao }}</option>
+                        @endforeach
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+
+                    <div class="form-group">
+                      <label for="tipo">Tipo</label>
+                      <select class="form-control" name="tipo" id="tipo" style="width:100%">
+                        <option value=""></option>
+                        @foreach(\App\Models\Clientes\Tipo::all() as $tipo)
+                            <option value="{{  $tipo->id }}">{{ $tipo->nome }}</option>
+                        @endforeach
+                      </select>
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>Status/Classificação</label>
+                      <select id="classificacao" name="classificacao" onload="carregarItens()" data-target="#previsao"
+                        data-url="{{ route('previsao') }}" class="form-control select2 select-ajax" style="width: 100%;">
+                        <option value=""></option>
+                        @foreach($classificacao as $item)
+                            <option value="{{ $item->id }}">{{ $item->descricao }}</option>
+                        @endforeach
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label>Pessoa Responsável </label>
+                      <select class="form-control select2" id="resposanvel" style="width: 100%;" name="pessoa_responsavel">
+                        <option value=""></option>
+                        @foreach($responsaveis as $item)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
                         @endforeach
                       </select>
                     </div>

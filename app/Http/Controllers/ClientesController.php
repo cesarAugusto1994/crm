@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Clientes;
 use App\Models\Clientes\{Produtos, Midias, Emails, Telefones, Enderecos, Tipo as TipoCliente, Tratamento};
-use App\Models\Chamados\{Status};
+use App\Models\Chamados\{Status, Classificacao};
 use App\Models\Clientes\Telefones\Tipo;
 use App\Models\Clientes\Enderecos\Tipo as TipoEndereco;
 use App\Models\Estados;
@@ -41,6 +41,10 @@ class ClientesController extends Controller
 
         if(!empty($data['empresa'])) {
             $clientes->where('empresa', 'LIKE', "%".$data['empresa']."%");
+        }
+
+        if(!empty($data['tipo'])) {
+            $clientes->where('tipo', $data['tipo']);
         }
 
         if(!empty($data['email'])) {
@@ -89,6 +93,18 @@ class ClientesController extends Controller
             });
         }
 
+        if(!empty($data['classificacao'])) {
+            $clientes->whereHas('chamados', function ($query) use ($data) {
+                $query->where('classificacao', $data['classificacao']);
+            });
+        }
+
+        if(!empty($data['pessoa_responsavel'])) {
+            $clientes->whereHas('chamados', function ($query) use ($data) {
+                $query->where('pessoa_responsavel', $data['pessoa_responsavel']);
+            });
+        }
+
         if(!empty($data['situacao'])) {
             $clientes->whereHas('chamados', function ($query) use ($data) {
                 $query->where('situacao', $data['situacao']);
@@ -105,7 +121,10 @@ class ClientesController extends Controller
 
         $status = Status::where('id_empresa', $user->empresa->id)->get();
 
-        return view('empresa.clientes.index', compact('clientes','status'));
+        $classificacao = Classificacao::where('id_empresa', $user->empresa->id)->orderBy('descricao')->get();
+        $responsaveis = \App\User::where('empresa_id', $user->empresa->id)->orderBy('name')->get();
+
+        return view('empresa.clientes.index', compact('clientes','status','classificacao','responsaveis'));
     }
 
     /**
@@ -402,6 +421,26 @@ class ClientesController extends Controller
         $email->delete();
 
         flash('O email foi removido com sucesso!')->success()->important();
+        return redirect()->back();
+    }
+
+    public function empreendimentoRemove(Request $request, $id)
+    {
+        $data = $request->request->all();
+        $registro = Produtos::findOrFail($id);
+        $registro->delete();
+
+        flash('O empreendimento foi removido com sucesso!')->success()->important();
+        return redirect()->back();
+    }
+
+    public function midiaRemove(Request $request, $id)
+    {
+        $data = $request->request->all();
+        $registro = Midias::findOrFail($id);
+        $registro->delete();
+
+        flash('Amidia foi removida com sucesso!')->success()->important();
         return redirect()->back();
     }
 

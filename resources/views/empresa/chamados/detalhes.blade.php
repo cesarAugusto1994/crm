@@ -191,32 +191,33 @@
 
               <br/>
 
-              <div class="box-group" id="accordion">
-                @forelse($chamado->cliente->empreendimentos as $item)
-                  @if(!$item->empreendimento)
-                    @continue
-                  @endif
-                  <div class="panel box box-solid">
-                  <div class="box-header with-border">
-                    <h4 class="box-title">
-                      <a data-toggle="collapse" data-referencia="{{ $item->empreendimento->referencia }}" data-parent="#accordion" href="#collapseOne-{{ $loop->index }}" aria-expanded="false" class="collapsed collapse-emprrendimentos">
-                        #{{ $item->empreendimento->id }} - {{ $item->empreendimento->nome }}
-                      </a>
-                    </h4>
-                  </div>
-                  <div id="collapseOne-{{ $loop->index }}" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
-                    <div class="box-body"></div>
-                    <div class="box-footer">
-                        <span class="">Adicionado em: {{ $item->created_at ? $item->created_at->format('d/m/Y H:i') : '-' }}</span>
+              @if($chamado->cliente)
+                <div class="box-group" id="accordion">
+                  @forelse($chamado->cliente->empreendimentos as $item)
+                    @if(!$item->empreendimento)
+                      @continue
+                    @endif
+                    <div class="panel box box-solid">
+                    <div class="box-header with-border">
+                      <h4 class="box-title">
+                        <a data-toggle="collapse" data-referencia="{{ $item->empreendimento->referencia }}" data-parent="#accordion" href="#collapseOne-{{ $loop->index }}" aria-expanded="false" class="collapsed collapse-emprrendimentos">
+                          #{{ $item->empreendimento->id }} - {{ $item->empreendimento->nome }}
+                        </a>
+                        <a href="{{ route('cliente_empreendimento_remove', $item->id) }}" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i></a>
+                      </h4>
+                    </div>
+                    <div id="collapseOne-{{ $loop->index }}" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                      <div class="box-body"></div>
+                      <div class="box-footer">
+                          <span class="">Adicionado em: {{ $item->created_at ? $item->created_at->format('d/m/Y H:i') : '-' }}</span>
+                      </div>
                     </div>
                   </div>
+                  @empty
+
+                  @endforelse
                 </div>
-
-                @empty
-
-
-                @endforelse
-              </div>
+              @endif
 
             </div>
           </div>
@@ -240,6 +241,8 @@
 
                 <br/>
 
+                @if($chamado->cliente)
+
                 <div class="direct-chat-messages">
 
                 <ul class="products-list product-list-in-box">
@@ -249,6 +252,7 @@
                         <a class="product-title lead" class="lead">{{ $item->midia->nome }}</a>
                         <small class="product-description">Adicionado em: {{ $item->created_at ? $item->created_at->format('d/m/Y H:i') : '-' }}</small>
                       </div>
+                      <a href="{{ route('cliente_midia_remove', $item->id) }}" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i></a>
                     </li>
                   @empty
 
@@ -256,6 +260,8 @@
                 </ul>
 
                 </div>
+
+                @endif
 
             </div>
           </div>
@@ -357,6 +363,7 @@
 
           <div class="btn-group" data-toggle="buttons">
 
+            @if($chamado->cliente)
             @foreach($chamado->cliente->empreendimentos as $item)
               @if(!$item->empreendimento)
                 @continue
@@ -367,6 +374,7 @@
             </label>
 
             @endforeach
+            @endif
 
           </div>
 

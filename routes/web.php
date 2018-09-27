@@ -55,6 +55,10 @@ Route::middleware('auth')->middleware('status')->group(function() {
   Route::get('/cliente/telefone/{id}/remove', 'ClientesController@telefoneRemove')->name('cliente_telefone_remove');
   Route::get('/cliente/endereco/{id}/remove', 'ClientesController@enderecoRemove')->name('cliente_endereco_remove');
 
+  Route::get('/cliente/empreendimento/{id}/remove', 'ClientesController@empreendimentoRemove')->name('cliente_empreendimento_remove');
+  Route::get('/cliente/midia/{id}/remove', 'ClientesController@midiaRemove')->name('cliente_midia_remove');
+
+
   Route::get('/cliente/verifica-email', 'ClientesController@verificaEmail')->name('verifica_email');
 
   Route::get('/chamados-por-mes/graph', 'HomeController@toGraph')->name('chamados_graph');

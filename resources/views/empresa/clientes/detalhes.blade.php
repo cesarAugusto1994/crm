@@ -358,6 +358,7 @@
                     <a data-toggle="collapse" data-referencia="{{ $item->empreendimento->referencia }}" data-parent="#accordion" href="#collapseOne-{{ $loop->index }}" aria-expanded="false" class="collapsed collapse-emprrendimentos">
                       #{{ $item->empreendimento->id }} - {{ $item->empreendimento->nome }}
                     </a>
+                    <a href="{{ route('cliente_empreendimento_remove', $item->id) }}" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i></a>
                   </h4>
                 </div>
                 <div id="collapseOne-{{ $loop->index }}" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
@@ -400,6 +401,7 @@
                       <a class="product-title lead" class="lead">{{ $item->midia->nome }}</a>
                       <small class="product-description">Adicionado em: {{ $item->created_at ? $item->created_at->format('d/m/Y H:i') : '-' }}</small>
                     </div>
+                    <a href="{{ route('cliente_midia_remove', $item->id) }}" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i></a>
                   </li>
                 @empty
 

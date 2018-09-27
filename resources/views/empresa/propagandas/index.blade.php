@@ -46,7 +46,6 @@
                       @endif
 
                       <a class="btn btn-success btn-sm" target="_blank" href="{{ route('propagandas.show', $propaganda->id) }}"><i class="fa fa-eye"></i> </a>
-                      <a class="btn btn-info btn-sm" href="{{ route('propagandas.edit', $propaganda->id) }}"><i class="fa fa-edit"></i> </a>
                       <a class="btn btn-danger btn-sm btnRemoveItem" data-route="{{ route('propagandas.destroy', $propaganda->id) }}"><i class="fa fa-trash"></i> </a>
 
                     </td>

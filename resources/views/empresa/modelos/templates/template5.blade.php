@@ -6,7 +6,7 @@
         <title>E-mail</title>
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <script src="{{ asset('vendor/adminlte/vendor/jquery/dist/jquery.min.js') }}"></script>
+    <script src="{{ asset('plugins/jquery/dist/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/html2canvas.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/promise.min.js') }}"></script>
         <style type="text/css">
