@@ -133,7 +133,9 @@
                   <div class="col-md-3">
                     <div class="form-group">
                       <label>Status do chamado </label>
-                      <select class="form-control select2" style="width: 100%;" name="situacao">
+                      <select class="form-control select2" style="width: 100%;" id="status" name="situacao"
+                        data-default="{{ $chamado->situacao }}" onload="carregarItens()" data-target="#fase"
+                        data-url="{{ route('fases') }}">
                         @foreach($status as $item)
                             <option value="{{ $item->id }}" {{ $item->id == $chamado->situacao ? 'selected' : '' }}>{{ $item->descricao }}</option>
                         @endforeach

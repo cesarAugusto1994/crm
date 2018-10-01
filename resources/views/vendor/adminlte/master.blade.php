@@ -84,12 +84,19 @@
     </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.pt-BR.min.js"></script>
 
     <script>
-
-      $('.datetimepicker').datetimepicker({
+/*
+      $('.input-daterange').datepicker({
+          format: "dd/mm/yyyy",
+          todayBtn: "linked",
+          language: "pt-BR",
+          autoclose: true,
+          todayHighlight: true
       });
-
+*/
     </script>
 
     <script>

@@ -34,6 +34,47 @@ function getAjax(self) {
   });
 }
 
+function getFases(self) {
+
+  var valor = self.val();
+  var url = self.data('url') + '?id=' + valor;
+  var target = '#fase';
+
+  $.ajax(
+    {
+      url: url,
+      dataType: 'json'
+    }
+  ).done(function(data) {
+
+    var option = "<option value=''>Selecione </option>";
+    selected = "";
+
+    var destino = $(target);
+
+    destino.append(option);
+
+    var defaultValue = destino.data('default');
+
+    $.each(data, function(i, item) {
+
+        if(defaultValue == item.id) {
+          selected = "selected='selected'";
+        }
+
+        option += "<option value='"+ item.id +"' " + selected + ">"+ item.nome +" </option>";
+    });
+
+    $(target).html(option);
+
+  });
+}
+
+$("#status").change(function() {
+  var self = $(this);
+  getFases(self);
+});
+
 function carregarResponsvel() {
 
   var area = $('#agenda-area');

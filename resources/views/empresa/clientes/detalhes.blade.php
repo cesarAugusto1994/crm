@@ -117,7 +117,7 @@
               <div class="input-group">
                 <input type="email" name="email" required placeholder="Informe um email" class="form-control">
                 <span class="input-group-btn">
-                      <button type="submit" class="btn btn-teal btn-flat"><i class="fa fa-check"></i></button>
+                      <button type="submit" class="btn btn-success"><i class="fa fa-save"></i></button>
                 </span>
               </div>
             </form>
@@ -178,7 +178,7 @@
                   <div class="input-group">
                       <input type="text" class="form-control" name="telefone" placeholder="Telefone" required>
                       <span class="input-group-btn">
-                          <button type="submit" class="btn btn-teal btn-flat"><i class="fa fa-check"></i></button>
+                          <button type="submit" class="btn btn-success"><i class="fa fa-save"></i></button>
                       </span>
                   </div>
                 </div>
@@ -296,7 +296,7 @@
                   <div class="input-group">
                       <input type="text" class="form-control" name="endereco" placeholder="Endereço" id="endereco" required>
                       <span class="input-group-btn">
-                          <button type="submit" class="btn btn-teal btn-flat"><i class="fa fa-check"></i></button>
+                          <button type="submit" class="btn btn-success"><i class="fa fa-save"></i></button>
                       </span>
                   </div>
                 </div>

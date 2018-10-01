@@ -137,6 +137,19 @@
                     </div>
                   </div>
 
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="codigo">Periodo</label>
+                      <div id="sandbox-container">
+                        <div class="input-daterange input-group" id="datepicker">
+                          <input type="text" class="form-control input-daterange date" name="start" />
+                          <span class="input-group-addon">até</span>
+                          <input type="text" class="form-control input-daterange date" name="end" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
 
               </div>

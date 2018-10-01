@@ -66,20 +66,22 @@ class ChamadosController extends Controller
 
                 $produto = $produto->first();
 
+                $chamados->whereHas('cliente', function ($cliente) use ($data, $produto) {
+                    $cliente->whereHas('empreendimentos', function ($query) use ($data, $produto) {
+                        $query->where('produto_id', $produto->id);
+                    });
+                });
+
+                /*
                 $chamados->whereHas('empreendimentos', function ($query) use ($data, $produto) {
                     $query->where('produto_id', $produto->id);
                 });
+                */
               }
             }
 
         }
-/*
-        if(!empty($data['empreendimento'])) {
-            $chamados->whereHas('empreendimentos', function ($query) use ($data) {
-                $query->where('produto_id', $data['empreendimento']);
-            });
-        }
-*/
+
         if(!empty($data['midia'])) {
             $chamados->whereHas('midias', function ($query) use ($data) {
                 $query->where('midia_id', $data['midia']);
@@ -123,7 +125,23 @@ class ChamadosController extends Controller
             $chamados->where('conclusao_chamado', $date->format('Y-m-d'));
         }
 
+        if(!empty($data['start']) && !empty($data['end'])) {
+
+            $start = \DateTime::createFromFormat('d/m/Y', $data['start']);
+            $end = \DateTime::createFromFormat('d/m/Y', $data['end']);
+
+            $chamados->where('created_at', '>=', $start->format('Y-m-d') . ' 00:00:00')
+            ->where('created_at', '<=', $end->format('Y-m-d') . ' 23:59:59');
+
+        }
+
         $chamados = $chamados->orderByDesc('id')->paginate();
+
+        foreach ($data as $key => $value) {
+
+            $chamados->appends($key, $value);
+
+        }
 
         return view('empresa.chamados.index', compact('chamados', 'status','classificacao','departamentos','fases','responsaveis'));
     }
@@ -233,7 +251,7 @@ class ChamadosController extends Controller
         $classificacao = Classificacao::where('id_empresa', $user->empresa->id)->get();
         $departamentos = Departamentos::where('id_empresa', $user->empresa->id)->get();
         $status = Status::where('id_empresa', $user->empresa->id)->get();
-        $fases = Fase::where('empresa_id', $user->empresa->id)->get();
+        $fases = Fase::where('empresa_id', $user->empresa->id)->where('status_id', $chamado->situacao)->get();
 
         return view('empresa.chamados.detalhes', compact('chamado', 'classificacao', 'departamentos', 'status', 'fases'));
     }

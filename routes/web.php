@@ -98,6 +98,8 @@ Route::middleware('auth')->middleware('status')->group(function() {
   Route::get('/empreendimento/bairros', 'EmpreendimentosController@bairros')->name('bairros');
   Route::get('/empreendimento/areas-privativas', 'EmpreendimentosController@areaPrivativa')->name('areas_privativas');
 
+  Route::get('/clientes/importar/cliente', 'ClientesController@importarClientes')->name('importar_clientes');
+
   Route::prefix('/admin')->group(function() {
       Route::resource('empresas', 'EmpresasController');
       Route::resource('usuarios', 'UsersController');
