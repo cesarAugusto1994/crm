@@ -131,7 +131,7 @@
                       <select class="form-control select2" id="resposanvel" style="width: 100%;" name="pessoa_responsavel">
                         <option value=""></option>
                         @foreach($responsaveis as $item)
-                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            <option value="{{ $item->id }}">{{ $item->name ?? '' }}</option>
                         @endforeach
                       </select>
                     </div>
@@ -175,21 +175,23 @@
     <div class="col-md-12">
       <div class="box box-solid">
         <div class="box-header with-border">
-          <h3 class="box-title">Listagem de Clientes</h3>
+          <h3 class="box-title">Listagem de Clientes ({{ $contador }})</h3>
         </div>
-        <div class="box-body">
+        <div class="box-body table-responsive">
 
-          <table class="table table-bordered table-condensed">
+          <table class="table table-striped table-condensed">
             <thead>
 
               <tr>
                 <th style="width: 10px">#</th>
                 <th>Cliente</th>
+                <th>Tipo</th>
+                <th>Telefone</th>
                 <th>Empresa</th>
-                <th>Email</th>
                 <th>Empreendimentos</th>
                 <th>Midias</th>
-                <th>Telefone</th>
+                <th>Chamados</th>
+                <th>Responsável</th>
                 <th>Cadastro</th>
                 <th style="width:100px">Opções</th>
               </tr>
@@ -201,12 +203,13 @@
                   <tr>
                     <td>{{ $cliente->id }}</td>
                     <td>{{ $cliente->nome ?? '-' }}</td>
-                    <td>{{ $cliente->empresa ?? '-' }}</td>
+                    <td>{{ $cliente->tipoCadastro->nome ?? '-' }}</td>
                     <td>
-                      @foreach($cliente->emails as $emails)
-                          <p>{{ $emails->email ?? '-' }}</p>
+                      @foreach($cliente->telefones as $telefones)
+                          <p>{{ $telefones->telefone ?? '-' }}</p>
                       @endforeach
                     </td>
+                    <td>{{ $cliente->empresa ?? '-' }}</td>
                     <td>
                       @foreach($cliente->empreendimentos as $empreendimento)
                           <p>{{ $empreendimento->empreendimento->nome ?? '-' }}</p>
@@ -217,11 +220,19 @@
                           <p>{{ $midia->midia->nome ?? '-' }}</p>
                       @endforeach
                     </td>
+
                     <td>
-                      @foreach($cliente->telefones as $telefones)
-                          <p>{{ $telefones->telefone ?? '-' }}</p>
+                      @foreach($cliente->chamados as $item)
+                          <p><a class="product-title lead" href="{{ route('chamados.show', ['id' => $item->id]) }}" class="lead">{{ $item->id }}</a></p>
                       @endforeach
                     </td>
+
+                    <td>
+                      @foreach($cliente->chamados as $item)
+                          <p>{{ $item->responsavel->name ?? '' }}</p>
+                      @endforeach
+                    </td>
+
                     <td>
                       {{ $cliente->created_at ? $cliente->created_at->format('d/m/Y') : '-' }}
                     </td>

@@ -104,12 +104,14 @@ class PropagandasController extends Controller
               $width = 44;
             }
 
+            $routeVideo=route('images',['link'=>$nome . "_top2.png"]);
+
             $data["video"]  =  "
                         <table width='902' height='" . $width . "' align='center' bgcolor='#FFFFFF' cellpadding='0' cellspacing='0'>
                           <tr>
                             <td>
                               <a href='" . $video . "'>
-                                <img style='display:block' src='" . $base . "assets/images/propagandas/" . $nome . "_top" . $number . ".png' width='900' height='" . $width . "' />
+                                <img style='display:block' src='$routeVideo' width='900' height='" . $width . "' />
                               </a>
                             </td>
                           </tr>
@@ -317,6 +319,21 @@ class PropagandasController extends Controller
         $link = $request->get('link');
 
         $link = str_replace('../', '', $link);
+
+        $image = file_get_contents($link);
+
+        return response($image, 200)->header('Content-Type', 'image/png');
+    }
+
+    public function storageImages(Request $request)
+    {
+        $link = $request->get('link');
+
+        if(!\Storage::exists($link)) {
+          return null;
+        }
+
+        return \Storage::get($link);
 
         $image = file_get_contents($link);
 
@@ -621,7 +638,7 @@ class PropagandasController extends Controller
 
           } else {
 
-              $chamados = Chamados::where('id_cliente', $cliente->id)->get();
+              $chamados = Chamados::where('id_cliente', $cliente->id)->whereIn('situacao', [1,2])->get();
 
               if($chamados->isNotEmpty()) {
 

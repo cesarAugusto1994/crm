@@ -14,7 +14,7 @@
     <div class="col-lg-3 col-xs-6">
       <div class="small-box bg-aqua">
         <div class="inner">
-          <h3>{{ \App\Models\Chamados::where('id_empresa', \Auth::user()->empresa_id)->count() }}</h3>
+          <h3>{{ $chamadosTotal }}</h3>
           <p>Chamados</p>
         </div>
         <div class="icon">
@@ -27,21 +27,86 @@
     <div class="col-lg-3 col-xs-6">
       <div class="small-box bg-green">
         <div class="inner">
-          <h3>{{ $porcentagemTarefas }}<sup style="font-size: 20px">%</sup></h3>
-          <p>Chamados Finalizados</p>
+          <h3>{{ $chamadosAndamento }}<sup style="font-size: 20px"></sup></h3>
+          <p>Chamados Em Andamento</p>
         </div>
         <div class="icon">
           <i class="ion ion-stats-bars"></i>
         </div>
-        <a href="#" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="{{ route('chamados.index') }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-xs-6">
+      <div class="small-box bg-yellow">
+        <div class="inner">
+          <h3>{{ $chamadosFinalizados }}</h3>
+          <p>Chamados Finalizados</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-person-add"></i>
+        </div>
+        <a href="{{ route('chamados.index') }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-xs-6">
+      <div class="small-box bg-red">
+        <div class="inner">
+          <h3>{{ $chamadosAtrasados }}</h3>
+          <p>Chamados Em Atraso</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-pie-graph"></i>
+        </div>
+        <a href="{{ route('chamados.index') }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-xs-6">
+      <div class="small-box bg-yellow">
+        <div class="inner">
+          <h3>{{ $chamadosAberto }}</h3>
+          <p>Chamados Em Aberto</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-pie-graph"></i>
+        </div>
+        <a href="{{ route('chamados.index') }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-xs-6">
+      <div class="small-box bg-blue">
+        <div class="inner">
+          <h3>{{ $clientes }}</h3>
+          <p>Clientes</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-person-add"></i>
+        </div>
+        <a href="{{ route('clientes.index') }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+
+    <div class="col-lg-3 col-xs-6">
+      <div class="small-box bg-green">
+        <div class="inner">
+          <h3>{{ $clientesAtivos }}</h3>
+          <p>Clientes Chamados Ativos</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-person-add"></i>
+        </div>
+        <a href="{{ route('clientes.index') }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
 
     <div class="col-lg-3 col-xs-6">
       <div class="small-box bg-yellow">
         <div class="inner">
-          <h3>{{ \App\Models\Clientes::where('id_empresa', \Auth::user()->empresa_id)->count() }}</h3>
-          <p>Clientes</p>
+          <h3>{{ $clientesAtedimentosFinalizados }}</h3>
+          <p>Clientes Chamados Finalizados</p>
         </div>
         <div class="icon">
           <i class="ion ion-person-add"></i>
@@ -53,15 +118,17 @@
     <div class="col-lg-3 col-xs-6">
       <div class="small-box bg-red">
         <div class="inner">
-          <h3>{{ $chamadosAtrasados }}</h3>
-          <p>Chamados Em Atraso</p>
+          <h3>{{ $clientesSemchamados }}</h3>
+          <p>Clientes Sem Chamados</p>
         </div>
         <div class="icon">
-          <i class="ion ion-pie-graph"></i>
+          <i class="ion ion-person-add"></i>
         </div>
-        <a href="#" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="{{ route('clientes.index') }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
+
+
 
   </div>
 

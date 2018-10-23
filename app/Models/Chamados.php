@@ -29,6 +29,11 @@ class Chamados extends Model
         return $this->belongsTo(Status::class, 'situacao');
     }
 
+    public function fase()
+    {
+        return $this->belongsTo('App\Models\Chamados\Fase', 'fase_id');
+    }
+
     public function logs()
     {
         return $this->hasMany(Logs::class, 'chamado_id');

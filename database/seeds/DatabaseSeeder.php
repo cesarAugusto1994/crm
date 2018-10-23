@@ -27,20 +27,20 @@ class DatabaseSeeder extends Seeder
 
         $this->call(TipoClienteTableSeeder::class);
         $this->call(FormaTratamentoTableSeeder::class);
-        $this->call(ClientesTableSeeder::class);
-        $this->call(EmailTableSeeder::class);
+        //$this->call(ClientesTableSeeder::class);
+        //$this->call(EmailTableSeeder::class);
 
 
-        $this->call(UsersTableSeeder::class);
+        //$this->call(UsersTableSeeder::class);
 
-        $this->call(MidiasTableSeeder::class);
-        $this->call(ProdutosTableSeeder::class);
+        //$this->call(MidiasTableSeeder::class);
+        //$this->call(ProdutosTableSeeder::class);
 
         $this->call(CadastrosTableSeeder::class);
-        $this->call(TelefoneTableSeeder::class);
+        //$this->call(TelefoneTableSeeder::class);
 
-        $this->call(ChamadosTableSeeder::class);
-        $this->call(ClienteProdutosMidiasTableSeeder::class);
+        //$this->call(ChamadosTableSeeder::class);
+        //$this->call(ClienteProdutosMidiasTableSeeder::class);
 
     }
 }

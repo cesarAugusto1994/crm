@@ -166,6 +166,7 @@ return [
 
         [
             'text'        => 'Templates',
+            'can'         => 'manage-templates.index',
             'submenu'        => [
                 [
                     'text'        => 'Templates',

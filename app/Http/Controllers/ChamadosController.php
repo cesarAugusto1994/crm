@@ -869,7 +869,7 @@ class ChamadosController extends Controller
             $modeloKey = $key;
           }
 
-          $imagensLazer = $imagemFachada = $imagensEmpreendimento = $planta = $imagemFooter = [];
+          $imagensLazer = $imagemFachada = $planta = $imagemFooter = [];
 
           if(!empty($item['imagensLazer'])) {
 
@@ -884,7 +884,7 @@ class ChamadosController extends Controller
           }
 
           if(empty($imagemFachada)) {
-            //$imagemFachada = current($item['imagensEmpreendimento']);
+            $imagemFachada = current($item['imagensEmpreendimento']);
           }
 
           //$imagensEmpreendimento = array_slice($item['imagensEmpreendimento'], 1, 5);
@@ -902,12 +902,14 @@ class ChamadosController extends Controller
 
           if(count($imagensLazer) < 8) {
 
-              $imagensLazer = array_merge(array_slice($imagensEmpreendimento, 1, count($imagensLazer) - 8));
+              $imagensLazer = array_merge(array_slice($imagensEmpreendimento, 1, count($imagensLazer) - 9));
 
           } elseif(count($imagensLazer) > 8) {
 
               $imagensLazer = array_slice($imagensLazer, 1, 8);
           }
+
+          #dd($imagensLazer);
 
           $dataEntrega = null;
 

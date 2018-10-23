@@ -282,7 +282,7 @@
           <div class="box-body">
             @if($chamado->logs->isNotEmpty())
             <div class="direct-chat-messages">
-              @forelse($chamado->logs as $log)
+              @forelse($chamado->logs->sortByDesc('created_at') as $log)
               <div class="direct-chat-msg {{ $log->origem == 'usuario' ? 'right' : '' }}">
                 <div class="direct-chat-info clearfix">
                   <span class="direct-chat-name {{ $log->origem == 'usuario' ? 'pull-right' : 'pull-left' }}">

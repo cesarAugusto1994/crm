@@ -169,7 +169,7 @@
 
             <h4 class="text-center" style="text-transform: uppercase;">Imagens (Empreendimento)</h4>
 
-            <div class="col-md-12" style="background-color:#2B4C9B;padding:2em">
+            <div class="col-md-12" style="">
 
                 <div class="row">
                   <!--
@@ -193,23 +193,19 @@
 
     </div>
 
-    <div class="col-md-12" style="background-color:#2B4C9B;padding:2em">
-
-        <div class="text-center">
-            <div class="col-xs-12 text-center" style="background-color:white;">
-                <h4 style="color:#0330b5">AGENDE A SUA VISITA!</h4>
-                <h4>Aguardo o seu retorno.</h4>
-                <h4>Atenciosamente,</h4>
-                <h4>{{ \Auth::user()->name }}</h4>
-                <h4>Seabra Consultoria de Imóveis Ltda</h4>
-                <h4>No Creci {{ \Auth::user()->creci }}</h4>
-                <h4><b style="color:black">Celular/WhatsApp {{ \Auth::user()->celular }}</b></h4>
-            </div>
+    <div class="col-md-12" style="padding:0 0">
+        <div class="well text-center">
+          <h4 style="color:#0330b5">AGENDE A SUA VISITA!</h4>
+          <h4>Aguardo o seu retorno.</h4>
+          <h4>Atenciosamente,</h4>
+          <h4>{{ \Auth::user()->name }}</h4>
+          <h4>Seabra Consultoria de Imóveis Ltda</h4>
+          <h4>No Creci {{ \Auth::user()->creci }}</h4>
+          <h4><b style="color:black">Celular/WhatsApp {{ \Auth::user()->celular }}</b></h4>
         </div>
-
     </div>
 
-    <div class="col-md-12" style="margin-bottom:20px;border-radius:4px">
+    <div class="col-md-12" style="margin-bottom:2px;border-radius:4px">
         <img style="width:100%" src="http://seabra.com.br/admin/assets/images/banners/footer.jpg" alt=""/>
     </div>
 

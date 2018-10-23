@@ -69,6 +69,7 @@
 
                     @php
 
+                      $id = $imovel->id;
                       $imovel = $imovel->imovel;
 
                     @endphp
@@ -88,7 +89,7 @@
                       <td>{{ $imovel->localidade }}</td>
                       <td>{{ $imovel->incorporacao }}</td>
                       <td>
-                        <a data-route="{{ route('imoveis.destroy', $imovel->id) }}" class="btn btn-danger btnRemoveItem"><i class="icon fa fa-trash"></i> </a>
+                        <a data-route="{{ route('imoveis.destroy', $id) }}" class="btn btn-danger btnRemoveItem"><i class="icon fa fa-trash"></i> </a>
                       </td>
                     </tr>
                 @empty

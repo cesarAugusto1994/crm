@@ -19,6 +19,7 @@ Auth::routes();
 
 Route::get('/crm/images', 'PropagandasController@images')->name('images');
 Route::get('/crm/images/external', 'PropagandasController@externalImages')->name('external_images');
+Route::get('/crm/images/storage', 'PropagandasController@storageImages')->name('storage_images');
 
 Route::middleware('auth')->middleware('status')->group(function() {
   Route::get('/', 'HomeController@index')->name('home');
@@ -76,6 +77,11 @@ Route::middleware('auth')->middleware('status')->group(function() {
 
   Route::get('/cliente/cep', 'ClientesController@cep')->name('cep');
 
+  Route::get('/clientes/importar/view', 'ClientesController@importar')->name('importar');
+  Route::post('/clientes/importar', 'ClientesController@importarClientes')->name('importar_clientes');
+
+
+
   Route::get('/chamado/{chamado}/envio-email', 'ChamadosController@envioEmail')->name('chamado_envio_email_cliente');
 
   Route::get('/chamado/{chamado}/envio-email/{id}/log', 'ChamadosController@envioEmailLog')->name('chamado_envio_email_log');
@@ -98,7 +104,7 @@ Route::middleware('auth')->middleware('status')->group(function() {
   Route::get('/empreendimento/bairros', 'EmpreendimentosController@bairros')->name('bairros');
   Route::get('/empreendimento/areas-privativas', 'EmpreendimentosController@areaPrivativa')->name('areas_privativas');
 
-  Route::get('/clientes/importar/cliente', 'ClientesController@importarClientes')->name('importar_clientes');
+  //Route::get('/clientes/importar/cliente', 'ClientesController@importarClientes')->name('importar_clientes');
 
   Route::prefix('/admin')->group(function() {
       Route::resource('empresas', 'EmpresasController');

@@ -27,32 +27,71 @@ class HomeController extends Controller
     {
         $chamados = Chamados::where('id_empresa', \Auth::user()->empresa_id)->get();
 
-        $total = $chamados->count();
+        $chamadosTotal = $total = $chamados->count();
 
         $chamadosFinalizados = $chamados->filter(function($chamado) {
             return $chamado->situacao == 3;
-        });
+        })->count();
+
+        $chamadosAberto = $chamados->filter(function($chamado) {
+          return ($chamado->situacao == 1);
+        })->count();
+
+        $chamadosAndamento = $chamados->filter(function($chamado) {
+          return ($chamado->situacao == 2);
+        })->count();
 
         $chamadosAtrasados = $chamados->filter(function($chamado) {
-          return ($chamado->situacao == 1 || $chamado->situacao == 2) && $chamado->previsao_conclusao < (new \DateTime('now'));
-        });
+          return ($chamado->situacao == 1 || $chamado->situacao == 2) && $chamado->previsao_conclusao < now();
+        })->count();
 
-        $chamadosAtrasados = $chamadosAtrasados->count();
+        $empresa = \Auth::user()->empresa_id;
 
-        $finalizados = $chamadosFinalizados->count();
-
-        $porcentagemTarefas = ceil($total/($finalizados ?: 1));
-
-        if(empty($finalizados)) {
-          $porcentagemTarefas = 0;
-        }
-
-        $areas = Departamentos::where('id_empresa', \Auth::user()->empresa_id)->get();
+        $areas = Departamentos::where('id_empresa', $empresa)->get();
 
         $empresas = \App\Models\Empresa::paginate();
         $users = \App\User::paginate();
 
-        return view('home', compact('porcentagemTarefas', 'areas', 'chamadosAtrasados', 'empresas', 'users'));
+        $clientes = \App\Models\Clientes::where('id_empresa', $empresa)
+        ->where('tipo', 2)
+        ->where('ativo', true)
+        ->count();
+
+        $clientesAtivos = \App\Models\Clientes::where('id_empresa', $empresa)
+        ->where('tipo', 2)
+        ->where('ativo', true)
+        ->whereHas('chamados', function($query) {
+            $query->whereIn('situacao', [1,2]);
+        })
+        ->count();
+
+        $clientesAtedimentosFinalizados = \App\Models\Clientes::where('id_empresa', $empresa)
+        ->where('tipo', 2)
+        ->where('ativo', true)
+        ->whereHas('chamados', function($query) {
+            $query->where('situacao', 3);
+        })->count();
+
+        $clientesSemchamados = \App\Models\Clientes::where('id_empresa', $empresa)
+        ->where('tipo', 2)
+        ->where('ativo', true)
+        ->doesntHave('chamados')->count();
+
+        #dd($clientes);
+
+        return view('home',
+        compact('areas',
+        'chamadosAtrasados',
+        'chamadosFinalizados',
+        'chamadosAberto',
+        'chamadosAndamento',
+        'empresas',
+        'users',
+        'clientes',
+        'clientesAtivos',
+        'clientesAtedimentosFinalizados',
+        'clientesSemchamados',
+        'chamadosTotal'));
     }
 
     public function toGraph()

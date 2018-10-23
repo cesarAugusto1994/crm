@@ -194,6 +194,11 @@
                 <th>Empreendimentos</th>
                 <th>Midias</th>
                 <th>Status</th>
+
+                <th>Temperatura</th>
+                <th>Fase</th>
+                <th>Responsavel</th>
+
                 <th>Abertura</th>
                 <th>Previsão</th>
                 <th style="width: 110px">Opções</th>
@@ -224,6 +229,17 @@
                     <td>
                       {{ $chamado->status->descricao ?? '' }}
                     </td>
+
+                    <td>
+                      {{ $chamado->temperatura }}
+                    </td>
+                    <td>
+                      {{ $chamado->fase->nome ?? '' }}
+                    </td>
+                    <td>
+                      {{ $chamado->responsavel->name ?? '' }}
+                    </td>
+
                     <td>
                       {{ $chamado->abertura_chamado ? $chamado->abertura_chamado->format('d/m/Y') : '-' }}
                     </td>

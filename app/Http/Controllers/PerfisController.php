@@ -431,7 +431,7 @@ class PerfisController extends Controller
 
           $cliente = Clientes::findOrFail($request->get('cliente'));
 
-          $chamados = Chamados::where('perfil_id', $perfil->id)->where('id_cliente', $cliente->id)->get();
+          $chamados = Chamados::where('id_cliente', $cliente->id)->whereIn('situacao', [1,2])->get();
 
           if($chamados->isNotEmpty()) {
 
@@ -446,15 +446,16 @@ class PerfisController extends Controller
               $chamado->perfil_id = $perfil->id;
               $chamado->abertura_chamado = now();
               $cliente = $request->get('cliente');
-
               $chamado->save();
 
-              $anotacao = new Anotacoes();
-              $anotacao->descricao = 'Chamado gerado a aprtir do Perfil #' . $perfil->id;
-              $anotacao->chamado_id = $chamado->id;
-              $anotacao->save();
-
           }
+
+          $rota = route('perfis.show', $perfil->id);
+
+          $anotacao = new Anotacoes();
+          $anotacao->descricao = 'Chamado gerado a aprtir do Perfil #<a href="'.$rota.'">' . $perfil->id . '</a>';
+          $anotacao->chamado_id = $chamado->id;
+          $anotacao->save();
 
         }
 

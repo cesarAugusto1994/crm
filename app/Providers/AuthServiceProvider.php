@@ -46,6 +46,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::resource('manage-users', 'App\Policies\UsersPolicy');
         Gate::define('manage-users.index', 'App\Policies\UsersPolicy@index');
 
+        Gate::resource('manage-templates', 'App\Policies\TemplatesPolicy');
+        Gate::define('manage-templates.index', 'App\Policies\TemplatesPolicy@index');
+
         Gate::resource('manage-midias', 'App\Policies\MidiasPolicy');
         Gate::define('manage-midias.index', 'App\Policies\MidiasPolicy@index');
 
