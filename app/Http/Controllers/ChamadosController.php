@@ -41,6 +41,10 @@ class ChamadosController extends Controller
             $chamados->where('id_cliente', $data['cliente']);
         }
 
+        if($request->has('atraso')) {
+            $chamados->where('previsao_conclusao', '<', now())->whereIn('situacao', [1,2]);
+        }
+
         if(!empty($data['pessoa_responsavel'])) {
             $chamados->where('pessoa_responsavel', $data['pessoa_responsavel']);
         }
@@ -135,6 +139,8 @@ class ChamadosController extends Controller
 
         }
 
+        $quantidade = $chamados->count();
+
         $chamados = $chamados->orderByDesc('id')->paginate();
 
         foreach ($data as $key => $value) {
@@ -143,7 +149,7 @@ class ChamadosController extends Controller
 
         }
 
-        return view('empresa.chamados.index', compact('chamados', 'status','classificacao','departamentos','fases','responsaveis'));
+        return view('empresa.chamados.index', compact('chamados', 'status','classificacao','departamentos','fases','responsaveis', 'quantidade'));
     }
 
     /**

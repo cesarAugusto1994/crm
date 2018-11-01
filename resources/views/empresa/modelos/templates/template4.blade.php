@@ -9,7 +9,7 @@
     <script type="text/javascript" src="{{ asset('js/html2canvas.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/promise.min.js') }}"></script>
     <style type="text/css">
-      body {margin: 0; padding: 0; min-width: 100%!important;}
+      body {margin: 0; padding: 0; min-width: 100%!important;font-weight: bold;}
       .content {width: 100%; max-width: 600px;}
       .font-title { font-family: 'Roboto', sans-serif; font-size: 30px; color: #0330B5;}
       .font-roboto { font-family: 'Roboto', sans-serif; font-size: 30px; color: #000000;}

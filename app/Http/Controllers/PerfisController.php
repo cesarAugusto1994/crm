@@ -398,10 +398,21 @@ class PerfisController extends Controller
      */
     public function destroy($id)
     {
-        $perfil = Perfil::findOrFail($id);
-        $perfil->delete();
+        try {
+            $registro = Perfil::findOrFail($id);
+            $registro->delete();
 
-        return redirect()->route('perfis.index');
+            return response()->json([
+              'code' => 201,
+              'message' => 'Removido com sucesso!'
+            ]);
+
+        } catch(Exception $e) {
+            return response()->json([
+              'code' => 501,
+              'message' => $e->getMessage()
+            ]);
+        }
     }
 
     public function adicionarCliente(Request $request, $id)

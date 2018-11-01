@@ -11,7 +11,6 @@
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 
-
     <style>
 
         .btn-file  input[type="file"] {
@@ -137,19 +136,12 @@
         </header>
 
         @if(config('adminlte.layout') != 'top-nav')
-        <!-- Left side column. contains the logo and sidebar -->
         <aside class="main-sidebar">
-
-            <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
-
-                <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
                     @each('adminlte::partials.menu-item', $adminlte->menu(), 'item')
                 </ul>
-                <!-- /.sidebar-menu -->
             </section>
-            <!-- /.sidebar -->
         </aside>
         @endif
 

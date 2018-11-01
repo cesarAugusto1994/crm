@@ -33,7 +33,7 @@
         <div class="icon">
           <i class="ion ion-stats-bars"></i>
         </div>
-        <a href="{{ route('chamados.index') }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="{{ route('chamados.index', ['situacao' => 2]) }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
 
@@ -46,7 +46,7 @@
         <div class="icon">
           <i class="ion ion-person-add"></i>
         </div>
-        <a href="{{ route('chamados.index') }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="{{ route('chamados.index', ['situacao' => 3]) }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
 
@@ -59,7 +59,7 @@
         <div class="icon">
           <i class="ion ion-pie-graph"></i>
         </div>
-        <a href="{{ route('chamados.index') }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="{{ route('chamados.index', ['atraso' => 1]) }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
 
@@ -72,7 +72,7 @@
         <div class="icon">
           <i class="ion ion-pie-graph"></i>
         </div>
-        <a href="{{ route('chamados.index') }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="{{ route('chamados.index', ['situacao' => 1]) }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
 
@@ -98,7 +98,7 @@
         <div class="icon">
           <i class="ion ion-person-add"></i>
         </div>
-        <a href="{{ route('clientes.index') }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="{{ route('clientes.index', ['chamados_ativos' => 1]) }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
 
@@ -111,7 +111,7 @@
         <div class="icon">
           <i class="ion ion-person-add"></i>
         </div>
-        <a href="{{ route('clientes.index') }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="{{ route('clientes.index', ['chamados_finalizados' => 1]) }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
 
@@ -124,7 +124,7 @@
         <div class="icon">
           <i class="ion ion-person-add"></i>
         </div>
-        <a href="{{ route('clientes.index') }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+        <a href="{{ route('clientes.index', ['sem_chamados' => 1]) }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
       </div>
     </div>
 

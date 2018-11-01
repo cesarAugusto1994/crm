@@ -80,8 +80,6 @@ Route::middleware('auth')->middleware('status')->group(function() {
   Route::get('/clientes/importar/view', 'ClientesController@importar')->name('importar');
   Route::post('/clientes/importar', 'ClientesController@importarClientes')->name('importar_clientes');
 
-
-
   Route::get('/chamado/{chamado}/envio-email', 'ChamadosController@envioEmail')->name('chamado_envio_email_cliente');
 
   Route::get('/chamado/{chamado}/envio-email/{id}/log', 'ChamadosController@envioEmailLog')->name('chamado_envio_email_log');
@@ -115,6 +113,11 @@ Route::middleware('auth')->middleware('status')->group(function() {
       Route::resource('modelos', 'ModelosController');
       Route::resource('propagandas', 'PropagandasController');
 
+      Route::resource('mailling', 'MaillingController');
+
+      Route::get('/mailling/email/envio', 'MaillingController@envioEmail')->name('mailling_envio_email_clientes');
+      Route::post('/mailling/{id}/send/email', 'MaillingController@sendEmail')->name('mailling_send_email');
+
       Route::post('imoveis/ajax', 'HelpersController@imoveis')->name('imoveis_ajax');
       Route::post('imoveis/imagens/ajax', 'HelpersController@imagens')->name('imoveis_imagens_ajax');
       Route::post('imoveis/dormitorios/ajax', 'HelpersController@dormitorios')->name('imoveis_dormitorios_ajax');
@@ -122,7 +125,6 @@ Route::middleware('auth')->middleware('status')->group(function() {
 
       Route::post('/templates/preview', 'ModelosController@setPreview')->name('template_preview');
       Route::get('/templates/preview/{id}', 'ModelosController@preview')->name('template_preview_item');
-
 
       Route::get('/images/google', 'PropagandasController@googleImages')->name('google_images');
 

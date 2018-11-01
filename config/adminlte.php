@@ -165,6 +165,13 @@ return [
         ],
 
         [
+            'text'        => 'Mailling',
+            'url'         => '/admin/mailling',
+            'icon'        => 'envelope-o',
+            'can'         => 'manage-mailling.index',
+        ],
+
+        [
             'text'        => 'Templates',
             'can'         => 'manage-templates.index',
             'submenu'        => [

@@ -64,10 +64,7 @@
                     <td>
                       <a class="btn btn-primary" href="{{ route('perfis.show', $perfil->id) }}"><i class="fa fa-home"></i> </a>
                       <a class="btn btn-info" href="{{ route('perfis.edit', $perfil->id) }}"><i class="fa fa-edit"></i> </a>
-                      <a class="btn btn-danger btnRemover"><i class="fa fa-trash"></i> </a>
-
-                      <form id="delete-form" action="{{ route('perfis.destroy', $perfil->id) }}" method="POST"
-                            style="display: none;">{{ csrf_field() }} {{ method_field('DELETE') }}</form>
+                      <a class="btn btn-danger btnRemoveItem" data-route="{{ route('perfis.destroy', $perfil->id) }}"><i class="fa fa-trash"></i> </a>
                     </td>
                   </tr>
               @empty

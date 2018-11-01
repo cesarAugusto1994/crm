@@ -715,8 +715,11 @@ class PropagandasController extends Controller
             }
 
             foreach ($emails as $key => $email) {
+
+              $mail = trim($email);
+
               \Mail::to([
-                $chamado->cliente->nome => $email,
+                $chamado->cliente->nome => $mail,
               ])->send(new \App\Mail\Propaganda($propaganda, $data['mensagem'], $assunto, $path));
             }
 

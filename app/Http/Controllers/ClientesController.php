@@ -35,6 +35,28 @@ class ClientesController extends Controller
             $clientes->where('id', $data['cliente']);
         }
 
+        if($request->has('chamados_ativos')) {
+            $clientes->where('tipo', 2);
+            $clientes->where('ativo', true);
+            $clientes->whereHas('chamados', function($query) {
+                $query->whereIn('situacao', [1,2]);
+            });
+        }
+
+        if($request->has('chamados_finalizados')) {
+            $clientes->where('tipo', 2);
+            $clientes->where('ativo', true);
+            $clientes->whereHas('chamados', function($query) {
+                $query->where('situacao', 3);
+            });
+        }
+
+        if($request->has('sem_chamados')) {
+            $clientes->where('tipo', 2);
+            $clientes->where('ativo', true);
+            $clientes->doesntHave('chamados');
+        }
+
         if(!empty($data['nome'])) {
             $clientes->where('nome', 'LIKE', "%".$data['nome']."%");
         }
@@ -127,12 +149,12 @@ class ClientesController extends Controller
 
         $contador = $clientes->count();
 
+
+
         $clientes = $clientes->paginate();
 
         foreach ($data as $key => $value) {
-
             $clientes->appends($key, $value);
-
         }
 
         $status = Status::where('id_empresa', $user->empresa->id)->get();

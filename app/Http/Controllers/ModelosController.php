@@ -248,7 +248,7 @@ class ModelosController extends Controller
           $video              =   $request->get( "video" );
           $data["video"]      =   "";
 
-          $routeVideo=route('storage_images',['link'=>"youtube.jpg"]);
+          $routeVideo=route('storage_images',['link'=>"youtube.png"]);
 
           if( $video != '' ) {
             $data["video"]  = "	<tr>
@@ -380,7 +380,7 @@ class ModelosController extends Controller
           $video              =   $request->get( "d14" );
           $data["video"]      =   "";
 
-          $routeVideo=route('storage_images',['link'=>"youtube.jpg"]);
+          $routeVideo=route('storage_images',['link'=>"youtube.png"]);
 
           if( $video != '' ) {
             $data["video"]  = "	<tr>
