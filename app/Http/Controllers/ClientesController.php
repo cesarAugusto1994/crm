@@ -27,134 +27,137 @@ class ClientesController extends Controller
 
         $clientes = Clientes::where('id_empresa', $user->empresa_id);
 
-        if(!empty($data['id'])) {
-            $clientes->where('id', $data['id']);
-        }
+        if($request->has('buscar')) {
 
-        if(!empty($data['cliente'])) {
-            $clientes->where('id', $data['cliente']);
-        }
-
-        if($request->has('chamados_ativos')) {
-            $clientes->where('tipo', 2);
-            $clientes->where('ativo', true);
-            $clientes->whereHas('chamados', function($query) {
-                $query->whereIn('situacao', [1,2]);
-            });
-        }
-
-        if($request->has('chamados_finalizados')) {
-            $clientes->where('tipo', 2);
-            $clientes->where('ativo', true);
-            $clientes->whereHas('chamados', function($query) {
-                $query->where('situacao', 3);
-            });
-        }
-
-        if($request->has('sem_chamados')) {
-            $clientes->where('tipo', 2);
-            $clientes->where('ativo', true);
-            $clientes->doesntHave('chamados');
-        }
-
-        if(!empty($data['nome'])) {
-            $clientes->where('nome', 'LIKE', "%".$data['nome']."%");
-        }
-
-        if(!empty($data['empresa'])) {
-            $clientes->where('empresa', 'LIKE', "%".$data['empresa']."%");
-        }
-
-        if(!empty($data['tipo'])) {
-            $clientes->where('tipo', $data['tipo']);
-        }
-
-        if(!empty($data['email'])) {
-            $clientes->whereHas('emails', function ($query) use ($data) {
-                $query->where('email', 'LIKE', "%".$data['email']."%");
-            });
-        }
-
-        if(!empty($data['empreendimento'])) {
-
-            $sql2 = "select * from imoveis where imv_id = " . (int)$request->get('empreendimento');
-            $imovel = \DB::connection('mysql_seabra')->select($sql2);
-
-            $produto = $imovelId = null;
-
-            if(!empty($imovel[0])) {
-              $imovelId = $imovel[0]->imv_referencia;
-              $nome = $imovel[0]->imv_titulo;
-              if(!empty($imovelId)) {
-                $produto = \App\Models\Produtos::where('referencia', $imovelId)->where('nome', $nome)->get();
-
-                if($produto->isEmpty()) {
-                  flash('O Empreendimento não foi encontrado na base de dados.')->error()->important();
-                  return back();
-                }
-
-                $produto = $produto->first();
-
-                $clientes->whereHas('empreendimentos', function ($query) use ($data, $produto) {
-                    $query->where('produto_id', $produto->id);
-                });
-              }
+            if(!empty($data['id'])) {
+                $clientes->where('id', $data['id']);
             }
 
-        }
+            if(!empty($data['cliente'])) {
+                $clientes->where('id', $data['cliente']);
+            }
 
-        if(!empty($data['midia'])) {
-            $clientes->whereHas('midias', function ($query) use ($data) {
-                $query->where('midia_id', $data['midia']);
-            });
-        }
+            if($request->has('chamados_ativos')) {
+                $clientes->where('tipo', 2);
+                $clientes->where('ativo', true);
+                $clientes->whereHas('chamados', function($query) {
+                    $query->whereIn('situacao', [1,2]);
+                });
+            }
 
-        if(!empty($data['chamado'])) {
-            $clientes->whereHas('chamados', function ($query) use ($data) {
-                $query->where('id', $data['chamado']);
-            });
-        }
+            if($request->has('chamados_finalizados')) {
+                $clientes->where('tipo', 2);
+                $clientes->where('ativo', true);
+                $clientes->whereHas('chamados', function($query) {
+                    $query->where('situacao', 3);
+                });
+            }
 
-        if(!empty($data['classificacao'])) {
-            $clientes->whereHas('chamados', function ($query) use ($data) {
-                $query->where('classificacao', $data['classificacao']);
-            });
-        }
+            if($request->has('sem_chamados')) {
+                $clientes->where('tipo', 2);
+                $clientes->where('ativo', true);
+                $clientes->doesntHave('chamados');
+            }
 
-        if(!empty($data['pessoa_responsavel'])) {
-            $clientes->whereHas('chamados', function ($query) use ($data) {
-                $query->where('pessoa_responsavel', $data['pessoa_responsavel']);
-            });
-        }
+            if(!empty($data['nome'])) {
+                $clientes->where('nome', 'LIKE', "%".$data['nome']."%");
+            }
 
-        if(!empty($data['situacao'])) {
-            $clientes->whereHas('chamados', function ($query) use ($data) {
-                $query->where('situacao', $data['situacao']);
-            });
-        }
+            if(!empty($data['empresa'])) {
+                $clientes->where('empresa', 'LIKE', "%".$data['empresa']."%");
+            }
 
-        if(!empty($data['start']) && !empty($data['end'])) {
+            if(!empty($data['tipo'])) {
+                $clientes->where('tipo', $data['tipo']);
+            }
 
-            $start = \DateTime::createFromFormat('d/m/Y', $data['start']);
-            $end = \DateTime::createFromFormat('d/m/Y', $data['end']);
+            if(!empty($data['email'])) {
+                $clientes->whereHas('emails', function ($query) use ($data) {
+                    $query->where('email', 'LIKE', "%".$data['email']."%");
+                });
+            }
 
-            $clientes->whereHas('chamados', function ($query) use ($start, $end) {
-                $query->where('created_at', '>=', $start->format('Y-m-d') . ' 00:00:00')
-                ->where('created_at', '<=', $end->format('Y-m-d') . ' 23:59:59');
-            });
+            if(!empty($data['empreendimento'])) {
 
+                $sql2 = "select * from imoveis where imv_id = " . (int)$request->get('empreendimento');
+                $imovel = \DB::connection('mysql_seabra')->select($sql2);
+
+                $produto = $imovelId = null;
+
+                if(!empty($imovel[0])) {
+                  $imovelId = $imovel[0]->imv_referencia;
+                  $nome = $imovel[0]->imv_titulo;
+                  if(!empty($imovelId)) {
+                    $produto = \App\Models\Produtos::where('referencia', $imovelId)->where('nome', $nome)->get();
+
+                    if($produto->isEmpty()) {
+                      flash('O Empreendimento não foi encontrado na base de dados.')->error()->important();
+                      return back();
+                    }
+
+                    $produto = $produto->first();
+
+                    $clientes->whereHas('empreendimentos', function ($query) use ($data, $produto) {
+                        $query->where('produto_id', $produto->id);
+                    });
+                  }
+                }
+
+            }
+
+            if(!empty($data['midia'])) {
+                $clientes->whereHas('midias', function ($query) use ($data) {
+                    $query->where('midia_id', $data['midia']);
+                });
+            }
+
+            if(!empty($data['chamado'])) {
+                $clientes->whereHas('chamados', function ($query) use ($data) {
+                    $query->where('id', $data['chamado']);
+                });
+            }
+
+            if(!empty($data['classificacao'])) {
+                $clientes->whereHas('chamados', function ($query) use ($data) {
+                    $query->where('classificacao', $data['classificacao']);
+                });
+            }
+
+            if(!empty($data['pessoa_responsavel'])) {
+                $clientes->whereHas('chamados', function ($query) use ($data) {
+                    $query->where('pessoa_responsavel', $data['pessoa_responsavel']);
+                });
+            }
+
+            if(!empty($data['situacao'])) {
+                $clientes->whereHas('chamados', function ($query) use ($data) {
+                    $query->where('situacao', $data['situacao']);
+                });
+            }
+
+            if(!empty($data['start']) && !empty($data['end'])) {
+
+                $start = \DateTime::createFromFormat('d/m/Y', $data['start']);
+                $end = \DateTime::createFromFormat('d/m/Y', $data['end']);
+
+                $clientes->whereHas('chamados', function ($query) use ($start, $end) {
+                    $query->where('created_at', '>=', $start->format('Y-m-d') . ' 00:00:00')
+                    ->where('created_at', '<=', $end->format('Y-m-d') . ' 23:59:59');
+                });
+
+            }
+        } else {
+          $clientes->where('id', 0);
         }
 
         $clientes = $clientes->orderByDesc('created_at');
 
         $contador = $clientes->count();
 
-
-
-        $clientes = $clientes->paginate();
+        $clientes = $clientes->get();
 
         foreach ($data as $key => $value) {
-            $clientes->appends($key, $value);
+            //$clientes->appends($key, $value);
         }
 
         $status = Status::where('id_empresa', $user->empresa->id)->get();

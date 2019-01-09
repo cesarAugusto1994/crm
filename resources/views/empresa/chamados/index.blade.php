@@ -22,6 +22,7 @@
           </div>
 
           <form action="{{ route('chamados.index') }}">
+              <input type="hidden" name="buscar" value="1"/>
               <div class="box-body">
                 <div class="row">
 
@@ -277,5 +278,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
     <script>
         $('.date').mask('00/00/0000');
+
+        $('.input-daterange').datepicker({});
     </script>
 @stop

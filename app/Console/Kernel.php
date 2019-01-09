@@ -28,8 +28,10 @@ class Kernel extends ConsoleKernel
         //          ->hourly();
 
         $schedule->command('inspire')->everyTenMinutes();
-
         $schedule->command('route:list')->dailyAt('02:00');
+
+        $schedule->command('backup:clean')->daily()->at('01:00');
+        $schedule->command('backup:run')->daily()->at('02:00');
     }
 
     /**

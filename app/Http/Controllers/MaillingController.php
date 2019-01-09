@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\{Clientes,Propaganda,Chamados};
-use App\Models\Chamados\{Anotacoes};
+use App\Models\Chamados\{Anotacoes, Midias};
 
 class MaillingController extends Controller
 {
@@ -104,7 +104,7 @@ class MaillingController extends Controller
 
             } else {
 
-                $chamados = Chamados::where('id_cliente', $cliente->id)->whereIn('situacao', [1,2])->get();
+                $chamados = Chamados::where('id_cliente', $cliente->id)->whereIn('situacao', [1,2,4])->get();
 
                 if($chamados->isNotEmpty()) {
 
@@ -117,9 +117,14 @@ class MaillingController extends Controller
                     $chamado->id_empresa = \Auth::user()->empresa_id;
                     $chamado->id_cliente = $cliente->id;
                     $chamado->abertura_chamado = now();
-                    $cliente = $request->get('cliente');
-
+                    $chamado->situacao = 4;
                     $chamado->save();
+
+                    $midia = new Midias();
+                    $midia->midia_id = 58;
+                    $midia->cliente_id = $cliente->id;
+                    $midia->chamado_id = $chamado->id;
+                    $midia->save();
 
                 }
 
@@ -177,7 +182,7 @@ class MaillingController extends Controller
 
             $emails = explode(',', $data['email']);
 
-            $assunto = 'SEABRA – INFORMAÇÕES';
+            $assunto = 'SEABRA – ' . $propaganda->nome;
 
             if($request->hasFile('arquivo')) {
                 $path = $request->file('arquivo')->store('arquivos');

@@ -11,6 +11,8 @@
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.css" rel="stylesheet"/>
+
     <style>
 
         .btn-file  input[type="file"] {
@@ -201,6 +203,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.time.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.resize.min.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.12.1/bootstrap-table-locale-all.min.js"></script>
 
+    <script src="{{ asset('js/table-export.js') }}"></script>
+
+    <script type="text/javascript" src="{{asset('js/libs/FileSaver/FileSaver.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/libs/js-xlsx/xlsx.core.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/libs/jsPDF/jspdf.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/libs/jsPDF-AutoTable/jspdf.plugin.autotable.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/libs/es6-promise/es6-promise.auto.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/libs/html2canvas/html2canvas.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/tableExport.min.js')}}"></script>
+
+    <script>
+
+      //$('table').tableExport();
+
+    </script>
 
 @stop

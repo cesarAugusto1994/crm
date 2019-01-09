@@ -33,6 +33,10 @@ class ChamadosController extends Controller
 
         $chamados = Chamados::where('id_empresa', $user->empresa_id);
 
+        if(!$request->has('buscar')) {
+            $chamados->whereIn('situacao', [1,2,3]);
+        }
+
         if(!empty($data['id'])) {
             $chamados->where('id', $data['id']);
         }

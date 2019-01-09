@@ -21,6 +21,9 @@
           </div>
 
           <form action="{{ route('clientes.index') }}">
+
+              <input type="hidden" name="buscar" value="1"/>
+
               <div class="box-body">
                 <div class="row">
 
@@ -179,7 +182,25 @@
         </div>
         <div class="box-body table-responsive">
 
-          <table class="table table-striped table-condensed">
+        <div id="toolbar">
+          
+        </div>
+
+          <table class="table table-striped table-condensed"
+          data-toggle="table"
+          data-locale="pt-BR"
+          data-search="true"
+          data-toolbar="#toolbar"
+          data-show-export="true"
+          data-sort-stable="true"
+          data-show-columns="true"
+          data-card-view="false"
+          data-detail-view="false"
+        	data-sortable="true"
+          data-page-list="ALL"
+          data-pagination="true"
+          	data-show-pagination-switch="true"
+          >
             <thead>
 
               <tr>
@@ -243,7 +264,7 @@
                   </tr>
               @empty
                   <tr>
-                    <td colspan="9">
+                    <td colspan="11">
                       <div class="alert alert-warning">
                         <p><i class="icon fa fa-info"></i> Nenhum registro encontrado.</p>
                       </div>
@@ -253,7 +274,7 @@
           </tbody></table>
         </div>
         <div class="box-footer clearfix">
-          {{ $clientes->links() }}
+
         </div>
       </div>
     </div>
