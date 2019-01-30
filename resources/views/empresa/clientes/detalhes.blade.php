@@ -234,7 +234,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                       <input type="hidden" name="adicionar_cep" id="adicionar-cep" value="0"/>
-                      <input type="text" class="form-control" placeholder="CEP" id="endereco-cep" data-url="{{ route('cep') }}" name="cep">
+                      <input type="text" class="form-control" placeholder="CEP" id="endereco-cep" data-url="{{ route('cep') }}" name="cep"> 
                   </div>
                 </div>
 

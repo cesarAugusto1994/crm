@@ -102,6 +102,10 @@ Route::middleware('auth')->middleware('status')->group(function() {
   Route::get('/empreendimento/bairros', 'EmpreendimentosController@bairros')->name('bairros');
   Route::get('/empreendimento/areas-privativas', 'EmpreendimentosController@areaPrivativa')->name('areas_privativas');
 
+  Route::get('/chats', 'ChatsController@index');
+  Route::get('/chats/messages', 'ChatsController@fetchMessages');
+  Route::post('/chats/messages', 'ChatsController@sendMessage');
+
   //Route::get('/clientes/importar/cliente', 'ClientesController@importarClientes')->name('importar_clientes');
 
   Route::prefix('/admin')->group(function() {
@@ -127,9 +131,7 @@ Route::middleware('auth')->middleware('status')->group(function() {
       Route::get('/templates/preview/{id}', 'ModelosController@preview')->name('template_preview_item');
 
       Route::get('/images/google', 'PropagandasController@googleImages')->name('google_images');
-
       Route::post('/images/upload', 'PropagandasController@enviarImagem')->name('upload_images');
-
       Route::post('/templates/preview/storeImages', 'PropagandasController@storeImages')->name('template_store_images');
 
       Route::get('usuarios/{id}/alterar-senha', 'UsersController@editPassword')->name('editar_senha');

@@ -85,4 +85,14 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Departamentos::class, 'area_id');
     }
+
+    /**
+     * A user can have many messages
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function messages()
+    {
+        return $this->hasMany('App\Models\Chamados\Logs');
+    }
 }

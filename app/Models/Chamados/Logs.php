@@ -15,6 +15,16 @@ class Logs extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    /**
+     * A message belong to a user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+      return $this->belongsTo(User::class);
+    }
+
     public function logEmail()
     {
         return $this->belongsTo(LogEmail::class, 'email_log_id');

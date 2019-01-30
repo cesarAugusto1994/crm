@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Chamados')
+@section('title', 'Clientes')
 
 @section('content_header')
     <h1>Painel de Clientes</h1>
@@ -183,7 +183,7 @@
         <div class="box-body table-responsive">
 
         <div id="toolbar">
-          
+
         </div>
 
           <table class="table table-striped table-condensed"
@@ -199,7 +199,7 @@
         	data-sortable="true"
           data-page-list="ALL"
           data-pagination="true"
-          	data-show-pagination-switch="true"
+        	data-show-pagination-switch="true"
           >
             <thead>
 

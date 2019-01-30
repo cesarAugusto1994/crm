@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title_prefix', config('adminlte.title_prefix', ''))
+    <title>Seabra CRM -
 @yield('title', config('adminlte.title', 'AdminLTE 2'))
 @yield('title_postfix', config('adminlte.title_postfix', ''))</title>
     <!-- Tell the browser to be responsive to screen width -->
@@ -87,76 +87,65 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.pt-BR.min.js"></script>
 
-    <script>
-/*
-      $('.input-daterange').datepicker({
-          format: "dd/mm/yyyy",
-          todayBtn: "linked",
-          language: "pt-BR",
-          autoclose: true,
-          todayHighlight: true
-      });
-*/
-    </script>
+@yield('adminlte_js')
 
-    <script>
+<script>
 
-      $(".btnRemoveItem").click(function(e) {
-          var self = $(this);
+  $('table').on('post-body.bs.table', function () {
+    $(".btnRemoveItem").click(function(e) {
+        var self = $(this);
 
-          swal({
-            title: 'Remover este item?',
-            text: "Não será possível recuperá-lo!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sim',
-            cancelButtonText: 'Cancelar'
-            }).then((result) => {
-            if (result.value) {
+        swal({
+          title: 'Remover este item?',
+          text: "Não será possível recuperá-lo!",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sim',
+          cancelButtonText: 'Cancelar'
+          }).then((result) => {
+          if (result.value) {
 
-              e.preventDefault();
+            e.preventDefault();
 
-              $.ajax({
-                headers: {
-                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                 },
-                url: self.data('route'),
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                  _method: 'DELETE'
-                }
-              }).done(function() {
+            $.ajax({
+              headers: {
+               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+               },
+              url: self.data('route'),
+              type: 'POST',
+              dataType: 'json',
+              data: {
+                _method: 'DELETE'
+              }
+            }).done(function() {
 
-                self.parents('tr').hide();
+              self.parents('tr').hide();
 
-                const toast = swal.mixin({
-                  toast: true,
-                  position: 'top-end',
-                  showConfirmButton: false,
-                  timer: 3000
-                });
+              const toast = swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+              });
 
-                toast({
-                  type: 'success',
-                  title: 'Ok!, o registro foi removido com sucesso.'
-                });
-
-
+              toast({
+                type: 'success',
+                title: 'Ok!, o registro foi removido com sucesso.'
               });
 
 
-            }
-          });
-
-      });
-
-    </script>
+            });
 
 
-@yield('adminlte_js')
+          }
+        });
+
+    });
+  });
+
+</script>
 
 </body>
 </html>

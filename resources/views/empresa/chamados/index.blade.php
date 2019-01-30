@@ -186,23 +186,31 @@
         </div>
         <div class="box-body">
 
-          <table class="table table-bordered table-condensed">
+          <table class="table table-bordered table-condensed"
+            data-toggle="table"
+            data-locale="pt-BR"
+            data-search="true"
+            data-toolbar="#toolbar"
+            data-show-export="true"
+            data-show-columns="true"
+            data-page-list="ALL"
+            data-pagination="true"
+            id="table-chamados">
             <thead>
 
               <tr>
-                <th style="width: 10px">#</th>
+                <th>#</th>
                 <th>Cliente</th>
+                <th>Email</th>
                 <th>Empreendimentos</th>
                 <th>Midias</th>
                 <th>Status</th>
-
                 <th>Temperatura</th>
                 <th>Fase</th>
                 <th>Responsavel</th>
-
                 <th>Abertura</th>
                 <th>Previsão</th>
-                <th style="width: 110px">Opções</th>
+                <th>Opções</th>
               </tr>
 
             </thead>
@@ -213,6 +221,13 @@
                   <tr>
                     <td>{{ $chamado->id }}</td>
                     <td>{{ $chamado->cliente->nome ?? '-' }}</td>
+                    <td>
+                      @if($chamado->cliente)
+                      @foreach($chamado->cliente->emails as $email)
+                          <p>{{ $email->email ?? '-' }}</p>
+                      @endforeach
+                      @endif
+                    </td>
                     <td>
                       @if($chamado->cliente)
                         @foreach($chamado->cliente->empreendimentos as $empreendimento)
@@ -261,11 +276,8 @@
                     </td>
                   </tr>
               @endforelse
-          </tbody></table>
-        </div>
-        <!-- /.box-body -->
-        <div class="box-footer clearfix">
-          {{ $chamados->links() }}
+          </tbody>
+        </table>
         </div>
       </div>
     </div>
@@ -279,6 +291,6 @@
     <script>
         $('.date').mask('00/00/0000');
 
-        $('.input-daterange').datepicker({});
+        //$('.input-daterange').datepicker({});
     </script>
 @stop

@@ -165,10 +165,20 @@ return [
         ],
 
         [
-            'text'        => 'Mailling',
-            'url'         => '/admin/mailling',
-            'icon'        => 'envelope-o',
-            'can'         => 'manage-mailling.index',
+            'text'        => 'Interatividade',
+            'submenu'        => [
+                [
+                    'text'        => 'Mailling',
+                    'url'         => '/admin/mailling',
+                    'icon'        => 'envelope-o',
+                    'can'         => 'manage-mailling.index',
+                ],
+                [
+                    'text'        => 'Curriculos',
+                    'url'         => 'http://appstartup.com.br/rel/public/curriculo',
+                    'icon'        => 'file-o',
+                ],
+            ],
         ],
 
         [

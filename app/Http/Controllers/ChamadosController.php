@@ -138,18 +138,18 @@ class ChamadosController extends Controller
             $start = \DateTime::createFromFormat('d/m/Y', $data['start']);
             $end = \DateTime::createFromFormat('d/m/Y', $data['end']);
 
-            $chamados->where('created_at', '>=', $start->format('Y-m-d') . ' 00:00:00')
-            ->where('created_at', '<=', $end->format('Y-m-d') . ' 23:59:59');
+            $chamados->where('abertura_chamado', '>=', $start->format('Y-m-d'))
+            ->where('abertura_chamado', '<=', $end->format('Y-m-d'));
 
         }
 
         $quantidade = $chamados->count();
 
-        $chamados = $chamados->orderByDesc('id')->paginate();
+        $chamados = $chamados->orderByDesc('id')->get();
 
         foreach ($data as $key => $value) {
 
-            $chamados->appends($key, $value);
+            //$chamados->appends($key, $value);
 
         }
 
