@@ -248,13 +248,13 @@ class ModelosController extends Controller
           $video              =   $request->get( "video" );
           $data["video"]      =   "";
 
-          $routeVideo=route('storage_images',['link'=>"youtube.png"]);
+          $routeVideo=route('storage_images',['link'=>"youtube.jpg"]);
 
           if( $video != '' ) {
             $data["video"]  = "	<tr>
                               <td style='text-align: center;'>
                                 <a href='$video'>
-                                  <img src='$routeVideo' width='250' height='40' />
+                                  <img src='$routeVideo' height='50' style='width:100%' />
                                 </a>
                               </td>
                             </tr>
@@ -380,13 +380,13 @@ class ModelosController extends Controller
           $video              =   $request->get( "d14" );
           $data["video"]      =   "";
 
-          $routeVideo=route('storage_images',['link'=>"youtube.png"]);
+          $routeVideo=route('storage_images',['link'=>"youtube.jpg"]);
 
           if( $video != '' ) {
             $data["video"]  = "	<tr>
                               <td style='text-align: center;'>
                                 <a href='$video'>
-                                  <img src='$routeVideo' width='250' height='40' />
+                                  <img src='$routeVideo' height='50' style='width:100%' />
                                 </a>
                               </td>
                             </tr>

@@ -27,7 +27,9 @@ class HomeController extends Controller
     {
         $chamados = Chamados::where('id_empresa', \Auth::user()->empresa_id)->get();
 
-        $chamadosTotal = $total = $chamados->count();
+        $chamadosTotal = $total = $chamados->whereIn('situacao',[1,2,3]);
+
+        $chamadosTotal = $chamadosTotal->count();
 
         $chamadosFinalizados = $chamados->filter(function($chamado) {
             return $chamado->situacao == 3;
@@ -40,10 +42,12 @@ class HomeController extends Controller
         $chamadosAndamento = $chamados->filter(function($chamado) {
           return ($chamado->situacao == 2);
         })->count();
-
+/*
         $chamadosAtrasados = $chamados->filter(function($chamado) {
           return ($chamado->situacao == 1 || $chamado->situacao == 2) && $chamado->previsao_conclusao < now();
         })->count();
+*/
+        $chamadosAtrasados = $chamados->where('previsao_conclusao', '<', now())->whereIn('situacao', [1,2])->count();
 
         $empresa = \Auth::user()->empresa_id;
 

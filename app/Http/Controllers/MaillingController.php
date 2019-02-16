@@ -117,6 +117,7 @@ class MaillingController extends Controller
                     $chamado->id_empresa = \Auth::user()->empresa_id;
                     $chamado->id_cliente = $cliente->id;
                     $chamado->abertura_chamado = now();
+                    $chamado->temperatura = 'Mailling';
                     $chamado->situacao = 4;
                     $chamado->save();
 

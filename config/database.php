@@ -54,6 +54,21 @@ return [
             'engine' => null,
         ],
 
+        'mysql_chat' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST_CHAT', '127.0.0.1'),
+            'port' => env('DB_PORT_CHAT', '3306'),
+            'database' => env('DB_DATABASE_CHAT', 'forge'),
+            'username' => env('DB_USERNAME_CHAT', 'forge'),
+            'password' => env('DB_PASSWORD_CHAT', ''),
+            'unix_socket' => env('DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+
         'mysql_cep' => [
             'driver' => 'mysql',
             'host' => 'mysql.webmkt.com.br',

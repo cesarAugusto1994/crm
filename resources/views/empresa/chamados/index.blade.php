@@ -132,8 +132,8 @@
 
                   <div class="col-md-3">
                     <div class="form-group">
-                      <label>Atendimento </label>
-                        <input type="text" class="form-control date" name="atendimento_chamado"/>
+                      <label>Ultima Interação </label>
+                        <input type="text" class="form-control date" name="ultima_interacao"/>
                     </div>
                   </div>
 
@@ -161,7 +161,7 @@
 
               </div>
               <div class="box-footer clearfix">
-              <button type="submit" class="btn btn-warning">Buscar</button>
+              <button type="submit" class="btn btn-primary"><i class="icon fa fa-search"></i> Buscar</button>
           </div>
           </form>
 
@@ -174,7 +174,7 @@
           <h3 class="box-title">Opções</h3>
         </div>
         <div class="box-body">
-          <a class="btn btn-success" href="{{ route('chamados.create') }}">Novo Chamado</a>
+          <a class="btn btn-success" href="{{ route('chamados.create') }}"><i class="icon fa fa-plus"></i> Novo Chamado</a>
         </div>
       </div>
     </div>
@@ -195,11 +195,13 @@
             data-show-columns="true"
             data-page-list="ALL"
             data-pagination="true"
+            data-show-pagination-switch="true"
             id="table-chamados">
             <thead>
 
               <tr>
                 <th>#</th>
+                <th>ID</th>
                 <th>Cliente</th>
                 <th>Email</th>
                 <th>Empreendimentos</th>
@@ -209,8 +211,7 @@
                 <th>Fase</th>
                 <th>Responsavel</th>
                 <th>Abertura</th>
-                <th>Previsão</th>
-                <th>Opções</th>
+                <th>Ultima Interação</th>
               </tr>
 
             </thead>
@@ -219,6 +220,10 @@
               @forelse($chamados as $chamado)
 
                   <tr>
+                    <td>
+                      <a href="{{ route('chamados.show', $chamado->id) }}" class="btn btn-sm btn-block btn-success"><i class="icon fa fa-eye"></i> </a>
+                      <a data-route="{{ route('chamados.destroy', $chamado->id) }}" class="btn btn-sm btn-block btn-danger btnRemoveItem"><i class="icon fa fa-close"></i> </a>
+                    </td>
                     <td>{{ $chamado->id }}</td>
                     <td>{{ $chamado->cliente->nome ?? '-' }}</td>
                     <td>
@@ -260,12 +265,9 @@
                       {{ $chamado->abertura_chamado ? $chamado->abertura_chamado->format('d/m/Y') : '-' }}
                     </td>
                     <td>
-                      {{ $chamado->previsao_conclusao ? $chamado->previsao_conclusao->format('d/m/Y') : '-' }}
+                      {{ $chamado->updated_at ? $chamado->updated_at->format('d/m/Y') : '-' }}
                     </td>
-                    <td>
-                      <a href="{{ route('chamados.show', $chamado->id) }}" class="btn btn-sm btn-primary"><i class="icon fa fa-edit"></i> </a>
-                      <a data-route="{{ route('chamados.destroy', $chamado->id) }}" class="btn btn-sm btn-danger btnRemoveItem"><i class="icon fa fa-trash"></i> </a>
-                    </td>
+
                   </tr>
               @empty
                   <tr>

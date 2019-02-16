@@ -119,11 +119,12 @@ class ChamadosController extends Controller
             $chamados->where('abertura_chamado', $date->format('Y-m-d'));
         }
 
-        if(!empty($data['atendimento_chamado'])) {
+        if(!empty($data['ultima_interacao'])) {
 
-            $date = \DateTime::createFromFormat('d/m/Y', $data['atendimento_chamado']);
+            $date = \DateTime::createFromFormat('d/m/Y', $data['ultima_interacao']);
 
-            $chamados->where('atendimento_chamado', $date->format('Y-m-d'));
+            $chamados->where('updated_at', '>=', $date->format('Y-m-d').' 00:00:00')
+            ->where('updated_at', '<=', $date->format('Y-m-d') . ' 23:59:59');
         }
 
         if(!empty($data['conclusao_chamado'])) {
@@ -147,12 +148,6 @@ class ChamadosController extends Controller
 
         $chamados = $chamados->orderByDesc('id')->get();
 
-        foreach ($data as $key => $value) {
-
-            //$chamados->appends($key, $value);
-
-        }
-
         return view('empresa.chamados.index', compact('chamados', 'status','classificacao','departamentos','fases','responsaveis', 'quantidade'));
     }
 
@@ -174,31 +169,34 @@ class ChamadosController extends Controller
         $grupos = \App\Models\Manifestacao\Grupo::orderBy('descricao')->get();
         $tipos = \App\Models\Manifestacao\Grupo\Tipo::orderBy('descricao')->get();
 
-        $ultimoChamado = Chamados::orderByDesc('id')->get();
+        //$ultimoChamado = Chamados::orderByDesc('id')->get();
 
-        $ultimoChamado = $ultimoChamado->first();
+        //$ultimoChamado = $ultimoChamado->first();
 
+        $cliente = null;
+        $clienteId = null;
+
+        if($request->has('cliente_id')) {
+            $cliente = $request->get('cliente_id');
+            $cliente = Clientes::findOrFail($cliente);
+            $clienteId = $cliente->id;
+        }
+/*
         if($ultimoChamado && !$ultimoChamado->id_cliente && !$ultimoChamado->pessoa_responsavel) {
 
           $chamado = $ultimoChamado;
 
         } else {
-
+*/
           $chamado = new Chamados();
           $chamado->id_usuario = \Auth::user()->id;
+          $chamado->id_cliente = $clienteId;
           $chamado->id_empresa = \Auth::user()->empresa_id;
           $chamado->abertura_chamado = new \DateTime('now');
           $chamado->save();
-
+/*
         }
-
-        $cliente = null;
-
-        if($request->has('cliente_id')) {
-            $cliente = $request->get('cliente_id');
-            $cliente = Clientes::findOrFail($cliente);
-        }
-
+*/
         return view('empresa.chamados.create', compact('chamado', 'classificacao', 'departamentos', 'status', 'manifestacoes', 'cliente', 'fases', 'grupos', 'tipos'));
     }
 
@@ -309,7 +307,7 @@ class ChamadosController extends Controller
         $chamado->situacao = $data['situacao'];
         $chamado->temperatura = $data['temperatura'];
         $chamado->conclusao = $data['conclusao'] ?? '';
-        $chamado->abertura_chamado = new \DateTime('now');
+        //$chamado->updated_at = new \DateTime('now');
         $chamado->id_usuario = \Auth::user()->id;
         $chamado->id_empresa = \Auth::user()->empresa_id;
         $chamado->pessoa_responsavel = $data['pessoa_responsavel'];
@@ -337,13 +335,46 @@ class ChamadosController extends Controller
 
         if(!empty($data['empreendimento'])) {
 
+            $cliente = $chamado->cliente;
+
             foreach($data['empreendimento'] as $item) {
 
+              $sql2 = "select * from imoveis where imv_id = " . (int)$item;
+              $imovel = \DB::connection('mysql_seabra')->select($sql2);
+
+              $referencia = null;
+
+              if(!empty($imovel[0])) {
+                $referencia = $imovel[0]->imv_referencia;
+                $titulo = $imovel[0]->imv_titulo;
+                if(!empty($referencia)) {
+
+                  $produtos = \App\Models\Produtos::where('referencia', $referencia)->where('nome', $titulo)->get();
+
+                  $produto = $produtos->first();
+
+                  $hasRegistro = ClienteProduto::where('cliente_id', $cliente->id)->where('produto_id', $produto->id)->get();
+
+                  if($hasRegistro->isNotEmpty()) {
+                    flash('O empreendimento já foi adicionado ao cliente!')->error()->important();
+                    return redirect()->back();
+                  }
+
+                  $empreendimento = new ClienteProduto();
+                  $empreendimento->cliente_id = $cliente->id;
+                  $empreendimento->chamado_id = $chamado->id;
+                  $empreendimento->produto_id = $produto->id;
+                  $empreendimento->save();
+
+                }
+              }
+/*
               $empreendimento = new Empreendimentos();
               $empreendimento->cliente_id = $chamado->cliente->id;
               $empreendimento->chamado_id = $chamado->id;
               $empreendimento->produto_id = $item;
               $empreendimento->save();
+              */
             }
 
         }
@@ -850,16 +881,6 @@ class ChamadosController extends Controller
 
         $agora = now();
         $hora = (int)$agora->format('H');
-
-        $saudacao = "Bom Dia";
-
-        if($hora >= 12 && $hora < 18) {
-            $saudacao = "Boa Tarde";
-        } elseif($hora >= 18 && $hora < 23) {
-            $saudacao = "Boa Noite";
-        }elseif($hora >= 0 && $hora < 3) {
-            $saudacao = "Boa Noite";
-        }
 
         $emailsCliente = $chamado->cliente->emails;
 

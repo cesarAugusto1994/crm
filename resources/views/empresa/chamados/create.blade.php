@@ -239,7 +239,7 @@
                   <div class="col-md-3">
                     <div class="form-group">
                       <label>Área Resolvedora </label>
-                      <select class="form-control select2 select-ajax" id="area"
+                      <select class="form-control select2 select-ajax" id="area"29980000
                       data-target="#resposanvel" data-url="{{ route('departamentos') }}" style="width: 100%;"
                       name="area_atendimento" required
                       >
@@ -286,7 +286,7 @@
                       <label>Status do chamado </label>
                       <select class="form-control select2  select-ajax" data-target="#fase" data-url="{{ route('fases') }}" style="width: 100%;" name="situacao">
                         @foreach($status as $item)
-                            <option value="{{ $item->id }}">{{ $item->descricao }}</option>
+                            <option value="{{ $item->id }}" {{ $item->id==1?'selected':'' }}>{{ $item->descricao }}</option>
                         @endforeach
                       </select>
                     </div>

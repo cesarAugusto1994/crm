@@ -157,7 +157,7 @@
 
               </div>
               <div class="box-footer clearfix">
-              <button type="submit" class="btn btn-warning">Buscar</button>
+              <button type="submit" class="btn btn-primary"><i class="icon fa fa-search"></i> Buscar</button>
           </div>
           </form>
 
@@ -170,7 +170,7 @@
           <h3 class="box-title">Opções</h3>
         </div>
         <div class="box-body">
-          <a class="btn btn-success" href="{{ route('clientes.create') }}">Novo Cliente</a>
+          <a class="btn btn-success" href="{{ route('clientes.create') }}"><i class="icon fa fa-plus"></i> Novo Cliente</a>
         </div>
       </div>
     </div>

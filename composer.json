@@ -19,6 +19,7 @@
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
         "spatie/laravel-backup": "^5.11",
+        "themsaid/laravel-mail-preview": "^2.0",
         "webklex/laravel-git-hook": "1.0.1.7"
     },
     "require-dev": {

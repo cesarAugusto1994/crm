@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Editor')
+@section('title', 'Editor de Email')
 
 @section('css')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
@@ -10,11 +10,11 @@
 @stop
 
 @section('content_header')
-    <h1>Editor</h1>
+    <h1>Editor de Email</h1>
     <ol class="breadcrumb">
       <li><a href="/"><i class="fa fa-dashboard"></i> Painel Principal</a></li>
       <li><a href="#"><i class="fa fa-newspaper-o"></i> Email</a></li>
-      <li class="active">Editor</li>
+      <li class="active">Editor de Email</li>
     </ol>
 @stop
 
@@ -25,7 +25,7 @@
       <div class="col-md-12">
         <div class="box box-solid">
           <div class="box-header with-border">
-            <h3 class="box-title">Editor</h3>
+            <h3 class="box-title"></h3>
           </div>
           <form class="form-horizontal" enctype="multipart/form-data" novalidate action="{{ route('chamados_logs_store', ['id' => $chamado->id]) }}" method="post">
 
@@ -39,7 +39,7 @@
                 <input id="modelo" name="modelo" type="hidden" value="{{ $modelo }}">
                 <input id="chamado" name="chamado" type="hidden" value="{{ $chamado->id }}">
 
-                <button type="submit" class="btn btn-success btn-flat">Enviar</button>
+
 
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Chamado</label>
@@ -110,7 +110,7 @@
 
               </div>
               <div class="box-footer">
-                <button type="submit" class="btn btn-success btn-flat">Enviar</button>
+                <button type="submit" class="btn btn-success btn-block btn-lg">Enviar</button>
               </div>
 
           </form>

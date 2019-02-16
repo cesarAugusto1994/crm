@@ -118,8 +118,8 @@
 
                   <div class="col-md-3">
                     <div class="form-group">
-                      <label>Atendimento </label>
-                        <input type="text" class="form-control datepicker" name="atendimento_chamado" value="{{ $chamado->atendimento_chamado ? $chamado->atendimento_chamado->format('d/m/Y') : '' }}"/>
+                      <label>Ultima Interação </label>
+                        <input type="text" class="form-control datepicker" name="atendimento_chamado" value="{{ $chamado->updated_at ? $chamado->updated_at->format('d/m/Y') : '' }}"/>
                     </div>
                   </div>
 

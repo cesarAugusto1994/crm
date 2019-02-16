@@ -127,7 +127,8 @@
         <div class="well">
             <div class="row">
               @foreach($decricaoProjeto as $decricao)
-              <span>{{ $decricao->des_basica }}</span> @endforeach
+              <span>{{ $decricao->des_basica }}</span>
+              @endforeach
           </div>
         </div>
 
@@ -169,7 +170,7 @@
 
             <h4 class="text-center" style="text-transform: uppercase;">Imagens (Empreendimento)</h4>
 
-            <div class="col-md-12" style="">
+            <div class="col-md-12" style="display: inline-block;">
 
                 <div class="row">
                   <!--
@@ -178,7 +179,7 @@
                     </div>
                   -->
                     @foreach($imagensLazer as $imagem)
-                    <div class="{{ $loop->first || $loop->last ? 'col-md-12 col-sm-12 col-xs-12' : 'col-md-6 col-sm-6 col-xs-6' }}" style="padding:0">
+                    <div class="{{ $loop->first || $loop->last ? 'col-md-12 col-sm-12 col-xs-12' : 'col-md-6 col-sm-6 col-xs-6' }}" style="padding:0;display: inline-block;">
                         <img class="img" style="width:100%;max-width:100%;min-height:250px;max-height:250px" src="{{ $imagem }}" alt="..." />
                     </div>
                     @endforeach
