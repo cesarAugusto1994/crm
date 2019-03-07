@@ -86,7 +86,7 @@
 
                         <li class="dropdown user user-menu">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <span class="hidden-xs">{{ \Auth::user()->name }}</span>
+                            <span class="hidden-xs">{{ substr(\Auth::user()->name, 0, 15) }}...</span>
                           </a>
                           <ul class="dropdown-menu">
                             <!-- User image -->

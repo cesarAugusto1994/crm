@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
 </head>
-<body>
+<body style="min-width:800px!important">
     <style>
         @media only screen and (max-width: 600px) {
             .inner-body {
@@ -15,10 +15,18 @@
             .footer {
                 width: 100% !important;
             }
+
+            .list {
+                width: 100% !important;
+            }
         }
 
         @media only screen and (max-width: 500px) {
             .button {
+                width: 100% !important;
+            }
+
+            .list {
                 width: 100% !important;
             }
         }

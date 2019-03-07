@@ -56,11 +56,11 @@ return [
 
         'mysql_chat' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST_CHAT', '127.0.0.1'),
+            'host' => env('DB_HOST_CHAT', 'mysql.seabra.com.br'),
             'port' => env('DB_PORT_CHAT', '3306'),
-            'database' => env('DB_DATABASE_CHAT', 'chat'),
-            'username' => env('DB_USERNAME_CHAT', 'root'),
-            'password' => env('DB_PASSWORD_CHAT', 'mestre'),
+            'database' => env('DB_DATABASE_CHAT', 'seabra06'),
+            'username' => env('DB_USERNAME_CHAT', 'seabra06'),
+            'password' => env('DB_PASSWORD_CHAT', 'S102030'),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',

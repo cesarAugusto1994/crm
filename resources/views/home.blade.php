@@ -1,9 +1,19 @@
 @extends('adminlte::page')
 
-@section('title', 'CRM')
+@section('title', 'Painel Principal')
 
 @section('content_header')
     <h1>Painel Principal</h1>
+@stop
+
+@section('css')
+
+  <style>
+      .widget-user .widget-user-header {
+        height: auto!important;
+      }
+  </style>
+
 @stop
 
 @section('content')
@@ -11,7 +21,161 @@
 @if(!\Auth::user()->isAdmin())
 <div class="row">
 
-    <div class="col-lg-3 col-xs-6">
+    <div class="col-md-8">
+      <div class="box box-widget widget-user">
+        <div class="widget-user-header bg-aqua-active">
+          <h3 class="widget-user-username">Chamados</h3>
+        </div>
+        <div class="box-footer">
+          <div class="row">
+
+            <div class="col-sm-3 border-right">
+              <a href="{{ route('chamados.index') }}">
+                <div class="description-block">
+                  <h5 class="description-header">{{ $chamadosTotal }}</h5>
+                  <span class="description-text">Total</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-sm-3 border-right">
+              <a href="{{ route('chamados.index', ['situacao' => 1]) }}" class="small-box-footer">
+              <div class="description-block">
+                <h5 class="description-header">{{ $chamadosAberto }}</h5>
+                <span class="description-text">Em Aberto</span>
+              </div>
+              </a>
+            </div>
+
+            <div class="col-sm-3 border-right">
+              <a href="{{ route('chamados.index', ['situacao' => 2]) }}" class="small-box-footer">
+                <div class="description-block">
+                  <h5 class="description-header">{{ $chamadosAndamento }}</h5>
+                  <span class="description-text">Em Andamento</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-sm-3">
+              <a href="{{ route('chamados.index', ['situacao' => 3]) }}" class="small-box-footer">
+                <div class="description-block">
+                  <h5 class="description-header">{{ $chamadosFinalizados }}</h5>
+                  <span class="description-text">Finalizados</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-sm-2 border-right">
+              <a href="{{ route('chamados.index', ['atraso' => 1]) }}" class="small-box-footer">
+                <div class="description-block">
+                  <h5 class="description-header">{{ $chamadosAtrasados }}</h5>
+                  <span class="description-text">Em Atraso</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-sm-2 border-right">
+              <a href="{{ route('chamados.index', ['temperatura' => 'frio']) }}" class="small-box-footer">
+                <div class="description-block">
+                  <h5 class="description-header">{{ $temperaturaFrio }}</h5>
+                  <span class="description-text">Frio</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-sm-2 border-right">
+              <a href="{{ route('chamados.index', ['temperatura' => 'morno']) }}" class="small-box-footer">
+                <div class="description-block">
+                  <h5 class="description-header">{{ $temperaturaMorno }}</h5>
+                  <span class="description-text">Morno</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-sm-2 border-right">
+              <a href="{{ route('chamados.index', ['temperatura' => 'quente']) }}" class="small-box-footer">
+                <div class="description-block">
+                  <h5 class="description-header">{{ $temperaturaQuente }}</h5>
+                  <span class="description-text">Quente</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-sm-2">
+              <a href="{{ route('chamados.index', ['buscar' => 1, 'situacao' => '4']) }}" class="small-box-footer">
+                <div class="description-block">
+                  <h5 class="description-header">{{ $chamadosMailling }}</h5>
+                  <span class="description-text">Mailling</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-sm-2">
+              <a href="{{ route('chats.index') }}" class="small-box-footer">
+                <div class="description-block">
+                  <h5 class="description-header">{{ $quantidadeChat }}</h5>
+                  <span class="description-text">Chat</span>
+                </div>
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="box box-widget widget-user">
+        <div class="widget-user-header bg-red-active">
+          <h3 class="widget-user-username">Clientes</h3>
+        </div>
+        <div class="box-footer">
+          <div class="row">
+
+            <div class="col-lg-6 col-md-6 col-sm-6 border-right">
+              <a href="{{ route('clientes.index', ['buscar' => 1]) }}" class="small-box-footer">
+                <div class="description-block">
+                  <h5 class="description-header">{{ $clientes }}</h5>
+                  <span class="description-text">Total</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 border-right">
+              <a href="{{ route('clientes.index', ['buscar' => 1, 'chamados_ativos' => 1]) }}" class="small-box-footer">
+                <div class="description-block">
+                  <h5 class="description-header">{{ $clientesAtivos }}</h5>
+                  <span class="description-text">Ativos</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6 border-right">
+              <a href="{{ route('clientes.index', ['buscar' => 1, 'chamados_finalizados' => 1]) }}" class="small-box-footer">
+                <div class="description-block">
+                  <h5 class="description-header">{{ $clientesAtedimentosFinalizados }}</h5>
+                  <span class="description-text">Chamados Finalizados</span>
+                </div>
+              </a>
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <a href="{{ route('clientes.index', ['buscar' => 1, 'sem_chamados' => 1]) }}" class="small-box-footer">
+                <div class="description-block">
+                  <h5 class="description-header">{{ $clientesSemchamados }}</h5>
+                  <span class="description-text">Sem Chamados</span>
+                </div>
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--
+
+    <div class="col-lg-2 col-xs-6">
       <div class="small-box bg-aqua">
         <div class="inner">
           <h3>{{ $chamadosTotal }}</h3>
@@ -24,7 +188,7 @@
       </div>
     </div>
 
-    <div class="col-lg-3 col-xs-6">
+    <div class="col-lg-2 col-xs-6">
       <div class="small-box bg-green">
         <div class="inner">
           <h3>{{ $chamadosAndamento }}<sup style="font-size: 20px"></sup></h3>
@@ -68,6 +232,45 @@
         <div class="inner">
           <h3>{{ $chamadosAberto }}</h3>
           <p>Chamados Em Aberto</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-pie-graph"></i>
+        </div>
+        <a href="{{ route('chamados.index', ['situacao' => 1]) }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-xs-6">
+      <div class="small-box bg-yellow">
+        <div class="inner">
+          <h3>{{ $temperaturaFrio }}</h3>
+          <p>Chamados Frios</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-pie-graph"></i>
+        </div>
+        <a href="{{ route('chamados.index', ['situacao' => 1]) }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-xs-6">
+      <div class="small-box bg-yellow">
+        <div class="inner">
+          <h3>{{ $temperaturaMorno }}</h3>
+          <p>Chamados Morno</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-pie-graph"></i>
+        </div>
+        <a href="{{ route('chamados.index', ['situacao' => 1]) }}" class="small-box-footer">Mais Informações <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+
+    <div class="col-lg-2 col-xs-6">
+      <div class="small-box bg-yellow">
+        <div class="inner">
+          <h3>{{ $temperaturaQuente }}</h3>
+          <p>Chamados Quentes</p>
         </div>
         <div class="icon">
           <i class="ion ion-pie-graph"></i>
@@ -128,7 +331,7 @@
       </div>
     </div>
 
-
+    -->
 
   </div>
 

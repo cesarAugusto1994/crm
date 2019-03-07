@@ -96,12 +96,12 @@ class MaillingController extends Controller
             if($request->has('chamado')) {
 
               $chamado = Chamados::findOrFail($request->get('chamado'));
-
+/*
               $anotacao = new Anotacoes();
               $anotacao->descricao = 'Propaganda <a href='.route("propagandas.show", $propaganda->id).'>#' . $propaganda->id . '</a> foi enviada para o cliente.';
               $anotacao->chamado_id = \Request::get('chamado');
               $anotacao->save();
-
+*/
             } else {
 
                 $chamados = Chamados::where('id_cliente', $cliente->id)->whereIn('situacao', [1,2,4])->get();

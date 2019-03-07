@@ -262,16 +262,16 @@
                     </td>
 
                     <td>
-                      {{ $chamado->abertura_chamado ? $chamado->abertura_chamado->format('d/m/Y') : '-' }}
+                      {{ $chamado->created_at ? $chamado->created_at->format('d/m/Y H:i') : '-' }}
                     </td>
                     <td>
-                      {{ $chamado->updated_at ? $chamado->updated_at->format('d/m/Y') : '-' }}
+                      {{ $chamado->updated_at ? $chamado->updated_at->format('d/m/Y H:i') : '-' }}
                     </td>
 
                   </tr>
               @empty
                   <tr>
-                    <td colspan="9">
+                    <td colspan="12">
                       <div class="alert alert-warning">
                         <p><i class="icon fa fa-info"></i> Nenhum registro encontrado.</p>
                       </div>

@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" style="min-width:800px">
 
     <div class="col-md-12" style="margin-bottom:20px;border-radius:4px">
       @if(isset($modelo) && $modelo == 2)
@@ -24,9 +24,9 @@
 
         <div class="well" style="background-color:#f5f5f5;min-height:700px">
 
-            <div class="row" style="background-color:#f5f5f5">
+            <div class="row table-responsive" style="background-color:#f5f5f5">
 
-                <div class="col-md-6 col-xs-6" style="">
+                <div class="col-md-6 col-xs-6 list" style="padding: 0 0; margin: 0">
 
                     <div class="list-group">
                         <a href="#" class="list-group-item" style="border:none;background-color:#f5f5f5">
@@ -68,7 +68,7 @@
 
                 </div>
 
-                <div class="col-md-6 col-xs-6" style="">
+                <div class="col-md-6 col-xs-6 list" style="padding: 0 0; margin: 0">
 
                     <div class="list-group">
 

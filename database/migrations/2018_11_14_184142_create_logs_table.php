@@ -12,7 +12,7 @@ class CreateLogsTable extends Migration
      * @return void
      */
     public function up()
-    {
+    {/*
         Schema::create('mailling_logs', function (Blueprint $table) {
             $table->increments('id');
 
@@ -26,6 +26,7 @@ class CreateLogsTable extends Migration
 
             $table->timestamps();
         });
+        */
     }
 
     /**
@@ -35,6 +36,6 @@ class CreateLogsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mailling_logs');
+        //Schema::dropIfExists('mailling_logs');
     }
 }

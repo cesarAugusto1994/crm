@@ -314,7 +314,7 @@
 @stop
 
 @section('js')
-    <script src="{{ asset('js/custom.js') }}"></script>
+    <script src="{{ asset('js/custom.js?0.1') }}"></script>
 
     <script>
 

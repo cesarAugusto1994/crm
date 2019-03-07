@@ -93,7 +93,7 @@ return [
 
     'login_url' => 'login',
 
-    'register_url' => 'register',
+    'register_url' => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -135,7 +135,7 @@ return [
             'can'         => 'manage-empresas.index',
         ],
         [
-            'text'        => 'Cadastros',
+            'text'        => 'Envio',
             'submenu'     => [
               [
                   'text'        => 'Perfils',
@@ -172,6 +172,11 @@ return [
                     'url'         => '/admin/mailling',
                     'icon'        => 'envelope-o',
                     'can'         => 'manage-mailling.index',
+                ],
+                [
+                    'text'        => 'Chat',
+                    'url'         => '/chats',
+                    'icon'        => 'comments',
                 ],
                 [
                     'text'        => 'Curriculos',

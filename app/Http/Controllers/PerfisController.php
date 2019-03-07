@@ -1237,8 +1237,18 @@ class PerfisController extends Controller
 
         $user = \Auth::user();
 
-        $cidades = \App\Models\Cidade::where('nome', 'like', "%$search%")->get();
+        $cidades = \App\Models\Cidade::where('nome', 'like', "%$search%")->where('estado_id', 26)->get();
 
-        return $cidades->toJson();
+        $resultado = [];
+
+        foreach ($cidades as $key => $cidade) {
+          $resultado[] = [
+            'id' => $cidade->id,
+            'nome' => $cidade->nome,
+            'estado_nome' => $cidade->estado->nome,
+          ];
+        }
+
+        return json_encode($resultado);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Chamados;
 use App\Models\Empresa\Departamentos;
+use DB;
 
 class HomeController extends Controller
 {
@@ -27,6 +28,18 @@ class HomeController extends Controller
     {
         $chamados = Chamados::where('id_empresa', \Auth::user()->empresa_id)->get();
 
+        $chats = DB::connection('mysql_chat')->table('lh_chat')->get();
+        $chat = [];
+
+        foreach ($chats as $key => $item) {
+            if(!$item->email) {
+              continue;
+            }
+            $chat[] = $item;
+        }
+
+        $quantidadeChat = count($chat);
+
         $chamadosTotal = $total = $chamados->whereIn('situacao',[1,2,3]);
 
         $chamadosTotal = $chamadosTotal->count();
@@ -42,12 +55,16 @@ class HomeController extends Controller
         $chamadosAndamento = $chamados->filter(function($chamado) {
           return ($chamado->situacao == 2);
         })->count();
-/*
-        $chamadosAtrasados = $chamados->filter(function($chamado) {
-          return ($chamado->situacao == 1 || $chamado->situacao == 2) && $chamado->previsao_conclusao < now();
+
+        $chamadosMailling = $chamados->filter(function($chamado) {
+          return ($chamado->situacao == 4);
         })->count();
-*/
+
         $chamadosAtrasados = $chamados->where('previsao_conclusao', '<', now())->whereIn('situacao', [1,2])->count();
+
+        $temperaturaFrio = $chamados->where('temperatura', 'frio')->whereIn('situacao', [1,2,3])->count();
+        $temperaturaMorno = $chamados->where('temperatura', 'morno')->whereIn('situacao', [1,2,3])->count();
+        $temperaturaQuente = $chamados->where('temperatura', 'quente')->whereIn('situacao', [1,2,3])->count();
 
         $empresa = \Auth::user()->empresa_id;
 
@@ -91,10 +108,16 @@ class HomeController extends Controller
         'chamadosAndamento',
         'empresas',
         'users',
+        'chat',
         'clientes',
         'clientesAtivos',
         'clientesAtedimentosFinalizados',
         'clientesSemchamados',
+        'temperaturaFrio',
+        'temperaturaMorno',
+        'temperaturaQuente',
+        'chamadosMailling',
+        'quantidadeChat',
         'chamadosTotal'));
     }
 

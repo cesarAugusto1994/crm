@@ -1,388 +1,76 @@
 @extends('adminlte::page')
 
-@section('css')
+@section('title', 'Chat')
 
-  <style>
-
-        /*---------chat window---------------*/
-      .container{
-      max-width:900px;
-      }
-      .inbox_people {
-      background: #fff;
-      float: left;
-      overflow: hidden;
-      width: 30%;
-      border-right: 1px solid #ddd;
-      }
-
-      .inbox_msg {
-      border: 1px solid #ddd;
-      clear: both;
-      overflow: hidden;
-      }
-
-      .top_spac {
-      margin: 20px 0 0;
-      }
-
-      .recent_heading {
-      float: left;
-      width: 40%;
-      }
-
-      .srch_bar {
-      display: inline-block;
-      text-align: right;
-      width: 60%;
-      padding:
-      }
-
-      .headind_srch {
-      padding: 10px 29px 10px 20px;
-      overflow: hidden;
-      border-bottom: 1px solid #c4c4c4;
-      }
-
-      .recent_heading h4 {
-      color: #0465ac;
-      font-size: 16px;
-      margin: auto;
-      line-height: 29px;
-      }
-
-      .srch_bar input {
-      outline: none;
-      border: 1px solid #cdcdcd;
-      border-width: 0 0 1px 0;
-      width: 80%;
-      padding: 2px 0 4px 6px;
-      background: none;
-      }
-
-      .srch_bar .input-group-addon button {
-      background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-      border: medium none;
-      padding: 0;
-      color: #707070;
-      font-size: 18px;
-      }
-
-      .srch_bar .input-group-addon {
-      margin: 0 0 0 -27px;
-      }
-
-      .chat_ib h5 {
-      font-size: 15px;
-      color: #464646;
-      margin: 0 0 8px 0;
-      }
-
-      .chat_ib h5 span {
-      font-size: 13px;
-      float: right;
-      }
-
-      .chat_ib p {
-      font-size: 12px;
-      color: #989898;
-      margin: auto;
-      display: inline-block;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      }
-
-      .chat_img {
-      float: left;
-      width: 11%;
-      }
-
-      .chat_img img {
-      width: 100%
-      }
-
-      .chat_ib {
-      float: left;
-      padding: 0 0 0 15px;
-      width: 88%;
-      }
-
-      .chat_people {
-      overflow: hidden;
-      clear: both;
-      }
-
-      .chat_list {
-      border-bottom: 1px solid #ddd;
-      margin: 0;
-      padding: 18px 16px 10px;
-      }
-
-      .inbox_chat {
-      height: 550px;
-      overflow-y: scroll;
-      }
-
-      .active_chat {
-      background: #e8f6ff;
-      }
-
-      .incoming_msg_img {
-      display: inline-block;
-      width: 6%;
-      }
-
-      .incoming_msg_img img {
-      width: 100%;
-      }
-
-      .received_msg {
-      display: inline-block;
-      padding: 0 0 0 10px;
-      vertical-align: top;
-      width: 92%;
-      }
-
-      .received_withd_msg p {
-      background: #ebebeb none repeat scroll 0 0;
-      border-radius: 0 15px 15px 15px;
-      color: #646464;
-      font-size: 14px;
-      margin: 0;
-      padding: 5px 10px 5px 12px;
-      width: 100%;
-      }
-
-      .time_date {
-      color: #747474;
-      display: block;
-      font-size: 12px;
-      margin: 8px 0 0;
-      }
-
-      .received_withd_msg {
-      width: 57%;
-      }
-
-      .mesgs{
-      float: left;
-      padding: 30px 15px 0 25px;
-      width:70%;
-      }
-
-      .sent_msg p {
-      background:#0465ac;
-      border-radius: 12px 15px 15px 0;
-      font-size: 14px;
-      margin: 0;
-      color: #fff;
-      padding: 5px 10px 5px 12px;
-      width: 100%;
-      }
-
-      .outgoing_msg {
-      overflow: hidden;
-      margin: 26px 0 26px;
-      }
-
-      .sent_msg {
-      float: right;
-      width: 46%;
-      }
-
-      .input_msg_write input {
-      background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-      border: medium none;
-      color: #4c4c4c;
-      font-size: 15px;
-      min-height: 48px;
-      width: 100%;
-      outline:none;
-      }
-
-      .type_msg {
-      border-top: 1px solid #c4c4c4;
-      position: relative;
-      }
-
-      .msg_send_btn {
-      background: #05728f none repeat scroll 0 0;
-      border:none;
-      border-radius: 50%;
-      color: #fff;
-      cursor: pointer;
-      font-size: 15px;
-      height: 33px;
-      position: absolute;
-      right: 0;
-      top: 11px;
-      width: 33px;
-      }
-
-      .messaging {
-      padding: 0 0 50px 0;
-      }
-
-      .msg_history {
-      height: 516px;
-      overflow-y: auto;
-      }
-
-  </style>
-
+@section('content_header')
+    <h1>Painel de Chat</h1>
+    <ol class="breadcrumb">
+      <li><a href="/"><i class="fa fa-dashboard"></i> Painel Principal</a></li>
+      <li class="active">Midias</li>
+    </ol>
 @stop
 
 @section('content')
 
-<div class="row">
     <div class="col-md-12">
       <div class="box box-solid">
         <div class="box-header with-border">
-          <h3 class="box-title">Chat</h3>
+          <h3 class="box-title">Listagem de Chats ({{ count($resultado) }})</h3>
         </div>
-        <div class="box-body">
+        <div class="box-body table-responsive">
 
-            <div class="messaging">
-              <div class="inbox_msg">
-            	<div class="inbox_people">
-            	  <div class="headind_srch">
-            		<div class="recent_heading">
-            		  <h4>Recent</h4>
-            		</div>
-            		<div class="srch_bar">
-            		  <div class="stylish-input-group">
-            			<input type="text" class="search-bar"  placeholder="Search" >
-            			</div>
-            		</div>
-            	  </div>
-            	  <div class="inbox_chat scroll">
-            		<div class="chat_list active_chat">
-            		  <div class="chat_people">
-            			<div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-            			<div class="chat_ib">
-            			  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-            			  <p>Test, which is a new approach to have all solutions
-            				astrology under one roof.</p>
-            			</div>
-            		  </div>
-            		</div>
-            		<div class="chat_list">
-            		  <div class="chat_people">
-            			<div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-            			<div class="chat_ib">
-            			  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-            			  <p>Test, which is a new approach to have all solutions
-            				astrology under one roof.</p>
-            			</div>
-            		  </div>
-            		</div>
-            		<div class="chat_list">
-            		  <div class="chat_people">
-            			<div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-            			<div class="chat_ib">
-            			  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-            			  <p>Test, which is a new approach to have all solutions
-            				astrology under one roof.</p>
-            			</div>
-            		  </div>
-            		</div>
-            		<div class="chat_list">
-            		  <div class="chat_people">
-            			<div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-            			<div class="chat_ib">
-            			  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-            			  <p>Test, which is a new approach to have all solutions
-            				astrology under one roof.</p>
-            			</div>
-            		  </div>
-            		</div>
-            		<div class="chat_list">
-            		  <div class="chat_people">
-            			<div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-            			<div class="chat_ib">
-            			  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-            			  <p>Test, which is a new approach to have all solutions
-            				astrology under one roof.</p>
-            			</div>
-            		  </div>
-            		</div>
-            		<div class="chat_list">
-            		  <div class="chat_people">
-            			<div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-            			<div class="chat_ib">
-            			  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-            			  <p>Test, which is a new approach to have all solutions
-            				astrology under one roof.</p>
-            			</div>
-            		  </div>
-            		</div>
-            		<div class="chat_list">
-            		  <div class="chat_people">
-            			<div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-            			<div class="chat_ib">
-            			  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-            			  <p>Test, which is a new approach to have all solutions
-            				astrology under one roof.</p>
-            			</div>
-            		  </div>
-            		</div>
-            	  </div>
-            	</div>
-            	<div class="mesgs">
-            	  <div class="msg_history">
-            		<div class="incoming_msg">
-            		  <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-            		  <div class="received_msg">
-            			<div class="received_withd_msg">
-            			  <p>Test which is a new approach to have all
-            				solutions</p>
-            			  <span class="time_date"> 11:01 AM    |    June 9</span></div>
-            		  </div>
-            		</div>
-            		<div class="outgoing_msg">
-            		  <div class="sent_msg">
-            			<p>Test which is a new approach to have all
-            			  solutions</p>
-            			<span class="time_date"> 11:01 AM    |    June 9</span> </div>
-            		</div>
-            		<div class="incoming_msg">
-            		  <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-            		  <div class="received_msg">
-            			<div class="received_withd_msg">
-            			  <p>Test, which is a new approach to have</p>
-            			  <span class="time_date"> 11:01 AM    |    Yesterday</span></div>
-            		  </div>
-            		</div>
-            		<div class="outgoing_msg">
-            		  <div class="sent_msg">
-            			<p>Apollo University, Delhi, India Test</p>
-            			<span class="time_date"> 11:01 AM    |    Today</span> </div>
-            		</div>
-            		<div class="incoming_msg">
-            		  <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-            		  <div class="received_msg">
-            			<div class="received_withd_msg">
-            			  <p>We work directly with our designers and suppliers,
-            				and sell direct to you, which means quality, exclusive
-            				products, at a price anyone can afford.</p>
-            			  <span class="time_date"> 11:01 AM    |    Today</span></div>
-            		  </div>
-            		</div>
-            	  </div>
-            	  <div class="type_msg">
-            		<div class="input_msg_write">
-            		  <input type="text" class="write_msg" placeholder="Type a message" />
-            		  <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-            		</div>
-            	  </div>
-            	</div>
-              </div>
-            </div>
+        <div id="toolbar">
 
-          </div>
         </div>
+
+          <table class="table table-hover">
+            <thead>
+
+              <tr>
+                <th style="width: 10px">ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Empreendimento</th>
+                <th>Cadastro</th>
+                <th style="width: 100px">Chamado</th>
+              </tr>
+
+            </thead>
+            <tbody>
+
+              @forelse($resultado as $item)
+                  <tr>
+                    <td>{{ $item['id'] }}</td>
+                    <td>{{ $item['nome'] ?? '-' }}</td>
+                    <td>{{ $item['email'] ?? '-' }}</td>
+                    <td>{{ $item['empreendimento'] ?? '-' }}</td>
+                    <td>{{ $item['data'] }}</td>
+                    @if(!$item['has_chamado'])
+                    <td><a href="{{ route('chats.create', ['chat' => $item['id'], 'user_id' => $item['user_id'], 'nome' => $item['nome'], 'email' => $item['email'], 'empreendimento' => $item['empreendimento']]) }}" class="btn btn-sm btn-success btn-block"><i class="icon fa fa-gear"></i> Chamado</a> </td>
+                    @else
+                    <td><a href="{{ route('chamados.show', $item['chamado']->id) }}" class="text-navy"> {{ $item['chamado']->id }}</a> </td>
+                    @endif
+                  </tr>
+              @empty
+                  <tr>
+                    <td colspan="20">
+                      <div class="alert alert-warning">
+                        <p><i class="icon fa fa-info"></i> Nenhum registro encontrado.</p>
+                      </div>
+                    </td>
+                  </tr>
+              @endforelse
+          </tbody></table>
+        </div>
+        <div class="box-footer clearfix">
+
         </div>
       </div>
+    </div>
+  </div>
 
-@endsection
+@stop
+
+@section('js')
+    <script src="{{ asset('js/custom.js') }}"></script>
+@stop

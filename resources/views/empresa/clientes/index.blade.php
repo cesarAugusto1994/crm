@@ -204,6 +204,7 @@
             <thead>
 
               <tr>
+                <th style="width:100px">Opções</th>
                 <th style="width: 10px">#</th>
                 <th>Cliente</th>
                 <th>Tipo</th>
@@ -214,7 +215,6 @@
                 <th>Chamados</th>
                 <th>Responsável</th>
                 <th>Cadastro</th>
-                <th style="width:100px">Opções</th>
               </tr>
 
             </thead>
@@ -222,6 +222,10 @@
 
               @forelse($clientes as $cliente)
                   <tr>
+                    <td>
+                      <a href="{{ route('clientes.show', $cliente->id) }}" class="btn btn-sm btn-success btn-block"><i class="icon fa fa-eye"></i> </a>
+                      <a data-route="{{ route('clientes.destroy', $cliente->id) }}" class="btn btn-sm btn-danger btn-block btnRemoveItem"><i class="icon fa fa-trash"></i> </a>
+                    </td>
                     <td>{{ $cliente->id }}</td>
                     <td>{{ $cliente->nome ?? '-' }}</td>
                     <td>{{ $cliente->tipoCadastro->nome ?? '-' }}</td>
@@ -257,14 +261,11 @@
                     <td>
                       {{ $cliente->created_at ? $cliente->created_at->format('d/m/Y') : '-' }}
                     </td>
-                    <td>
-                      <a href="{{ route('clientes.show', $cliente->id) }}" class="btn btn-sm btn-success"><i class="icon fa fa-eye"></i> </a>
-                      <a data-route="{{ route('clientes.destroy', $cliente->id) }}" class="btn btn-sm btn-danger btnRemoveItem"><i class="icon fa fa-trash"></i> </a>
-                    </td>
+
                   </tr>
               @empty
                   <tr>
-                    <td colspan="11">
+                    <td colspan="20">
                       <div class="alert alert-warning">
                         <p><i class="icon fa fa-info"></i> Nenhum registro encontrado.</p>
                       </div>

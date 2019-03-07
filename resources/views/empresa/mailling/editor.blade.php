@@ -10,7 +10,7 @@
 @stop
 
 @section('content_header')
-    <h1>Editor</h1>
+    <h1>Editor de Email Mailling</h1>
     <ol class="breadcrumb">
       <li><a href="/"><i class="fa fa-dashboard"></i> Painel Principal</a></li>
       <li><a href="#"><i class="fa fa-newspaper-o"></i> Email</a></li>
@@ -25,7 +25,6 @@
       <div class="col-md-12">
         <div class="box box-solid">
           <div class="box-header with-border">
-            <h3 class="box-title">Editor</h3>
           </div>
           <form class="form-horizontal" enctype="multipart/form-data" novalidate action="{{ route('propaganda_send_email', ['id' => $propaganda->id]) }}" method="post">
 
@@ -35,8 +34,6 @@
                 <input id="enviar_email" name="enviar_email" type="hidden" value="1">
                 <input id="propaganda" name="propaganda" type="hidden" value="{{ $propaganda->id }}">
                 <input id="chamado" name="chamado" type="hidden" value="{{ $chamado->id }}">
-
-                <button type="submit" class="btn btn-success btn-flat">Enviar</button>
 
                 <div class="form-group">
                   <label class="col-sm-2 control-label">Propaganda</label>
@@ -84,7 +81,7 @@
 
               </div>
               <div class="box-footer">
-                <button type="submit" class="btn btn-success btn-flat">Enviar</button>
+                <button type="submit" class="btn btn-success btn-flat btn-block btn-lg">Enviar</button>
               </div>
 
           </form>
