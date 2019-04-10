@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" style="min-width:800px">
 
     <div class="col-md-12" style="margin-bottom:20px;border-radius:4px">
       @if(isset($modelo) && $modelo == 3)
@@ -94,7 +94,7 @@
     </div>
 
     <div class="col-md-12 text-center">
-        <div class="well text-black" style="color:black">
+        <div class="well" style="color:black">
             <h4><b>AGENDE A SUA VISITA!</b></h4>
             <h4><b style="color:black">Aguardo o seu retorno.</b></h4>
             <h4><b style="color:black">Atenciosamente,</b></h4>

@@ -174,7 +174,13 @@ return [
                     'can'         => 'manage-mailling.index',
                 ],
                 [
-                    'text'        => 'Chat',
+                    'text'        => 'Chat Administrador',
+                    'url'         => 'http://seabra.com.br/chat/lhc_web/index.php/site_admin/user/login',
+                    'icon'        => 'comments',
+                ],
+
+                [
+                    'text'        => 'Chat Mensagens',
                     'url'         => '/chats',
                     'icon'        => 'comments',
                 ],

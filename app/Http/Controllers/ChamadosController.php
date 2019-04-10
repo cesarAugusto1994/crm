@@ -33,9 +33,9 @@ class ChamadosController extends Controller
 
         $chamados = Chamados::where('id_empresa', $user->empresa_id);
 
-        if(!$request->has('buscar')) {
-            $chamados->whereIn('situacao', [1]);
-        }
+        //if(!$request->has('buscar')) {
+            //$chamados->whereIn('situacao', [1]);
+        //}
 
         if(!empty($data['id'])) {
             $chamados->where('id', $data['id']);
@@ -109,7 +109,7 @@ class ChamadosController extends Controller
         }
 
         if(!empty($data['temperatura'])) {
-            $chamados->where('temperatura', $data['temperatura']);
+            $chamados->where('temperatura', $data['temperatura'])->whereIn('situacao', [1,2,3]);
         }
 
         if(!empty($data['abertura_chamado'])) {
@@ -541,6 +541,8 @@ class ChamadosController extends Controller
     {
         $data = $request->request->all();
 
+        #dd($data);
+
         $chamado = Chamados::findOrFail($data['chamado']);
 
         $path = "";
@@ -589,7 +591,7 @@ class ChamadosController extends Controller
                     $email->save();
 
                     $emp = Produtos::find($item);
-                    $descricao = "Email enviado para o cliente com as informações do empreendimento " . $emp->nome;
+                    $descricao = "Email enviado para o cliente com as informações do empreendimento " . $emp->nome ?? '';
 
                     $log = new Logs();
                     $log->chamado_id = $chamado->id;
@@ -648,13 +650,17 @@ class ChamadosController extends Controller
 
             if(isset($data['empreendimentos'])) {
 
+
+
                 foreach ($data['empreendimentos'] as $key => $item) {
 
                     $texto = $data['descricao-'.$item];
 
-                    //$assunto="";
+                    $empId = $data['empreendimentos'][$key];
 
-                    $assunto = 'SEABRA – '.$data['empreendimentos'][$key].' – INFORMAÇÕES';
+                    $tituloEmpreendimento = $data['empreendimento'][$key];
+
+                    $assunto = 'SEABRA – '.$tituloEmpreendimento.' – INFORMAÇÕES';
 
                     if($data['modelo'] == 3) {
                       $assunto = 'SEABRA – IMÓVEIS SELECIONADOS CONFORME PERFIL DESEJADO';

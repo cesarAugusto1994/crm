@@ -30,6 +30,7 @@
                 <th style="width: 10px">ID</th>
                 <th>Nome</th>
                 <th>Email</th>
+                <th>Telefone</th>
                 <th>Empreendimento</th>
                 <th>Cadastro</th>
                 <th style="width: 100px">Chamado</th>
@@ -43,10 +44,11 @@
                     <td>{{ $item['id'] }}</td>
                     <td>{{ $item['nome'] ?? '-' }}</td>
                     <td>{{ $item['email'] ?? '-' }}</td>
+                    <td>{{ $item['telefone'] ?? '-' }}</td>
                     <td>{{ $item['empreendimento'] ?? '-' }}</td>
                     <td>{{ $item['data'] }}</td>
                     @if(!$item['has_chamado'])
-                    <td><a href="{{ route('chats.create', ['chat' => $item['id'], 'user_id' => $item['user_id'], 'nome' => $item['nome'], 'email' => $item['email'], 'empreendimento' => $item['empreendimento']]) }}" class="btn btn-sm btn-success btn-block"><i class="icon fa fa-gear"></i> Chamado</a> </td>
+                    <td><a href="{{ route('chats.create', ['chat' => $item['id'], 'user_id' => $item['user_id'], 'nome' => $item['nome'], 'email' => $item['email'], 'telefone' => $item['telefone'], 'empreendimento' => $item['empreendimento']]) }}" class="btn btn-sm btn-success btn-block"><i class="icon fa fa-gear"></i> Chamado</a> </td>
                     @else
                     <td><a href="{{ route('chamados.show', $item['chamado']->id) }}" class="text-navy"> {{ $item['chamado']->id }}</a> </td>
                     @endif

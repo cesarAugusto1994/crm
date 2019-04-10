@@ -55,6 +55,9 @@ $response = $kernel->handle(
     $request = Illuminate\Http\Request::capture()
 );
 
+
+date_default_timezone_set('America/Sao_Paulo');
+
 $response->send();
 
 $kernel->terminate($request, $response);

@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'America/Sao_Paulo',
 
     /*
     |--------------------------------------------------------------------------
@@ -183,7 +183,7 @@ return [
         Canducci\Cep\Providers\CepServiceProvider::class,
         jeremykenedy\LaravelRoles\RolesServiceProvider::class,
         Emadadly\LaravelUuid\LaravelUuidServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class
+        //Intervention\Image\ImageServiceProvider::class
     ],
 
     /*

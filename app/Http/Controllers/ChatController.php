@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use App\Models\{Chamados, Clientes};
-use App\Models\Clientes\Emails;
+use App\Models\Clientes\{Emails, Telefones};
 use App\Models\Chamados\{Anotacoes};
 use App\Models\Clientes\Produtos as ClienteProduto;
+use App\Models\Chamados\Midias;
+use App\Models\Midias as Midia;
 
 class ChatController extends Controller
 {
@@ -18,7 +20,7 @@ class ChatController extends Controller
      */
     public function index()
     {
-        $chats = DB::connection('mysql_chat')->table('lh_chat')->whereNotNull('email')->get();
+        $chats = DB::connection('mysql_chat')->table('lh_chat')->whereNotNull('email')->orderBy('id', 'desc')->get();
 
         $resultado = [];
 
@@ -56,13 +58,12 @@ class ChatController extends Controller
               'data' => $dataHora,
               'nome' => $chat->nick,
               'email' => $chat->email,
+              'telefone' => $chat->phone,
               'empreendimento' => $emprendimento,
               'has_chamado' => $chamado->isNotEmpty(),
               'chamado' => $chamado->isNotEmpty() ? $chamado->first() : null
             ];
         }
-
-        #dd($resultado);
 
         return view('empresa.chat.index', compact('resultado'));
     }
@@ -77,9 +78,14 @@ class ChatController extends Controller
         $data = $request->request->all();
 
         $email = $data['email'];
+        $telefone = $data['telefone'];
 
         $cliente = Clientes::whereHas('emails', function($query) use ($email) {
             $query->where('email', $email);
+        })->first();
+
+        $telefone = Clientes::whereHas('telefones', function($query) use ($telefone) {
+            $query->where('telefone', $telefone);
         })->first();
 
         if(!$cliente) {
@@ -107,6 +113,28 @@ class ChatController extends Controller
 
         }
 
+        if(!$telefone) {
+
+          $telefone = new Telefones();
+          $telefone->cliente_id = $cliente->id;
+          $telefone->telefone = $data['telefone'];
+          $telefone->ddi = $data['ddi'] ?? "";
+          $telefone->ddd = $data['ddd'] ?? "";
+          $telefone->ramal = $data['ramal'] ?? "";
+          $telefone->tipo = 3;
+
+          $principal = 'NAO';
+
+          if($cliente->emails->isEmpty()) {
+            $principal = 'SIM';
+          }
+
+          $telefone->principal = $principal;
+
+          $telefone->save();
+
+        }
+
         $chamado = new Chamados();
         $chamado->id_usuario = \Auth::user()->id;
         $chamado->id_empresa = \Auth::user()->empresa_id;
@@ -114,6 +142,27 @@ class ChatController extends Controller
         $chamado->chat_id = $data['chat'];
         $chamado->abertura_chamado = now();
         $chamado->save();
+
+        $hasMidia= Midia::where('nome', 'CHAT')->get();
+
+        if($hasMidia->isEmpty()) {
+            $midia = new Midia();
+            $midia->empresa_id = 8;
+            $midia->nome = 'CHAT';
+            $midia->save();
+        }
+
+        $midia = $hasMidia->first();
+
+        $hasMidiaToClient = Midias::where('cliente_id', $cliente->id)->get();
+
+        if($hasMidiaToClient->isEmpty()) {
+          $empreendimento = new Midias();
+          $empreendimento->cliente_id = $cliente->id;
+          $empreendimento->chamado_id = $chamado->id;
+          $empreendimento->midia_id = $midia->id;
+          $empreendimento->save();
+        }
 
         $anotacao = new Anotacoes();
         $anotacao->descricao = 'Foi gerado o chamado: '.$chamado->id.' referente ao chat de numero: ' . $data['chat'];
@@ -157,21 +206,13 @@ class ChatController extends Controller
 
               $hasRegistro = ClienteProduto::where('cliente_id', $cliente->id)->where('produto_id', $produto->id)->get();
 
-              if($hasRegistro->isNotEmpty()) {
-                flash('O empreendimento já foi adicionado ao cliente!')->error()->important();
-                return redirect()->back();
+              if($hasRegistro->isEmpty()) {
+                $empreendimento = new ClienteProduto();
+                $empreendimento->cliente_id = $cliente->id;
+                $empreendimento->chamado_id = $chamado->id;
+                $empreendimento->produto_id = $produto->id;
+                $empreendimento->save();
               }
-
-              $empreendimento = new ClienteProduto();
-              $empreendimento->cliente_id = $cliente->id;
-              $empreendimento->chamado_id = $chamado->id;
-              $empreendimento->produto_id = $produto->id;
-              $empreendimento->save();
-
-              flash('O empreendimento foi adicionado ao cliente com sucesso!')->success()->important();
-
-              return redirect()->back();
-
             }
           }
 
